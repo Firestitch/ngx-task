@@ -1,0 +1,31 @@
+<form
+    fsForm
+    [submit]="save"
+    *fsSkeletonForm="crmNote"
+    [dirtySubmitButton]="false">
+  <fs-dialog>
+    <div mat-dialog-title>
+      {{ crmNote.id ? '' : 'Create' }} Note
+    </div>
+    <div mat-dialog-content>
+      <div class="fs-column">
+        <mat-form-field class="full-width">
+          <mat-label>
+            Title
+          </mat-label>
+          <input
+            matInput
+            [(ngModel)]="crmNote.title"
+            name="title">
+        </mat-form-field>
+        <fs-html-editor
+          [(ngModel)]="content"
+          name="content">
+        </fs-html-editor>
+      </div>
+    </div>
+    <div mat-dialog-actions>
+      <fs-form-dialog-actions [create]="!crmNote.id"></fs-form-dialog-actions>
+    </div>
+  </fs-dialog>
+</form>

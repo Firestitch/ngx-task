@@ -1,0 +1,14 @@
+<fs-attribute-autocomplete-chips
+  name="attributeStatus"
+  [initOnClick]="initOnClick"
+  [floatLabel]="'always'"
+  [placeholder]="'N/A'"
+  [size]="'small'"
+  [config]="statusAttributeConfig"
+  [(ngModel)]="statusAttribute"
+  [showManage]="true"
+  (ngModelChange)="change($event)"
+  [multiple]="false"
+  [saveOnChange]="false"
+  label="Status">
+</fs-attribute-autocomplete-chips>

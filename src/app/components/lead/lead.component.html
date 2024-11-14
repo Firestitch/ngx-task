@@ -1,0 +1,44 @@
+<ng-container *fsSkeletonForm="crmLead">
+  <fs-dialog [dock]="'expanded'">
+    <fs-dialog-title [close]="true">
+      <ng-template fsDialogSupertitle>
+        Lead
+      </ng-template>
+      {{ crmLead.name || 'Unnamed' }}
+    </fs-dialog-title>
+    <div mat-dialog-content>
+      <mat-tab-group [dynamicHeight]="true">
+        <mat-tab label="Summary">
+          <ng-template matTabContent>
+            <app-crm-lead-summary [crmLead]="crmLead"></app-crm-lead-summary>
+          </ng-template>
+        </mat-tab>
+        <mat-tab label="Profile">
+          <ng-template matTabContent>
+            <app-crm-lead-profile [(crmLead)]="crmLead"></app-crm-lead-profile>
+          </ng-template>
+        </mat-tab>
+        <mat-tab label="Tasks">
+          <ng-template matTabContent>
+            <!-- <app-tasks [subjectObjectId]="crmLead.id"></app-tasks> -->
+          </ng-template>
+        </mat-tab>
+        <mat-tab label="Files">
+          <ng-template matTabContent>
+            <!-- <fs-crm-files [objectId]="crmLead.id"></fs-crm-files> -->
+          </ng-template>
+        </mat-tab>
+        <mat-tab label="Docs">
+          <ng-template matTabContent>
+            <fs-crm-docs [objectId]="crmLead.id"></fs-crm-docs>
+          </ng-template>
+        </mat-tab>
+        <mat-tab label="Audits">
+          <ng-template matTabContent>
+            <!-- <fs-audits [loadAudits]="loadAudits"></fs-audits> -->
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </fs-dialog>
+</ng-container>

@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
-import { environment } from '@env';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 
 @Component({
-  templateUrl: 'examples.component.html'
+  templateUrl: './examples.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExamplesComponent {
-  public config = environment;
 }
+  

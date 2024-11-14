@@ -1,0 +1,29 @@
+<!-- <fs-list [config]="listConfig">
+  <fs-list-column>
+    <ng-template
+        fs-list-cell
+        let-row="row">
+      <div class="task">
+        <div class="task-name">
+          <app-activity-object-type
+            [color]="'#8080FF'"
+            [icon]="'task_alt'">
+          </app-activity-object-type>
+          <a (click)="openTask(row)">
+            T-{{ row.id }}
+          </a>
+          {{ row.name }}
+          @if (row.taskStatus) {
+            <app-task-status-chip
+              [taskStatus]="row.taskStatus"
+              [size]="'tiny'">
+            </app-task-status-chip>
+          }
+        </div>
+        <div class="small">
+          {{ row.assignedAccount?.name }}
+        </div>
+      </div>
+    </ng-template>
+  </fs-list-column>
+</fs-list> -->

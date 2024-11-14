@@ -1,0 +1,27 @@
+<fs-dialog>
+  <div mat-dialog-title>
+    Manage document types
+  </div>
+  <div mat-dialog-content>
+    <fs-list [config]="listConfig">
+      <fs-list-column>
+        <ng-template
+            fs-list-cell
+            let-row="row">
+          <a (click)="openDocType(row)">
+            {{ row.name }}
+          </a>
+        </ng-template>
+      </fs-list-column>
+    </fs-list>
+  </div>
+  <div mat-dialog-actions>
+    <button
+        mat-button
+        color="primary"
+        type="button"
+        [mat-dialog-close]="undefined">
+      Done
+    </button>
+  </div>
+</fs-dialog>

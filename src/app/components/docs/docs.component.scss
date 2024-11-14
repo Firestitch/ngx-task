@@ -1,0 +1,16 @@
+
+.modify-date,
+.create-date {
+  white-space: nowrap;
+}
+
+app-task-assigned-account-chip {
+  display: table;
+  margin: auto;
+}
+
+.thumbnail-request-state {
+  position: absolute;
+  top: 0;
+  margin: 10px;
+}

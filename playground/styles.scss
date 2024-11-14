@@ -1,8 +1,11 @@
+@use '@firestitch/style/styles' as fs-style;
+
 @import '@firestitch/component-tools/assets/playground.scss';
 @import '@firestitch/message/styles';
 @import "@firestitch/drawer/styles";
 @import '../src/app/styles.scss';
 
+@include fs-style.core();
 @include fs-drawer($mat-blue);
 
 small {

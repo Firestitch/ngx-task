@@ -1,0 +1,31 @@
+<fs-dialog>
+  <div mat-dialog-title>
+    Settings
+  </div>
+  <div
+      mat-dialog-content
+      #matDialogContent>
+    <mat-tab-group [(selectedIndex)]="selectedTab">
+      <mat-tab
+          label="Show fields"
+          name="show-fields">
+        <ng-template matTabContent>
+          <app-crm-lead-settings-show-fields></app-crm-lead-settings-show-fields>
+        </ng-template>
+      </mat-tab>
+      <mat-tab
+          label="Customize fields"
+          name="customize-fields">
+        <ng-template matTabContent>
+          <!-- <app-crm-lead-manage-fields [scrollContainer]="matDialogContent"></app-crm-lead-manage-fields> -->
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <div mat-dialog-actions>
+    <fs-form-dialog-actions
+      [save]="false"
+      [done]="true">
+    </fs-form-dialog-actions>
+  </div>
+</fs-dialog>

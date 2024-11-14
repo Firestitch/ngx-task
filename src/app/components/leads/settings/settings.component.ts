@@ -1,0 +1,38 @@
+import {
+  ChangeDetectionStrategy,
+  Component,
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
+import { MatTabsModule } from '@angular/material/tabs';
+
+import { FsDialogModule } from '@firestitch/dialog';
+import { FsFormModule } from '@firestitch/form';
+import { FsTabsModule } from '@firestitch/tabs';
+
+import { ShowFieldsComponent } from './show-fields';
+
+
+@Component({
+  templateUrl: './settings.component.html',
+  styleUrls: ['./settings.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true, 
+  imports: [
+    FormsModule,
+
+    MatTabsModule,
+
+    FsTabsModule,
+    FsFormModule,
+    FsDialogModule,
+
+    // ManageFieldsComponent,
+    ShowFieldsComponent,
+  ],
+})
+export class SettingsComponent {
+
+  public selectedTab = 'show-fields';
+
+}

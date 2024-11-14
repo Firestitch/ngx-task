@@ -20,7 +20,12 @@
             "tsConfig": "playground/tsconfig.app.json",
             "assets": [
               "playground/favicon.ico",
-              "playground/assets"
+              "playground/assets",
+              {
+                "glob": "**/*",
+                "input": "node_modules/froala-editor/",
+                "output": "assets/froala/"
+              }
             ],
             "styles": [
               "playground/styles.scss"

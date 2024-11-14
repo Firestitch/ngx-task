@@ -1,0 +1,62 @@
+<form
+    fsForm
+    [submit]="save"
+    *fsSkeletonForm="documentRequest"
+    [dirtySubmitButton]="false">
+  <fs-dialog>
+    <div mat-dialog-title>
+      Request documents
+    </div>
+    <div mat-dialog-content>
+      @if (documentRequest.id) {
+        <fs-label-field>
+          <fs-label>
+            URL
+          </fs-label>
+          <div class="fs-row.gap-sm">
+            <a
+                [href]="url"
+                target="_blank">
+              {{ url }}
+            </a>
+            <fs-clipboard-button [content]="url">
+              Copy
+            </fs-clipboard-button>
+          </div>
+        </fs-label-field>
+      } @else {
+        <fs-autocomplete-chips
+            [(ngModel)]="requestObjects"
+            [fetch]="fetchDocumentTypes"
+            [groupBy]="groupBy"
+            [required]="true"
+            [placeholder]="'Documents'"
+            name="documents">
+          <ng-template
+              fsAutocompleteObject
+              let-object="object"
+              let-selecting="selecting">
+            @if (!selecting) {
+              {{ object.groupLabel }}:
+            }
+            {{ object.name }}
+          </ng-template>
+        </fs-autocomplete-chips>
+      }
+    </div>
+    <div mat-dialog-actions>
+      <button
+          type="submit"
+          color="primary"
+          mat-button>
+        Request
+      </button>
+      <button
+          mat-button
+          type="button"
+          [mat-dialog-close]="undefined">
+        Cancel
+      </button>
+    </div>
+  </fs-dialog>
+</form>

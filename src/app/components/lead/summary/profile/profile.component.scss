@@ -1,0 +1,37 @@
+app-lead-status,
+app-lead-assigned-account,
+.attribute-tag {
+  margin-left: -10px;
+  margin-right: -10px;
+  display: block;
+
+  ::ng-deep {
+    .mdc-notched-outline__leading {
+      width: 6px;
+    }
+
+    .mdc-text-field--outlined {
+      padding-left: 10px;
+    }
+  }
+}
+
+app-lead-assigned-account,
+app-lead-status {
+  ::ng-deep {
+    fs-autocomplete-chips {
+      margin-bottom: 12px;
+    }
+  }
+}
+
+.card-header {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  a {
+    color: inherit;
+  }
+}
