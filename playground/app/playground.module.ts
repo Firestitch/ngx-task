@@ -4,8 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 
 
+import { FsActivitiesComponent } from '@firestitch/activity';
 import { FS_API_REQUEST_INTERCEPTOR } from '@firestitch/api';
-import { FsActivitiesComponent } from '@firestitch/crm';
 import { FsExampleModule } from '@firestitch/example';
 import { FsHtmlEditorModule } from '@firestitch/html-editor';
 import { FsMessageModule } from '@firestitch/message';

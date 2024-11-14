@@ -14,7 +14,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 import { FsApi } from '@firestitch/api';
-import { FsActivityDataDirective, FsActivityObjectDirective } from '@firestitch/crm';
 import { FsDateModule } from '@firestitch/date';
 import { FilterConfig } from '@firestitch/filter';
 import { FsMenuModule } from '@firestitch/menu';
@@ -22,6 +21,7 @@ import { FsPrompt } from '@firestitch/prompt';
 
 import { switchMap } from 'rxjs/operators';
 
+import { FsActivityDataDirective, FsActivityObjectDirective } from '../../directives';
 import { FsActivityObjectTypeComponent } from '../activity-object-type';
 
 
@@ -49,7 +49,7 @@ export class FsActivitiesComponent implements OnInit {
 
   @ContentChild(FsActivityObjectDirective) 
   public objectPreview: TemplateRef<FsActivityObjectDirective>;
-  
+
   @ContentChild(FsActivityDataDirective)
   public dataPreview: TemplateRef<FsActivityDataDirective>;
 
