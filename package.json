@@ -1,10 +1,10 @@
 {
-  "name": "@firestitch/crm",
-  "title": "CRM",
+  "name": "@firestitch/activity",
+  "title": "Activity",
   "version": "18.0.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Firestitch/ngx-crm"
+    "url": "https://github.com/Firestitch/ngx-activity"
   },
   "author": {
     "name": "Firestitch",
@@ -15,7 +15,7 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Firestitch/ngx-crm/issues"
+    "url": "https://github.com/Firestitch/ngx-activity/issues"
   },
   "main": "package/index.js",
   "typings": "package/index.d.ts",

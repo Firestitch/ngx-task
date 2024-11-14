@@ -1,0 +1,16 @@
+.object-type {
+  border-radius: 6px;
+  display: inline-flex;
+  transform: scale(0.7);
+  padding: 4px; 
+  transform-origin: left top;
+
+  mat-icon {
+    color: #fff;
+  }
+}
+
+:host {
+  width: 23px;
+  height: 23px;
+}

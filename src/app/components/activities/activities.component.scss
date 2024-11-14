@@ -1,0 +1,70 @@
+
+@use '@angular/material' as mat;
+
+
+.activity {
+  position: relative;
+  padding-left: 30px;
+
+  .header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .header-creator,
+    .header-description {
+      line-height: normal;
+    }
+
+    app-activity-object-type {
+      position: absolute;
+      left: 0;
+    }
+
+    .object-type-name {
+      font-weight: bold;
+    }
+  }
+
+   + .activity {
+    margin-top: 15px;
+  }
+
+  .content {
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+
+    .previous-object {
+      display: flex;
+      align-items: center;
+
+      mat-icon {
+        margin: 0 8px;
+        color: #747474;
+      }
+    }
+  }
+}
+
+.menu {
+  cursor: pointer;
+  display: flex;
+  position: absolute;
+  right: 5px;
+}
+
+@media (min-width: 800px) {
+  .activity:hover {
+    .menu {
+      display: block;
+    }
+  }
+  
+  .menu {
+    @include mat.elevation(1);
+    display: none;
+    z-index: 1;
+    background-color: #fff;
+  }
+}
