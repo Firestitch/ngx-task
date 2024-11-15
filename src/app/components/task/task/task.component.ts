@@ -102,7 +102,7 @@ import { TaskRelateComponent } from '../task-relate';
     TaskActivitiesData,
   ],
 })
-export class TaskComponent implements OnInit, OnDestroy {
+export class FsTaskComponent implements OnInit, OnDestroy {
 
   @ViewChild(FsActivitiesComponent)
   public activities: FsActivitiesComponent; 

@@ -24,7 +24,7 @@ import { map, switchMap, takeUntil } from 'rxjs/operators';
 import { TaskAccountData, TaskStatusData } from '../../../../data';
 import { Account } from '../../../../interfaces';
 import { DataApiService } from '../../../../services';
-import { TaskComponent } from '../../../task';
+import { FsTaskComponent } from '../../../task';
 import { PriorityChipComponent } from '../../../task-priority';
 import { TaskStatusChipComponent } from '../../../task-status';
 import { TaskTagChipComponent } from '../../../task-tag';
@@ -96,7 +96,7 @@ export class FsTasksComponent implements OnInit, OnDestroy {
   }
 
   public openDialog(task: any): void {
-    this._dialog.open(TaskComponent, {
+    this._dialog.open(FsTaskComponent, {
       data: {
         task,
         apiPath: this.apiPath,
@@ -138,7 +138,7 @@ export class FsTasksComponent implements OnInit, OnDestroy {
   }
 
   private _initDialog(): void {
-    this._fsDialog.dialogRef$(TaskComponent)
+    this._fsDialog.dialogRef$(FsTaskComponent)
       .pipe(
         switchMap((dialogRef) => dialogRef.afterClosed()),
         takeUntil(this._destroy$),
