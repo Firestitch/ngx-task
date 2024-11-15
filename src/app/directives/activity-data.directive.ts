@@ -3,6 +3,7 @@ import { Directive } from '@angular/core';
 
 @Directive({
   selector: '[fsActivityData]',
+  standalone: true,
 })
 export class FsActivityDataDirective {
 

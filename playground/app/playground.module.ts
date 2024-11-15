@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 
 
-import { FsActivitiesComponent } from '@firestitch/activity';
+import { FsActivitiesComponent, FsActivityDataDirective, FsActivityObjectDirective } from '@firestitch/activity';
 import { FS_API_REQUEST_INTERCEPTOR } from '@firestitch/api';
 import { FsExampleModule } from '@firestitch/example';
 import { FsHtmlEditorModule } from '@firestitch/html-editor';
@@ -38,6 +38,8 @@ const routes: Routes = [
       activationKey: '2J1B10dD7F6F5A3F3I3cWHNGGDTCWHId1Eb1Oc1Yh1b2Ld1POkE3D3F3C9A4E5A3G3B2G2==',
     }),
     FsActivitiesComponent,
+    FsActivityObjectDirective,
+    FsActivityDataDirective,
   ],
   declarations: [
     AppComponent,

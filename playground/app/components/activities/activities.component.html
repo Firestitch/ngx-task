@@ -1,1 +1,14 @@
-<fs-activities></fs-activities>
+<fs-activities>
+  <ng-template
+      fsActivityObject
+      let-object="object"
+      let-activity="activity">
+    {{ object.name }}
+  </ng-template>
+  <ng-template
+      fsActivityData
+      let-data="data"
+      let-activity="activity">
+    {{ data.value }}
+  </ng-template>
+</fs-activities>
