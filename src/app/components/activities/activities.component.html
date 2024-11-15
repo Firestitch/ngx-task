@@ -80,9 +80,9 @@
           #dataPreview
           let-activity="activity"
           let-data="data">
-        @if (this.dataPreview) {
+        @if (this.activityData) {
           <ng-container
-            [ngTemplateOutlet]="this.dataPreview"
+            [ngTemplateOutlet]="this.activityData"
             [ngTemplateOutletContext]="{ activity: activity, data: data }">
           </ng-container>
         } @else {
@@ -93,11 +93,13 @@
           #objectPreview
           let-activity="activity"
           let-object="object">
-        @if (this.objectPreview) {
+        @if (this.activityObject) {
           <ng-container
-            [ngTemplateOutlet]="this.objectPreview"
+            [ngTemplateOutlet]="this.activityObject"
             [ngTemplateOutletContext]="{ activity: activity, object: object }">
           </ng-container>
+        } @else {
+          {{ object.name }}
         }
       </ng-template>
     </div>

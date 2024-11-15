@@ -48,10 +48,10 @@ export class FsActivitiesComponent implements OnInit {
   @Input() public apiPath: string = '';
 
   @ContentChild(FsActivityObjectDirective) 
-  public objectPreview: TemplateRef<FsActivityObjectDirective>;
+  public activityObject: TemplateRef<FsActivityObjectDirective>;
 
   @ContentChild(FsActivityDataDirective)
-  public dataPreview: TemplateRef<FsActivityDataDirective>;
+  public activityData: TemplateRef<FsActivityDataDirective>;
 
   public filterConfig: FilterConfig;
   public activities = [];
