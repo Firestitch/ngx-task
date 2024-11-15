@@ -1,7 +1,7 @@
 {
   "name": "@firestitch/activity",
   "title": "Activity",
-  "version": "18.0.4",
+  "version": "18.0.5",
   "repository": {
     "type": "git",
     "url": "https://github.com/Firestitch/ngx-activity"

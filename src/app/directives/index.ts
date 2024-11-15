@@ -1,2 +1,2 @@
-export * from './activity-data.directive';
-export * from './activity-object.directive';
+export * from './activity-preview.directive';
+

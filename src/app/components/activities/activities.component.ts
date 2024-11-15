@@ -3,11 +3,11 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ContentChild,
+  ContentChildren,
   inject,
   Input,
   OnInit,
-  TemplateRef,
+  QueryList,
 } from '@angular/core';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -21,7 +21,7 @@ import { FsPrompt } from '@firestitch/prompt';
 
 import { switchMap } from 'rxjs/operators';
 
-import { FsActivityDataDirective, FsActivityObjectDirective } from '../../directives';
+import { FsActivityPreviewDirective } from '../../directives';
 import { FsActivityObjectTypeComponent } from '../activity-object-type';
 
 
@@ -45,18 +45,23 @@ import { FsActivityObjectTypeComponent } from '../activity-object-type';
 })
 export class FsActivitiesComponent implements OnInit {
 
-  @Input() public apiPath: string = '';
+  @Input() public apiPath: string = 'activities';
 
-  @ContentChild(FsActivityObjectDirective, { read: TemplateRef })
-  public activityObject: TemplateRef<FsActivityObjectDirective>;
+  @ContentChildren(FsActivityPreviewDirective)
+  public set setActivityObjects(templates: QueryList<FsActivityPreviewDirective>) {
+    this.activityPreviews = templates.toArray()
+      .reduce((acc, template) => {
+        acc[template.activityType] = template;
 
-  @ContentChild(FsActivityDataDirective, { read: TemplateRef })
-  public activityData: TemplateRef<FsActivityDataDirective>;
+        return acc;
+      }, {});
+  }
 
   public filterConfig: FilterConfig;
   public activities = [];
   public actions;
   public maxActivityId;
+  public activityPreviews: { [key: string]: FsActivityPreviewDirective } = {};
 
   private _api = inject(FsApi);
   private _prompt = inject(FsPrompt);
@@ -83,7 +88,7 @@ export class FsActivitiesComponent implements OnInit {
     })
       .pipe(
         switchMap(() => this._api.delete(
-          `${this.apiPath}activities/${activity.id}`,
+          `${this.apiPath}/${activity.id}`,
         )),
       )
       .subscribe(() => {
@@ -96,7 +101,7 @@ export class FsActivitiesComponent implements OnInit {
 
   private _load(): void {
     this._api
-      .get(`${this.apiPath}activities`, {
+      .get(`${this.apiPath}`, {
         activityTypes: true,
         creatorObjects: true,
         concreteObjects: true,

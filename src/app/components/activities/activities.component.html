@@ -46,7 +46,7 @@
         <div class="previous-object">
           <ng-container
             [ngTemplateOutlet]="objectPreview"
-            [ngTemplateOutletContext]="{ activity: activity, object: activity.concretePreviousActivityObject }">
+            [ngTemplateOutletContext]="{ activity: activity, data: activity.concretePreviousActivityObject }">
           </ng-container>
           <mat-icon>
             east
@@ -56,7 +56,7 @@
       <ng-container *ngIf="activity.concreteActivityObject">
         <ng-container
           [ngTemplateOutlet]="objectPreview"
-          [ngTemplateOutletContext]="{ activity: activity, object: activity.concreteActivityObject }">
+          [ngTemplateOutletContext]="{ activity: activity, data: activity.concreteActivityObject }">
         </ng-container>
       </ng-container>
       <ng-container *ngIf="!activity.concreteActivityObject && !activity.concretePreviousActivityObject">
@@ -80,9 +80,9 @@
           #dataPreview
           let-activity="activity"
           let-data="data">
-        @if (this.activityData) {
+        @if (this.activityPreviews) {
           <ng-container
-            [ngTemplateOutlet]="this.activityData"
+            [ngTemplateOutlet]="this.activityPreviews[activity.activityType.type].templateRef"
             [ngTemplateOutletContext]="{ activity: activity, data: data }">
           </ng-container>
         } @else {
@@ -92,14 +92,14 @@
       <ng-template
           #objectPreview
           let-activity="activity"
-          let-object="object">
-        @if (this.activityObject) {
+          let-data="data">
+        @if (this.activityPreviews[activity.activityType.type]) {
           <ng-container
-            [ngTemplateOutlet]="this.activityObject"
-            [ngTemplateOutletContext]="{ activity: activity, object: object }">
+            [ngTemplateOutlet]="this.activityPreviews[activity.activityType.type].templateRef"
+            [ngTemplateOutletContext]="{ activity: activity, data: data }">
           </ng-container>
         } @else {
-          {{ object.name }}
+          {{ data?.name }}
         }
       </ng-template>
     </div>

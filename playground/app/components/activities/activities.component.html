@@ -1,14 +1,16 @@
 <fs-activities>
   <ng-template
-      fsActivityObject
-      let-object="object"
-      let-activity="activity">
-    {{ object.name }}
-  </ng-template>
-  <ng-template
-      fsActivityData
+      fsActivityPreview
+      [activityType]="'crmLeadStatus'"
       let-data="data"
       let-activity="activity">
-    {{ data.value }}
+    !{{ data.name }}!
+  </ng-template>
+  <ng-template
+      fsActivityPreview
+      [activityType]="'crmLeadDate'"
+      let-data="data"
+      let-activity="activity">
+    {{ data | json }}
   </ng-template>
 </fs-activities>
