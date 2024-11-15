@@ -1,0 +1,163 @@
+<ng-container *fsSkeletonForm="task">
+  <fs-dialog [dock]="'expanded'">
+    <fs-dialog-title [close]="true">
+      <div class="fs-row">
+        <app-task-type-select
+          [(ngModel)]="task.taskType"
+          (ngModelChange)="taskTypeChange($event)"
+          name="taskType">
+        </app-task-type-select>
+        <div
+            class="task-number"
+            #identifier>
+          <fs-clipboard [content]="identifier">
+            T-{{ task.id }}
+          </fs-clipboard>
+        </div>
+        <mat-form-field class="name form-field-padless">
+          <input
+            matInput
+            placeholder="Name"
+            [(ngModel)]="task.name"
+            [fsAutoSelect]="task.state === 'draft'"
+            (fsModelChange)="save({ name: $event})"
+            name="name">
+        </mat-form-field>
+        <a
+            mat-icon-button
+            [fsMenuTriggerFor]="menu">
+          <mat-icon>
+            more_vert
+          </mat-icon>
+        </a>
+        <fs-menu #menu>
+          <ng-template
+              fs-menu-item
+              (click)="openWatcher()">
+            Watchers
+          </ng-template>
+        </fs-menu>
+      </div>
+    </fs-dialog-title>
+    <div mat-dialog-content>
+      <div class="fs-row.wrap.align-start.gap-sm toolbar">
+        <app-task-status-select
+          [(ngModel)]="task.taskStatus"
+          (ngModelChange)="taskStatusChange($event)"
+          name="status">
+        </app-task-status-select>
+        <app-task-account-select
+          [(ngModel)]="task.assignedAccount"
+          (ngModelChange)="assignedAccountChange($event)"
+          name="account">
+        </app-task-account-select>
+        <app-priority-select
+          [(ngModel)]="task.priority"
+          (ngModelChange)="save({ priority: $event || null })"
+          name="priority">
+        </app-priority-select>
+        <mat-form-field
+            [floatLabel]="'always'"
+            class="due-date form-field-lineless form-field-padless">
+          <mat-label>
+            Due Date
+          </mat-label>
+          <input
+            matInput
+            placeholder="None"
+            fsDatePicker
+            [(ngModel)]="task.dueDate"
+            (ngModelChange)="save({ dueDate: $event})"
+            name="dueDate">
+        </mat-form-field>
+        <app-task-tag-select
+          [(ngModel)]="task.taskTags"
+          (ngModelChange)="taskTagsChange($event)"
+          name="tag">
+        </app-task-tag-select>
+        <ng-container>
+          <fs-label-field class="subject-field">
+            <fs-label>
+              Client
+            </fs-label>
+            <div class="fs-row">
+              <ng-container *ngIf="task.subjectObject; else noSubject">
+                <fs-chip
+                    [size]="'small'"
+                    [image]="task.subjectObject.imageUrl"
+                    (click)="openObject(task.subjectObject)">
+                  {{ task.subjectObject.name }}
+                </fs-chip>
+              </ng-container>
+              <a
+                  mat-icon-button
+                  class="add"
+                  (click)="changeSubject()">
+                <mat-icon>
+                  add_circle_outline
+                </mat-icon>
+              </a>
+              <ng-template #noSubject>
+                <div class="placeholder">
+                  None
+                </div>
+              </ng-template>
+            </div>
+          </fs-label-field>
+        </ng-container>
+        <!-- <fs-label-field 
+            class="related-field">
+          <fs-label>Related</fs-label>
+          <div class="row">
+            <fs-chips>
+              <ng-container *ngFor="let taskRelate of task.taskRelates">
+                <fs-chip 
+                    [size]="'small'" 
+                    [removable]="true"
+                    [image]="taskRelate.object.imageUrl"
+                    (removed)="relateRemove(taskRelate)"
+                    (click)="relateOpen(taskRelate)">
+                  {{taskRelate.object.name}}
+                </fs-chip>
+              </ng-container>
+            </fs-chips>
+            <ng-container *ngIf="!task.taskRelates.length">
+              <div class="placeholder">None</div>
+            </ng-container>
+            <a 
+                mat-icon-button
+                class="add"
+                (click)="openRelate()">
+              <mat-icon>add_circle_outline</mat-icon>
+            </a>
+          </div>
+        </fs-label-field> -->
+      </div>
+      <app-task-description
+        [task]="task"
+        (descriptionCreated)="loadNewActivities()">
+      </app-task-description>
+      <br>
+      <mat-tab-group>
+        <mat-tab label="Activity">
+          <ng-template matTabContent>
+            <app-task-comment
+              [task]="task"
+              (commentCreated)="loadNewActivities()">
+            </app-task-comment>
+            <br>
+            <fs-activities [apiPath]="'tasks/' + task.id + '/activities'"></fs-activities>
+          </ng-template>
+        </mat-tab>
+        <mat-tab label="Audits">
+          <ng-template matTabContent>
+            <fs-audits
+              [loadAudits]="loadAudits"
+              [subjectObjectId]="task.id">
+            </fs-audits>
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </fs-dialog>
+</ng-container>

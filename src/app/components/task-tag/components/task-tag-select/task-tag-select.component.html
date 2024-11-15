@@ -1,0 +1,29 @@
+<fs-autocomplete-chips
+    #autocompleteChips
+    [fetch]="fetch"
+    [(ngModel)]="taskTags"
+    [floatLabel]="'always'"
+    label="Tag"
+    placeholder="None"
+    chipIcon="icon"
+    chipBackground="color"
+    chipClass="class"
+    chipColor="#fff"
+    placeholder="None"
+    [paddless]="true"
+    size="small"
+    [multiple]="true"
+    [initOnClick]="true"
+    (ngModelChange)="change($event)"
+    name="tagSelect">
+  <ng-template
+      fsAutocompleteChipsTemplate
+      let-object="object">
+    {{ object.name }}
+  </ng-template>
+  <ng-template
+      fsAutocompleteChipsStatic
+      (click)="openManage($event, autocompleteChips)">
+    Manage
+  </ng-template>
+</fs-autocomplete-chips>

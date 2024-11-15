@@ -1,0 +1,52 @@
+<form
+    fsForm
+    [submit]="save">
+  <fs-dialog>
+    <ng-container *fsSkeletonForm="taskTag">
+      <div mat-dialog-title>
+        {{ taskTag.id ? 'Edit' : 'Create' }} task tag
+      </div>
+      <mat-dialog-content>
+        <div
+            class="fs-column"
+            *fsSkeletonForm="taskTag">
+          <mat-form-field>
+            <mat-label>
+              Name
+            </mat-label>
+            <input
+              matInput
+              [(ngModel)]="taskTag.name"
+              name="name"
+              fsFormRequired>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>
+              Color
+            </mat-label>
+            <input
+              matInput
+              fsColorPicker
+              [(ngModel)]="taskTag.color"
+              name="color"
+              fsFormRequired>
+          </mat-form-field>
+        </div>
+      </mat-dialog-content>
+      <mat-dialog-actions>
+        <button
+            mat-button
+            type="submit"
+            color="primary">
+          {{ taskTag.id ? 'Save' : 'Create' }}
+        </button>
+        <button
+            mat-button
+            mat-dialog-close
+            type="button">
+          Cancel
+        </button>
+      </mat-dialog-actions>
+    </ng-container>
+  </fs-dialog>
+</form>

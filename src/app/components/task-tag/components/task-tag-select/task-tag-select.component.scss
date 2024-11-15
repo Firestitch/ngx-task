@@ -1,0 +1,27 @@
+:host ::ng-deep {
+  mat-form-field.prioirty-selector {
+    width: 100px;
+  }
+
+  .priority-sign {
+    position: absolute;
+  }
+
+  .priority-sign + .name {
+    margin-left: 25px !important;
+  }
+}
+
+a {
+  color: inherit;
+}
+
+::ng-deep {
+  .fs-autocomplete-chip.mat-chip {
+    &.lowest mat-icon,
+    &.low mat-icon,
+    &.high mat-icon {
+      transform: scale(.8) rotate(-90deg) !important;
+    }
+  }
+}

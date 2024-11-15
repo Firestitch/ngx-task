@@ -1,0 +1,44 @@
+<form fsForm [submit]="save">
+  <fs-dialog>
+    <ng-container *fsSkeletonForm="taskStatus">
+      <div mat-dialog-title>
+        {{ taskStatus.id ? 'Edit' : 'Create' }} task status
+      </div>
+      <mat-dialog-content>
+        <div class="fs-column" *fsSkeletonForm="taskStatus">
+          <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input 
+              matInput 
+              [(ngModel)]="taskStatus.name" 
+              name="name" 
+              fsFormRequired>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Color</mat-label>
+            <input 
+              matInput 
+              fsColorPicker 
+              [(ngModel)]="taskStatus.color" 
+              name="color" 
+              fsFormRequired>
+          </mat-form-field>
+        </div>
+      </mat-dialog-content>
+      <mat-dialog-actions>
+        <button 
+            mat-button 
+            type="submit" 
+            color="primary">
+          {{ taskStatus.id ? 'Save' : 'Create' }}
+        </button>
+        <button 
+            mat-button 
+            mat-dialog-close 
+            type="button">
+          Cancel
+        </button>
+      </mat-dialog-actions>
+    </ng-container>
+  </fs-dialog>
+</form>

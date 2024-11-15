@@ -1,0 +1,130 @@
+<fs-list [config]="listConfig">
+  <fs-list-column
+      [sortable]="false"
+      width="1%">
+    <ng-template
+        fs-list-cell
+        let-row="row">
+      <ng-container *ngIf="row.taskType">
+        <app-task-type-chip [taskType]="row.taskType"></app-task-type-chip>
+      </ng-container>
+    </ng-template>
+  </fs-list-column>
+  <fs-list-column
+      title="Status"
+      [sortable]="false"
+      width="1%">
+    <ng-template
+        fs-list-cell
+        let-row="row">
+      <ng-container *ngIf="row.taskStatus">
+        <app-task-status-chip [taskStatus]="row.taskStatus"></app-task-status-chip>
+      </ng-container>
+    </ng-template>
+  </fs-list-column>
+  <fs-list-column
+      title="Assigned"
+      [sortable]="false"
+      width="1%">
+    <ng-template
+        fs-list-cell
+        let-row="row">
+      <ng-container *ngIf="row.assignedAccount">
+        <app-task-assigned-account-chip [assignedAccount]="row.assignedAccount"></app-task-assigned-account-chip>
+      </ng-container>
+    </ng-template>
+  </fs-list-column>
+  <fs-list-column
+      name="name"
+      title="Name"
+      [sortable]="false">
+    <ng-template
+        fs-list-cell
+        let-row="row">
+      <div class="fs-row.gap-xs.wrap">
+        <ng-container *ngIf="row.state !== 'deleted'; else name">
+          <ng-container *ngIf="row.taskRouterLink">
+            <a [routerLink]="row.taskRouterLink">
+              <ng-container *ngTemplateOutlet="name"></ng-container>
+            </a>
+          </ng-container>
+          <ng-container *ngIf="!row.taskRouterLink">
+            <a (click)="openDialog(row)">
+              <ng-container *ngTemplateOutlet="name"></ng-container>
+            </a>
+          </ng-container>
+        </ng-container>
+        <ng-template #name>
+          {{ row.name || 'Untitled' }}
+        </ng-template>
+        <ng-container *ngIf="row.priority">
+          <app-priority-chip [priority]="row.priority"></app-priority-chip>
+        </ng-container>
+      </div>
+      <div class="fs-row.wrap.gap-xs">
+        <div class="small">
+          T-{{ row.id }}
+        </div>
+        <ng-container *ngFor="let taskTag of row.taskTags">
+          <app-task-tag-chip [taskTag]="taskTag"></app-task-tag-chip>
+        </ng-container>
+      </div>
+    </ng-template>
+  </fs-list-column>
+  <!-- <fs-list-column
+      title="Client"
+      [show]="!subjectObjectId">
+    <ng-template
+        fs-list-cell
+        let-row="row">
+      <ng-container *ngIf="row.subjectObject">
+        <fs-chip
+            [size]="'small'"
+            [image]="row.subjectObject.imageUrl"
+            (click)="openObject(row)">
+          {{ row.subjectObject.name }}
+        </fs-chip>
+      </ng-container>
+    </ng-template>
+  </fs-list-column> -->
+  <fs-list-column
+      name="due_date"
+      title="Due"
+      [sortable]="true"
+      [sortableDirection]="'desc'">
+    <ng-template
+        fs-list-cell
+        let-row="row">
+      {{ row.dueDate | date }}
+    </ng-template>
+  </fs-list-column>
+  <fs-list-column
+      name="modify_date"
+      title="Modified"
+      [sortable]="true"
+      width="1%"
+      [sortableDirection]="'desc'"
+      [sortableDefault]="true">
+    <ng-template
+        fs-list-cell
+        let-row="row">
+      <div class="small modify-date">
+        <fs-date-ago [date]="row.modifyDate"></fs-date-ago>
+      </div>
+    </ng-template>
+  </fs-list-column>
+  <fs-list-column
+      name="create_date"
+      title="Created"
+      [sortable]="true"
+      width="1%"
+      [sortableDirection]="'desc'">
+    <ng-template
+        fs-list-cell
+        let-row="row">
+      <div class="small create-date">
+        <fs-date-ago [date]="row.createDate"></fs-date-ago>
+      </div>
+    </ng-template>
+  </fs-list-column>
+</fs-list>

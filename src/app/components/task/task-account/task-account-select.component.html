@@ -1,0 +1,20 @@
+<fs-autocomplete-chips
+    #autocompleteChips
+    [fetch]="fetch"
+    [(ngModel)]="account"
+    [floatLabel]="'always'"
+    label="Assigned"
+    [paddless]="true"
+    placeholder="None"
+    size="small"
+    [chipImage]="'avatar.small'"
+    [multiple]="false"
+    [initOnClick]="true"
+    (ngModelChange)="change($event)"
+    name="accountSelect">
+  <ng-template
+      fsAutocompleteChipsTemplate
+      let-object="object">
+    {{ object.name }}
+  </ng-template>
+</fs-autocomplete-chips>

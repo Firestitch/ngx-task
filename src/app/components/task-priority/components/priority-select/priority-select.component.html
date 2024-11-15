@@ -1,0 +1,21 @@
+<fs-autocomplete-chips
+    [fetch]="fetch"
+    [(ngModel)]="taskPriority"
+    [floatLabel]="'always'"
+    label="Priority"
+    placeholder="None"
+    chipIcon="icon"
+    [paddless]="true"
+    chipBackground="color"
+    chipColor="#fff"
+    size="small"
+    [multiple]="false"
+    [initOnClick]="true"
+    (ngModelChange)="changePriority($event)"
+    name="priority">
+  <ng-template
+      fsAutocompleteChipsTemplate
+      let-object="object">
+    {{ object.name }}
+  </ng-template>
+</fs-autocomplete-chips>

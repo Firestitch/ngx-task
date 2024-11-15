@@ -1,0 +1,27 @@
+fs-html-editor {
+  ::ng-deep {
+    .field-bottom-margin .field-message {
+      min-height: unset !important;
+    }
+  }
+}
+
+.comment-placeholder {
+  margin: 0px 0 20px;
+  display: block;
+
+  .comment-placeholder-text {
+    color: #aaa;
+    margin-left: 10px;
+  }
+}
+
+
+fs-file {
+  position: relative;
+  z-index: 100;
+}
+
+fs-file-previews {
+  margin-bottom: .75em;
+}

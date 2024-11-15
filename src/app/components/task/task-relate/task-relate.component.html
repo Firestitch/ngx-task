@@ -1,0 +1,32 @@
+<form
+    fsForm
+    [submit]="save">
+  <fs-dialog>
+    <h1 mat-dialog-title>
+      Relate
+    </h1>
+    <mat-dialog-content>
+      <fs-list [config]="listConfig">
+        <fs-list-column>
+          <ng-template
+              fs-list-cell
+              let-row="row">
+            <div class="client-checkbox">
+              <mat-checkbox
+                  [checked]="clients[row.id]"
+                  (click)="$event.preventDefault()">
+                {{ row.name }}
+              </mat-checkbox>
+            </div>
+          </ng-template>
+        </fs-list-column>
+      </fs-list>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <fs-form-dialog-actions
+        [save]="false"
+        [close]="true">
+      </fs-form-dialog-actions>
+    </mat-dialog-actions>
+  </fs-dialog>
+</form>

@@ -1,0 +1,37 @@
+<form
+    fsForm
+    [submit]="save">
+  <fs-dialog>
+    <h1 mat-dialog-title>
+      Manage task tags
+    </h1>
+    <mat-dialog-content>
+      <fs-list [config]="listConfig">
+        <fs-list-column>
+          <ng-template
+              fs-list-cell
+              let-row="row">
+            <a (click)="openTaskTag(row)">
+              <fs-chip
+                  [backgroundColor]="row.color"
+                  [size]="'small'">
+                {{ row.name }}
+              </fs-chip>
+            </a>
+          </ng-template>
+        </fs-list-column>
+      </fs-list>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <fs-form-dialog-actions
+          [save]="false"
+          [close]="true">
+        <a
+            mat-button
+            (click)="openTaskTag({})">
+          Create
+        </a>
+      </fs-form-dialog-actions>
+    </mat-dialog-actions>
+  </fs-dialog>
+</form>

@@ -1,0 +1,76 @@
+<ng-container *ngIf="commentEnabled">
+  <form
+      fsForm
+      [submit]="submit"
+      [dirtySubmitButton]="files.length === 0">
+    <fs-html-editor
+        class="comment"
+        [required]="files.length === 0"
+        [(ngModel)]="comment"
+        [config]="htmlEditorConfig"
+        name="description">
+      <ng-template
+          fsHtmlEditorContainer
+          let-template="template">
+        <ng-container [ngTemplateOutlet]="template"></ng-container>
+        <ng-container [ngTemplateOutlet]="filesTmpl"></ng-container>
+      </ng-template>
+    </fs-html-editor>
+    <div class="fs-row.gap-xs">
+      <button
+          mat-flat-button
+          type="submit"
+          color="primary">
+        Comment
+      </button>
+      <button
+          (click)="cancelComment()"
+          mat-stroked-button
+          type="button">
+        Cancel
+      </button>
+      <ng-container [ngTemplateOutlet]="fileTmpl"></ng-container>
+    </div>
+  </form>
+</ng-container>
+<ng-container *ngIf="!commentEnabled">
+  <div class="comment-placeholder">
+    <div class="fs-row.gap-xs">
+      @if (account?.avatar) {
+        <fs-badge [image]="account.avatar.small"></fs-badge>
+      }
+      <div class="fs-row.gap-xs">
+        <a
+            (click)="commentEnabled = true"
+            class="comment-placeholder-text">
+          Provide an update for this task...
+        </a>
+        <ng-container [ngTemplateOutlet]="fileTmpl"></ng-container>
+      </div>
+    </div>
+  </div>
+</ng-container>
+<ng-template #fileTmpl>
+  <fs-file
+      [multiple]="true"
+      (select)="selectFiles($event)">
+    <a mat-icon-button>
+      <mat-icon>
+        attach_file
+      </mat-icon>
+    </a>
+  </fs-file>
+</ng-template>
+<ng-template #filesTmpl>
+  <fs-file-previews [files]="files">
+    <ng-template
+        fs-file-preview-action
+        placement="top-right"
+        action="remove"
+        tooltip="Remove">
+      <mat-icon>
+        close
+      </mat-icon>
+    </ng-template>
+  </fs-file-previews>
+</ng-template>

@@ -1,10 +1,10 @@
 {
-  "name": "@firestitch/activity",
-  "title": "Activity",
-  "version": "18.0.5",
+  "name": "@firestitch/task",
+  "title": "Task",
+  "version": "18.0.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Firestitch/ngx-activity"
+    "url": "https://github.com/Firestitch/ngx-task"
   },
   "author": {
     "name": "Firestitch",
@@ -15,7 +15,7 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Firestitch/ngx-activity/issues"
+    "url": "https://github.com/Firestitch/ngx-task/issues"
   },
   "main": "package/index.js",
   "typings": "package/index.d.ts",
@@ -41,6 +41,7 @@
     "@angular/platform-browser": "^18.2.7",
     "@angular/platform-browser-dynamic": "^18.2.7",
     "@angular/router": "^18.2.7",
+    "@firestitch/activity": "^18.0.5",
     "@firestitch/address": "^18.0.2",
     "@firestitch/api": "^18.0.1",
     "@firestitch/attribute": "^18.0.15",
@@ -66,6 +67,7 @@
     "@firestitch/gallery": "^18.0.12",
     "@firestitch/html": "^18.0.0",
     "@firestitch/html-editor": "^18.0.1",
+    "@firestitch/icon-picker": "^18.0.0",
     "@firestitch/iframe": "^18.0.0",
     "@firestitch/label": "^18.0.1",
     "@firestitch/lint": "^18.0.19",

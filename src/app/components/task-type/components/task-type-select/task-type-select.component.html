@@ -1,0 +1,34 @@
+<button
+    mat-icon-button
+    type="button"
+    [fsMenuTriggerFor]="menu">
+  <ng-container *ngIf="taskType">
+    <app-task-type-chip [taskType]="taskType"></app-task-type-chip>
+  </ng-container>
+  <ng-container *ngIf="!taskType">
+    <mat-icon [style.color]="'#cccccc'">
+      help
+    </mat-icon>
+  </ng-container>
+</button>
+<fs-menu #menu>
+  <ng-container *ngFor="let taskTypeItem of taskTypes">
+    <ng-container *ngIf="taskTypeItem.id !== taskType?.id">
+      <ng-template
+          fs-menu-item
+          (click)="change(taskTypeItem)">
+        <app-task-type-chip [taskType]="taskTypeItem"></app-task-type-chip>
+        {{ taskTypeItem.name }}
+      </ng-template>
+    </ng-container>
+  </ng-container>
+  <ng-template fs-menu-divider-item></ng-template>
+  <ng-template
+      fs-menu-item
+      (click)="openManage()">
+    <mat-icon>
+      settings
+    </mat-icon>
+    Manage
+  </ng-template>
+</fs-menu>
