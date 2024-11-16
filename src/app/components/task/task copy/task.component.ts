@@ -36,24 +36,22 @@ import { of, Subject } from 'rxjs';
 import { catchError, filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import {
-  TaskAccountData, TaskAuditData, TaskRelateData,
+  TaskAccountData, TaskActivitiesData, TaskAuditData, TaskRelateData,
   TaskStatusData,
   TaskTagData,
   TaskTypeData,
-} from '../../../data';
-import { TaskData } from '../../../data/task.data';
-import { Task, TaskRelate } from '../../../interfaces';
-import { DataApiService } from '../../../services';
-import { PrioritySelectComponent } from '../../task-priority';
-import { TaskStatusSelectComponent } from '../../task-status';
-import { TaskTagSelectComponent } from '../../task-tag';
-import { TaskTypeSelectComponent } from '../../task-type';
-import { TaskAccountSelectComponent } from '../task-account';
-import { TaskCommentComponent } from '../task-comment';
-import { TaskDescriptionComponent } from '../task-description';
-import { TaskRelateComponent } from '../task-relate';
-
-import { ActivityComponent } from './activity';
+} from '../../../../data';
+import { TaskData } from '../../../../data/task.data';
+import { Task, TaskRelate } from '../../../../interfaces';
+import { DataApiService } from '../../../../services';
+import { PrioritySelectComponent } from '../../../task-priority';
+import { TaskStatusSelectComponent } from '../../../task-status';
+import { TaskTagSelectComponent } from '../../../task-tag';
+import { TaskTypeSelectComponent } from '../../../task-type';
+import { TaskAccountSelectComponent } from '../../task-account';
+import { TaskCommentComponent } from '../../task-comment';
+import { TaskDescriptionComponent } from '../../task-description';
+import { TaskRelateComponent } from '../../task-relate';
 
 
 @Component({
@@ -91,8 +89,6 @@ import { ActivityComponent } from './activity';
     TaskTagSelectComponent,
 
     FsActivitiesComponent,
-
-    ActivityComponent,
   ],
   providers: [
     TaskData,
@@ -103,12 +99,13 @@ import { ActivityComponent } from './activity';
     TaskRelateData,
     TaskTypeData,
     TaskStatusData,
+    TaskActivitiesData,
   ],
 })
 export class FsTaskComponent implements OnInit, OnDestroy {
 
-  @ViewChild(ActivityComponent)
-  public activity: ActivityComponent; 
+  @ViewChild(FsActivitiesComponent)
+  public activities: FsActivitiesComponent; 
 
   @ViewChild(FsHtmlEditorComponent)
   public htmlEditor: FsHtmlEditorComponent; 
@@ -121,6 +118,7 @@ export class FsTaskComponent implements OnInit, OnDestroy {
   private _taskData = inject(TaskData);
   private _taskAuditData = inject(TaskAuditData);
   private _taskRelateData = inject(TaskRelateData);
+  private _taskActivitiesData = inject(TaskActivitiesData);
   private _taskAccountData = inject(TaskAccountData);
   private _router = inject(Router);
   private _location = inject(Location);
@@ -175,7 +173,9 @@ export class FsTaskComponent implements OnInit, OnDestroy {
   }
 
   public loadNewActivities(): void {
-    this.activity.loadNewActivities();
+    if (this.activities) {
+      this.activities.loadNew();
+    }
   }
 
   public loadRelated(): void {
@@ -261,6 +261,16 @@ export class FsTaskComponent implements OnInit, OnDestroy {
   public openObject(object): void {
     // this._taskService.openObject(object);
   }
+
+  public loadActivities = (query) => {
+    return this._taskActivitiesData
+      .gets(this.task.id, query);
+  };
+
+  public deleteActivity = (activityId: number) => {
+    return this._taskActivitiesData
+      .delete(this.task.id, activityId);
+  };
 
   public save(data): void {
     this.save$(data).subscribe();

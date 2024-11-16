@@ -1,0 +1,46 @@
+<fs-activities [apiPath]="'tasks/' + task.id + '/activities'">
+  <ng-template
+      fsActivityPreview
+      [activityType]="'taskDueDate'"
+      let-data="data">
+    {{ (data?.value | fsDate) || 'None' }}
+  </ng-template>
+  <ng-template
+      fsActivityPreview
+      [activityType]="'taskPriority'"
+      let-data="data">
+    @if (data?.value) {
+      <app-priority-chip
+        [priority]="data.value"
+        [showLabel]="true">
+      </app-priority-chip>
+    } @else {
+      None
+    }
+  </ng-template>
+  <ng-template
+      fsActivityPreview
+      [activityType]="'taskTaskStatus'"
+      let-data="data">
+    @if (data?.value) {
+      <app-task-status-chip [taskStatus]="data.value"></app-task-status-chip>
+    }
+  </ng-template>
+  <ng-template
+      fsActivityPreview
+      [activityType]="'taskComment'"
+      let-data="data">
+    @if (data?.comment) {
+      <fs-html-renderer [html]="data.comment"></fs-html-renderer>
+    }
+    @if (data.taskFiles?.length) {
+      <app-comment-gallery [taskComment]="data"></app-comment-gallery>
+    }
+  </ng-template>
+  <ng-template
+      fsActivityPreview
+      [activityType]="'taskDescription'"
+      let-data="data">
+    <fs-html-renderer [html]="data.description"></fs-html-renderer>
+  </ng-template>
+</fs-activities>

@@ -75,7 +75,7 @@
           (ngModelChange)="taskTagsChange($event)"
           name="tag">
         </app-task-tag-select>
-        <ng-container>
+        <!-- <ng-container>
           <fs-label-field class="subject-field">
             <fs-label>
               Client
@@ -89,22 +89,9 @@
                   {{ task.subjectObject.name }}
                 </fs-chip>
               </ng-container>
-              <a
-                  mat-icon-button
-                  class="add"
-                  (click)="changeSubject()">
-                <mat-icon>
-                  add_circle_outline
-                </mat-icon>
-              </a>
-              <ng-template #noSubject>
-                <div class="placeholder">
-                  None
-                </div>
-              </ng-template>
             </div>
           </fs-label-field>
-        </ng-container>
+        </ng-container> -->
         <!-- <fs-label-field 
             class="related-field">
           <fs-label>Related</fs-label>
@@ -146,7 +133,7 @@
               (commentCreated)="loadNewActivities()">
             </app-task-comment>
             <br>
-            <fs-activities [apiPath]="'tasks/' + task.id + '/activities'"></fs-activities>
+            <app-task-activity [task]="task"></app-task-activity>
           </ng-template>
         </mat-tab>
         <mat-tab label="Audits">
