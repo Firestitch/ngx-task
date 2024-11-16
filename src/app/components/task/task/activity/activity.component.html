@@ -34,7 +34,9 @@
       <fs-html-renderer [html]="data.comment"></fs-html-renderer>
     }
     @if (data.taskFiles?.length) {
-      <app-comment-gallery [taskComment]="data"></app-comment-gallery>
+      <div>
+        <app-comment-gallery [taskComment]="data"></app-comment-gallery>
+      </div>
     }
   </ng-template>
   <ng-template
