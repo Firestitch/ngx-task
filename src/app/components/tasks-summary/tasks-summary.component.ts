@@ -21,6 +21,7 @@ import { of, Subject } from 'rxjs';
 import { map, switchMap, takeUntil } from 'rxjs/operators';
 
 import { TaskData } from '../../data';
+import { DataApiService } from '../../services';
 import { FsTaskComponent } from '../task';
 import { TaskStatusChipComponent } from '../task-status';
 
@@ -39,9 +40,12 @@ import { TaskStatusChipComponent } from '../task-status';
     FsListModule,
     FsHtmlRendererModule,
     FsActivityObjectTypeComponent,
-    FsTaskComponent,  
 
     TaskStatusChipComponent,
+  ],
+  providers: [
+    TaskData,
+    DataApiService,
   ],
 })
 export class FsTasksSummaryComponent implements OnInit, OnDestroy {
@@ -51,13 +55,17 @@ export class FsTasksSummaryComponent implements OnInit, OnDestroy {
 
   @Input() public subjectObjectId: number;
 
+  @Input() public apiPath: string[] = ['tasks'];
+
   public listConfig: FsListConfig;
 
   private _destroy$ = new Subject<void>();
   private _dialog = inject(MatDialog);
   private _taskData = inject(TaskData);
+  private _dataApiService = inject(DataApiService);
 
   public ngOnInit(): void {
+    this._dataApiService.apiPath = this.apiPath;
     this._initList();
   }
 
