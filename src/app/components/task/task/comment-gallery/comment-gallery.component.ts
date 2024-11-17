@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, Input, OnInit } from '@angu
 
 import { FsApi } from '@firestitch/api';
 import {
-  FsGalleryConfig, FsGalleryItem, FsGalleryModule, GalleryLayout, GalleryThumbnailSize,
+  FsGalleryConfig, FsGalleryItem, FsGalleryModule,
 } from '@firestitch/gallery';
 
 import { Observable, of } from 'rxjs';
@@ -37,11 +37,9 @@ export class CommentGalleryComponent implements OnInit {
       showChangeSize: false,
       showChangeView: false,
       reload: false,
-      layout: GalleryLayout.Flow,
       thumbnail: {
         width: 200,
         heightScale: .7,
-        size: GalleryThumbnailSize.Cover,
       },
       itemActions: [
         {
