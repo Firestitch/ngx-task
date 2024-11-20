@@ -16,6 +16,7 @@ import { FsColorPickerModule } from '@firestitch/colorpicker';
 import { FsDialogModule } from '@firestitch/dialog';
 import { FsFormModule } from '@firestitch/form';
 import { FsMessage } from '@firestitch/message';
+import { FsSkeletonModule } from '@firestitch/skeleton';
 
 import { tap } from 'rxjs/operators';
 
@@ -37,6 +38,7 @@ import { TaskTagData } from '../../../../data';
 
     FsDialogModule,
     FsFormModule,
+    FsSkeletonModule,
     FsColorPickerModule,
   ],
 })
