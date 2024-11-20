@@ -12,9 +12,8 @@ import { FsActivitiesComponent, FsActivityPreviewDirective } from '@firestitch/a
 import { FsDateModule } from '@firestitch/date';
 import { FsHtmlRendererModule } from '@firestitch/html-editor';
 
-import { DataApiService } from 'src/app/services';
-
 import { Task } from '../../../../interfaces';
+import { DataApiService } from '../../../../services';
 import { PriorityChipComponent } from '../../../task-priority';
 import { TaskStatusChipComponent } from '../../../task-status';
 import { CommentGalleryComponent } from '../comment-gallery';
