@@ -1,24 +1,24 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Inject,
+  inject,
   OnInit,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
+import { FsColorPickerModule } from '@firestitch/colorpicker';
+import { FsDialogModule } from '@firestitch/dialog';
+import { FsFormModule } from '@firestitch/form';
 import { FsMessage } from '@firestitch/message';
 
 import { tap } from 'rxjs/operators';
 
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { FsColorPickerModule } from '@firestitch/colorpicker';
-import { FsDialogModule } from '@firestitch/dialog';
-import { FsFormModule } from '@firestitch/form';
 import { TaskTagData } from '../../../../data';
 
 
@@ -44,24 +44,23 @@ export class TaskTagComponent implements OnInit {
 
   public taskTag;
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { taskTag: any },
-    private _dialogRef: MatDialogRef<TaskTagComponent>,
-    private _message: FsMessage,
-    private _taskTagData: TaskTagData,
-    private _cdRef: ChangeDetectorRef,
-  ) { }
+  private _taskTagData: TaskTagData;  
+  private _dialogRef = inject(MatDialogRef<TaskTagComponent>);
+  private _data = inject<{ taskTag: any, taskTagData: TaskTagData }>(MAT_DIALOG_DATA);
+  private _message = inject(FsMessage);
+  private _cdRef = inject(ChangeDetectorRef);
 
   public ngOnInit(): void {
-    if (this.data.taskTag.id) {
+    this._taskTagData = this._data.taskTagData;
+    if (this._data.taskTag.id) {
       this._taskTagData
-        .get(this.data.taskTag.id)
+        .get(this._data.taskTag.id)
         .subscribe((taskTag) => {
           this.taskTag = taskTag;
           this._cdRef.markForCheck();
         });
     } else {
-      this.taskTag = this.data.taskTag;
+      this.taskTag = this._data.taskTag;
     }
   }
 

@@ -278,7 +278,8 @@ export class FsTaskComponent implements OnInit, OnDestroy {
   }
 
   public taskTagsChange(taskTags): void {
-    this._taskData.taskTags(this.task.id, taskTags)
+    this._taskData
+      .taskTags(this.task.id, taskTags)
       .subscribe(() =>{
         this._message.success();
       });

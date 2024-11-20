@@ -8,8 +8,9 @@ import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/f
 
 import { MatDialog } from '@angular/material/dialog';
 
-import { FsAutocompleteChipsComponent, FsAutocompleteChipsModule } from '@firestitch/autocomplete-chips';
-
+import {
+  FsAutocompleteChipsComponent, FsAutocompleteChipsModule,
+} from '@firestitch/autocomplete-chips';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -55,6 +56,9 @@ export class TaskTagSelectComponent implements ControlValueAccessor, OnDestroy {
 
     this._dialog.open(TaskTagManageComponent,{
       autoFocus: false,
+      data: {
+        taskTagData: this._taskTagData,
+      },
     })
       .afterClosed()
       .pipe(
