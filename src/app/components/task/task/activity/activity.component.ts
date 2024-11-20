@@ -1,7 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   Input,
+  OnInit,
   ViewChild,
 } from '@angular/core';
 
@@ -9,6 +11,8 @@ import {
 import { FsActivitiesComponent, FsActivityPreviewDirective } from '@firestitch/activity';
 import { FsDateModule } from '@firestitch/date';
 import { FsHtmlRendererModule } from '@firestitch/html-editor';
+
+import { DataApiService } from 'src/app/services';
 
 import { Task } from '../../../../interfaces';
 import { PriorityChipComponent } from '../../../task-priority';
@@ -33,17 +37,24 @@ import { CommentGalleryComponent } from '../comment-gallery';
     CommentGalleryComponent,
   ],
 })
-export class ActivityComponent {
+export class ActivityComponent implements OnInit {
 
   @Input() public task: Task;
   
   @ViewChild(FsActivitiesComponent)
   public activities: FsActivitiesComponent; 
+
+  public apiPath: string;
+  private _dataApiService = inject(DataApiService);
   
   public loadNewActivities(): void {
     if (this.activities) {
       this.activities.loadNew();
     }
+  }
+
+  public ngOnInit(): void {
+    this.apiPath = this._dataApiService.getApiPath([this.task.id,'activities']);
   }
 
 }

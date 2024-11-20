@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class DataApiService {
 
-  public apiPath: string[];
+  public apiPath: (number|string)[] = ['tasks'];
 
-  public getApiPath(path: string): string {
+  public getApiPath(path: (number|string)[]): string {
     return [
       ...this.apiPath, 
-      ...(path ? [path] : []),  
+      ...path,  
     ]
       .join('/');
   }

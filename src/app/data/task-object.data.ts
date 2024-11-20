@@ -16,7 +16,7 @@ export class TaskObjectData<T = any> {
   public gets(query: any = {}, config: RequestConfig = {}): Observable<T> {
     return this._api.request(
       'GET',
-      this._dataApiService.getApiPath('objects'),
+      this._dataApiService.getApiPath(['objects']),
       query,
       {
         key: 'objects',

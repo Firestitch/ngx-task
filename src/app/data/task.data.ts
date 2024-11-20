@@ -17,7 +17,7 @@ export class TaskData<T = any> {
 
   public get(id: number, query: any = {}, config: RequestConfig = {}): Observable<T> {
     return this._api.get(
-      this._dataApiService.getApiPath(`${id}`),
+      this._dataApiService.getApiPath([id]),
       query,
       {
         key: 'task',
@@ -29,7 +29,7 @@ export class TaskData<T = any> {
   public gets(query: any = {}, config: RequestConfig = {}): Observable<T> {
     return this._api.request(
       'GET',
-      this._dataApiService.getApiPath(''),
+      this._dataApiService.getApiPath([]),
       query,
       {
         key: 'tasks',
@@ -40,7 +40,7 @@ export class TaskData<T = any> {
 
   public put(data: any, config: RequestConfig = {}): Observable<T> {
     return this._api.put(
-      this._dataApiService.getApiPath(`${data.id}`),
+      this._dataApiService.getApiPath([data.id]),
       data,
       {
         key: 'task',
@@ -51,7 +51,7 @@ export class TaskData<T = any> {
 
   public post(data: any, config: RequestConfig = {}): Observable<T> {
     return this._api.post(
-      this._dataApiService.getApiPath(''),
+      this._dataApiService.getApiPath([]),
       data,
       {
         key: 'task',
@@ -62,7 +62,7 @@ export class TaskData<T = any> {
 
   public taskTags(taskId, taskTags: any, config: RequestConfig = {}): Observable<T> {
     return this._api.post(
-      this._dataApiService.getApiPath(`${taskId}/tags`),
+      this._dataApiService.getApiPath([taskId,'tags']),
       { taskTags },
       {
         key: 'task',
@@ -84,7 +84,7 @@ export class TaskData<T = any> {
 
   public comment(taskId, data: any, files: FsFile[] = []): Observable<T> {
     return this._api.post(
-      this._dataApiService.getApiPath(`${taskId}/comments`),
+      this._dataApiService.getApiPath([taskId,'comments']),
       data,
       {
         key: 'taskComment',
@@ -97,7 +97,8 @@ export class TaskData<T = any> {
               forkJoin(
                 files
                   .map((fsFile) => this._api
-                    .post(this._dataApiService.getApiPath(`${taskId}/comments/${comment.id}/files`), { file: fsFile.file })),
+                    .post(this._dataApiService
+                      .getApiPath([taskId,'comments',comment.id,'files']), { file: fsFile.file })),
               ) :
               of(comment)
           )
@@ -108,7 +109,7 @@ export class TaskData<T = any> {
 
   public describe(taskId, data: any, config: RequestConfig = {}): Observable<T> {
     return this._api.post(
-      this._dataApiService.getApiPath(`${taskId}/descriptions`),
+      this._dataApiService.getApiPath(['taskId','descriptions']),
       data,
       {
         key: 'taskDescription',
@@ -120,7 +121,7 @@ export class TaskData<T = any> {
 
   public watchers(taskId, data: any, config: RequestConfig = {}): Observable<T> {
     return this._api.post(
-      this._dataApiService.getApiPath(`${taskId}/watchers`),
+      this._dataApiService.getApiPath(['taskId','watchers']),
       data,
       {
         key: 'task',

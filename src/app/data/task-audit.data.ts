@@ -16,7 +16,7 @@ export class TaskAuditData<T = any> {
   public gets(taskId, query: any = {}, config: RequestConfig = {}): Observable<T> {
     return this._api.request(
       'GET',
-      this._dataApiService.getApiPath(`${taskId}/audits`),
+      this._dataApiService.getApiPath([taskId,'audits']),
       query,
       {
         key: null,

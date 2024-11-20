@@ -15,7 +15,7 @@ export class TaskRelateData<T = any> {
 
   public relate(taskId: number, objectId: number, pin, config: RequestConfig = {}): Observable<T> {
     return this._api.post(
-      this._dataApiService.getApiPath(`${taskId}/relates/${objectId}`),
+      this._dataApiService.getApiPath([taskId,'relates',objectId]),
       { pin },
       {
         ...config,
@@ -26,7 +26,7 @@ export class TaskRelateData<T = any> {
   public unrelate(taskId: number, objectId: number, config: RequestConfig = {}): Observable<T> {
     return this._api.delete(
       
-      this._dataApiService.getApiPath(`${taskId}/relates/${objectId}`),
+      this._dataApiService.getApiPath([taskId,'relates',objectId]),
       {},
       {
         ...config,

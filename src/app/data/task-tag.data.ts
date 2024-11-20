@@ -15,7 +15,7 @@ export class TaskTagData<T = any> {
 
   public get(id: number, query: any = {}, config: RequestConfig = {}): Observable<T> {
     return this._api.get(
-      this._dataApiService.getApiPath(`tags/${id}`),
+      this._dataApiService.getApiPath(['tags',id]),
       query,
       {
         key: 'taskTag',
@@ -27,7 +27,7 @@ export class TaskTagData<T = any> {
   public gets(query: any = {}, config: RequestConfig = {}): Observable<T> {
     return this._api.request(
       'GET',
-      this._dataApiService.getApiPath('tags'),
+      this._dataApiService.getApiPath(['tags']),
       query,
       {
         key: 'taskTags',
@@ -38,7 +38,7 @@ export class TaskTagData<T = any> {
 
   public put(data: any, config: RequestConfig = {}): Observable<T> {
     return this._api.put(
-      this._dataApiService.getApiPath(`tags/${data.id}`),
+      this._dataApiService.getApiPath(['tags',data.id]),
       data,
       {
         key: 'taskTag',
@@ -49,7 +49,7 @@ export class TaskTagData<T = any> {
 
   public post(data: any, config: RequestConfig = {}): Observable<T> {
     return this._api.post(
-      this._dataApiService.getApiPath('tags'),
+      this._dataApiService.getApiPath(['tags']),
       data,
       {
         key: 'taskTag',
@@ -60,7 +60,7 @@ export class TaskTagData<T = any> {
 
   public delete(data: any, config: RequestConfig = {}): Observable<T> {
     return this._api.delete(
-      this._dataApiService.getApiPath(`tags/${data.id}`),
+      this._dataApiService.getApiPath(['tags',data.id]),
       data,
       {
         key: 'taskTag',
@@ -77,7 +77,7 @@ export class TaskTagData<T = any> {
 
   public order(data): Observable<any> {
     return this._api.put(
-      this._dataApiService.getApiPath('tags/order'),
+      this._dataApiService.getApiPath(['tags','order']),
       data,
       { key: null },
     );

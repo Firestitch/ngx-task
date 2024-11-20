@@ -258,10 +258,6 @@ export class FsTaskComponent implements OnInit, OnDestroy {
       });
   }
 
-  public openObject(object): void {
-    // this._taskService.openObject(object);
-  }
-
   public save(data): void {
     this.save$(data).subscribe();
   }

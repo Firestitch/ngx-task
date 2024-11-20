@@ -15,7 +15,7 @@ export class TaskStatusData<T = any> {
 
   public get(id: number, query: any = {}, config: RequestConfig = {}): Observable<T> {
     return this._api.get(
-      this._dataApiService.getApiPath(`tasks/statuses/${id}`),
+      this._dataApiService.getApiPath(['tasks','statuses',id]),
       query,
       {
         key: 'taskStatus',
@@ -27,7 +27,7 @@ export class TaskStatusData<T = any> {
   public gets(query: any = {}, config: RequestConfig = {}): Observable<T> {
     return this._api.request(
       'GET',
-      this._dataApiService.getApiPath('statuses'),
+      this._dataApiService.getApiPath(['statuses']),
       query,
       {
         key: 'taskStatuses',
@@ -38,7 +38,7 @@ export class TaskStatusData<T = any> {
 
   public put(data: any, config: RequestConfig = {}): Observable<T> {
     return this._api.put(
-      this._dataApiService.getApiPath(`statuses/${data.id}`),
+      this._dataApiService.getApiPath(['statuses',data.id]),
       data,
       {
         key: 'taskStatus',
@@ -49,7 +49,7 @@ export class TaskStatusData<T = any> {
 
   public post(data: any, config: RequestConfig = {}): Observable<T> {
     return this._api.post(
-      this._dataApiService.getApiPath('statuses'),
+      this._dataApiService.getApiPath(['statuses']),
       data,
       {
         key: 'taskStatus',
@@ -60,7 +60,7 @@ export class TaskStatusData<T = any> {
 
   public delete(data: any, config: RequestConfig = {}): Observable<T> {
     return this._api.delete(
-      this._dataApiService.getApiPath(`statuses/${data.id}`),
+      this._dataApiService.getApiPath(['statuses',data.id]),
       data,
       {
         key: 'taskStatus',
@@ -71,7 +71,7 @@ export class TaskStatusData<T = any> {
 
   public order(data): Observable<any> {
     return this._api.put(
-      this._dataApiService.getApiPath('statuses/order'),
+      this._dataApiService.getApiPath(['statuses','order']),
       data,
       { key: null },
     );

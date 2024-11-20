@@ -54,7 +54,7 @@ export class CommentGalleryComponent implements OnInit {
           .map((taskFile) => {
             const url = this._api
               .createApiFile(this._dataApiService
-                .getApiPath(`${this.taskComment.taskId}/files/${taskFile.id}/download`));
+                .getApiPath([this.taskComment.taskId,'files',taskFile.id,'download']));
 
             const item: FsGalleryItem = { 
               name: taskFile.file.filename,

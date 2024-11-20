@@ -16,7 +16,7 @@ export class TaskAccountData<T = any> {
   public gets(query: any = {}, config: RequestConfig = {}): Observable<T> {
     return this._api.request(
       'GET',
-      this._dataApiService.getApiPath('accounts'),
+      this._dataApiService.getApiPath(['accounts']),
       query,
       {
         key: 'accounts',
