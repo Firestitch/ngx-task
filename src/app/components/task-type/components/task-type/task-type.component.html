@@ -1,49 +1,59 @@
-<form fsForm [submit]="save">
+<form
+    fsForm
+    [submit]="save">
   <fs-dialog>
     <ng-container *fsSkeletonForm="taskType">
       <div mat-dialog-title>
         {{ taskType.id ? 'Edit' : 'Create' }} task type
       </div>
       <mat-dialog-content>
-        <div class="fs-column" *fsSkeletonForm="taskType">
+        <div
+            class="fs-column"
+            *fsSkeletonForm="taskType">
           <mat-form-field>
-            <mat-label>Name</mat-label>
-            <input 
-              matInput 
-              [(ngModel)]="taskType.name" 
-              name="name" 
+            <mat-label>
+              Name
+            </mat-label>
+            <input
+              matInput
+              [(ngModel)]="taskType.name"
+              name="name"
               fsFormRequired>
           </mat-form-field>
           <mat-form-field>
-            <mat-label>Icon</mat-label>
-            <input 
-              matInput 
-              fsIconPicker 
-              [(ngModel)]="taskType.icon" 
-              name="icon" 
+            <mat-label>
+              Icon
+            </mat-label>
+            <input
+              matInput
+              fsIconPicker
+              [(ngModel)]="taskType.icon"
+              name="icon"
               fsFormRequired>
           </mat-form-field>
           <mat-form-field>
-            <mat-label>Color</mat-label>
-            <input 
-              matInput 
-              fsColorPicker 
-              [(ngModel)]="taskType.color" 
-              name="color" 
+            <mat-label>
+              Color
+            </mat-label>
+            <input
+              matInput
+              fsColorPicker
+              [(ngModel)]="taskType.color"
+              name="color"
               fsFormRequired>
           </mat-form-field>
         </div>
       </mat-dialog-content>
       <mat-dialog-actions>
-        <button 
-            mat-button 
-            type="submit" 
+        <button
+            mat-button
+            type="submit"
             color="primary">
           {{ taskType.id ? 'Save' : 'Create' }}
         </button>
-        <button 
-            mat-button 
-            mat-dialog-close 
+        <button
+            mat-button
+            mat-dialog-close
             type="button">
           Cancel
         </button>

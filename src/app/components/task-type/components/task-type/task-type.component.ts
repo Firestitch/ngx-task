@@ -3,7 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Inject,
+  inject,
   OnInit,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -13,12 +13,12 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
+import { FsColorPickerModule, randomColor } from '@firestitch/colorpicker';
 import { FsDialogModule } from '@firestitch/dialog';
 import { FsFormModule } from '@firestitch/form';
+import { FsIconPickerModule } from '@firestitch/icon-picker';
 import { FsMessage } from '@firestitch/message';
 import { FsSkeletonModule } from '@firestitch/skeleton';
-import { FsColorPickerModule } from '@firestitch/colorpicker';
-import { FsIconPickerModule } from '@firestitch/icon-picker';
 
 import { tap } from 'rxjs/operators';
 
@@ -50,29 +50,35 @@ export class TaskTypeComponent implements OnInit {
 
   public taskType;
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { taskType: any },
-    private _dialogRef: MatDialogRef<TaskTypeComponent>,
-    private _message: FsMessage,
-    private _taskTypeData: TaskTypeData,
-    private _cdRef: ChangeDetectorRef,
-  ) { }
+  private _taskTypeData: TaskTypeData;
+  private _dialogRef = inject(MatDialogRef<TaskTypeComponent>);
+  private _data = inject<{ 
+    taskType: any, 
+    taskTypeData: TaskTypeData 
+  }>(MAT_DIALOG_DATA);
+  private _message = inject(FsMessage);
+  private _cdRef = inject(ChangeDetectorRef);   
 
   public ngOnInit(): void {
-    if (this.data.taskType.id) {
+    this._taskTypeData = this._data.taskTypeData;
+    if (this._data.taskType.id) {
       this._taskTypeData
-        .get(this.data.taskType.id)
+        .get(this._data.taskType.id)
         .subscribe((taskType) => {
           this.taskType = taskType;
           this._cdRef.markForCheck();
         });
     } else {
-      this.taskType = this.data.taskType;
+      this.taskType = {
+        ...this._data.taskType,
+        color: randomColor(),
+      };
     }
   }
 
   public save = () => {
-    return this._taskTypeData.save(this.taskType)
+    return this._taskTypeData
+      .save(this.taskType)
       .pipe(
         tap((response) => {
           this._message.success('Saved Changes');

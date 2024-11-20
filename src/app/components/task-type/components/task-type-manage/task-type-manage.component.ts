@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, ViewChild } from '@angular/core';
 
-import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 import { FsChipModule } from '@firestitch/chip';
 import { list } from '@firestitch/common';
@@ -43,12 +43,13 @@ export class TaskTypeManageComponent implements OnInit {
   public list: FsListComponent;
 
   public listConfig: FsListConfig;
-  
-  constructor(
-    private _dialogRef: MatDialogRef<TaskTypeManageComponent>,
-    private _taskTypeData: TaskTypeData,
-    private _dialog: MatDialog,
-  ) {
+  private _taskTypeData = inject(TaskTypeData);
+  private _dialogRef = inject(MatDialogRef<TaskTypeManageComponent>);
+  private _dialog = inject(MatDialog);
+  private _data = inject<{ taskTypeData: TaskTypeData }>(MAT_DIALOG_DATA);
+
+  constructor() {
+    this._taskTypeData = this._data.taskTypeData;
     this._dialogRef.updateSize('400px');
   }
 
@@ -86,11 +87,13 @@ export class TaskTypeManageComponent implements OnInit {
   }
 
   public openTaskType(taskType): void {
-    this._dialog.open(TaskTypeComponent,{
-      data: {
-        taskType,
-      },
-    })
+    this._dialog
+      .open(TaskTypeComponent,{
+        data: {
+          taskType,
+          taskTypeData: this._taskTypeData,
+        },
+      })
       .afterClosed()
       .pipe(
         tap(() => this.list.reload()),

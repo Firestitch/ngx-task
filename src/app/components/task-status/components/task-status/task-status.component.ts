@@ -11,7 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 
-import { FsColorPickerModule } from '@firestitch/colorpicker';
+import { FsColorPickerModule, randomColor } from '@firestitch/colorpicker';
 import { FsDialogModule } from '@firestitch/dialog';
 import { FsFormModule } from '@firestitch/form';
 import { FsMessage } from '@firestitch/message';
@@ -61,7 +61,10 @@ export class TaskStatusComponent implements OnInit {
           this._cdRef.markForCheck();
         });
     } else {
-      this.taskStatus = this._data.taskStatus;
+      this.taskStatus = {
+        ...this._data.taskStatus,
+        color: randomColor(),
+      };
     }
   }
 

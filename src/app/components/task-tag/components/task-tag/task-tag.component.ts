@@ -8,11 +8,12 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
-import { FsColorPickerModule } from '@firestitch/colorpicker';
+import { FsColorPickerModule, randomColor } from '@firestitch/colorpicker';
 import { FsDialogModule } from '@firestitch/dialog';
 import { FsFormModule } from '@firestitch/form';
 import { FsMessage } from '@firestitch/message';
@@ -34,6 +35,7 @@ import { TaskTagData } from '../../../../data';
     
     MatDialogModule,
     MatInputModule,
+    MatButtonModule,
     MatFormFieldModule,
 
     FsDialogModule,
@@ -62,7 +64,10 @@ export class TaskTagComponent implements OnInit {
           this._cdRef.markForCheck();
         });
     } else {
-      this.taskTag = this._data.taskTag;
+      this.taskTag = {
+        ...this._data.taskTag,
+        color:  randomColor(),
+      };
     }
   }
 

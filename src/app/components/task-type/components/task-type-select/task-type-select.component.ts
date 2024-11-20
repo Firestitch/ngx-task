@@ -62,6 +62,9 @@ export class TaskTypeSelectComponent implements ControlValueAccessor, OnDestroy,
   public openManage(): void {
     this._dialog.open(TaskTypeManageComponent,{
       autoFocus: false,
+      data: {
+        taskTypeData: this._taskTypeData,
+      },
     })
       .afterClosed()
       .pipe(
