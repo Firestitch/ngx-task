@@ -43,7 +43,8 @@ export class TaskTypeManageComponent implements OnInit {
   public list: FsListComponent;
 
   public listConfig: FsListConfig;
-  private _taskTypeData = inject(TaskTypeData);
+  
+  private _taskTypeData: TaskTypeData;
   private _dialogRef = inject(MatDialogRef<TaskTypeManageComponent>);
   private _dialog = inject(MatDialog);
   private _data = inject<{ taskTypeData: TaskTypeData }>(MAT_DIALOG_DATA);
