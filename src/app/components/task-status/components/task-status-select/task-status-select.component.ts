@@ -54,6 +54,9 @@ export class TaskStatusSelectComponent implements ControlValueAccessor, OnDestro
 
     this._dialog.open(TaskStatusManageComponent,{
       autoFocus: false,
+      data: {
+        taskStatusData: this._taskStatusData,
+      },
     })
       .afterClosed()
       .pipe(

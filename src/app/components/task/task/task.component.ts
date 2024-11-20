@@ -12,13 +12,14 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef,
+} from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 
-import { FsActivitiesComponent } from '@firestitch/activity';
 import { FsAuditsModule } from '@firestitch/audit';
 import { FsChipModule } from '@firestitch/chip';
 import { FsClipboardModule } from '@firestitch/clipboard';
@@ -89,8 +90,6 @@ import { ActivityComponent } from './activity';
     TaskAccountSelectComponent,
     PrioritySelectComponent,
     TaskTagSelectComponent,
-
-    FsActivitiesComponent,
 
     ActivityComponent,
   ],

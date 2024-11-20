@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 import { FsChipModule } from '@firestitch/chip';
 import { list } from '@firestitch/common';
@@ -42,12 +42,15 @@ export class TaskStatusManageComponent implements OnInit {
   public list: FsListComponent;
 
   public listConfig: FsListConfig;
-  
+
+  private _dialogRef = inject(MatDialogRef<TaskStatusManageComponent>);
+  private _dialog = inject(MatDialog);
+  private _data = inject<{ taskStatusData: TaskStatusData }>(MAT_DIALOG_DATA);
+  private _taskStatusData: TaskStatusData;
+
   constructor(
-    private _dialogRef: MatDialogRef<TaskStatusManageComponent>,
-    private _taskStatusData: TaskStatusData,
-    private _dialog: MatDialog,
   ) {
+    this._taskStatusData = this._data.taskStatusData;
     this._dialogRef.updateSize('400px');
   }
 
