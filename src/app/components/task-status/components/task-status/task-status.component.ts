@@ -2,14 +2,14 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Inject,
+  inject,
   OnInit,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
 
 import { FsColorPickerModule } from '@firestitch/colorpicker';
 import { FsDialogModule } from '@firestitch/dialog';
@@ -45,24 +45,23 @@ export class TaskStatusComponent implements OnInit {
 
   public taskStatus;
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { taskStatus: any },
-    private _dialogRef: MatDialogRef<TaskStatusComponent>,
-    private _message: FsMessage,
-    private _taskStatusData: TaskStatusData,
-    private _cdRef: ChangeDetectorRef,
-  ) { }
+  private _taskStatusData: TaskStatusData;
+  private _dialogRef = inject(MatDialogRef<TaskStatusComponent>);
+  private _data = inject<{ taskStatus: any, taskStatusData: TaskStatusData }>(MAT_DIALOG_DATA);
+  private _message = inject(FsMessage);
+  private _cdRef = inject(ChangeDetectorRef); 
 
   public ngOnInit(): void {
-    if (this.data.taskStatus.id) {
+    this._taskStatusData = this._data.taskStatusData;
+    if (this._data.taskStatus.id) {
       this._taskStatusData
-        .get(this.data.taskStatus.id)
+        .get(this._data.taskStatus.id)
         .subscribe((taskStatus) => {
           this.taskStatus = taskStatus;
           this._cdRef.markForCheck();
         });
     } else {
-      this.taskStatus = this.data.taskStatus;
+      this.taskStatus = this._data.taskStatus;
     }
   }
 

@@ -76,7 +76,8 @@ export class TaskStatusManageComponent implements OnInit {
         },
       ],
       fetch: (query) => {
-        return this._taskStatusData.gets(query, { key: null })
+        return this._taskStatusData
+          .gets(query, { key: null })
           .pipe(
             map((response) => ({ data: response.taskStatuses, paging: response.paging })),
           );
@@ -93,6 +94,7 @@ export class TaskStatusManageComponent implements OnInit {
     this._dialog.open(TaskStatusComponent,{
       data: {
         taskStatus,
+        taskStatusData: this._taskStatusData,
       },
     })
       .afterClosed()
@@ -116,11 +118,12 @@ export class TaskStatusManageComponent implements OnInit {
   };
 
   private _saveOrder(data): void {
-    this._taskStatusData.order({
-      taskStatusIds: list(data, 'id'),
-      limit: data.length,
-      offset: this.list.list.paging.offset,
-    })
+    this._taskStatusData
+      .order({
+        taskStatusIds: list(data, 'id'),
+        limit: data.length,
+        offset: this.list.list.paging.offset,
+      })
       .subscribe(() => {
         this.list.reload();
       });
