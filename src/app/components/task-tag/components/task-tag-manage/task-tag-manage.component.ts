@@ -70,6 +70,7 @@ export class TaskTagManageComponent implements OnInit {
               .delete(data);
           },
           remove: {
+            title: 'Confirm',
             template: 'Are you sure you want to delete this task tag?',
           },
         },

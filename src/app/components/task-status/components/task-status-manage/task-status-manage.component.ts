@@ -71,6 +71,7 @@ export class TaskStatusManageComponent implements OnInit {
               .delete(taskStatus);
           },
           remove: {
+            title: 'Confirm',
             template: 'Are you sure you want to delete this task status?',
           },
         },
