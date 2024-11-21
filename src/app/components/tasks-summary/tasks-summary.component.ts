@@ -91,7 +91,10 @@ export class FsTasksSummaryComponent implements OnInit, OnDestroy {
         }),
         switchMap((_task) => {
           return this._dialog.open(FsTaskComponent, {
-            data: { task: _task },
+            data: { 
+              task: _task,
+              apiPath: this.apiPath,
+            },
           })
             .afterClosed();
         }),

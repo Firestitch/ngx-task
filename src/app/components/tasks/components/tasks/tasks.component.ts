@@ -64,7 +64,7 @@ export class FsTasksComponent implements OnInit, OnDestroy {
   @ViewChild(FsListComponent)
   public list: FsListComponent;
 
-  @Input() public apiPath: string[] = ['tasks'];
+  @Input() public apiPath: (string | number)[] = ['tasks'];
   @Input() public activeSavedFilterId: number;
   @Input() public taskRouterLink: any[];
   @Input() public assignedAccounts: Account[] = [];
