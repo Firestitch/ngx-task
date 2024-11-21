@@ -118,10 +118,9 @@ export class TaskData<T = any> {
     );
   }
 
-
   public watchers(taskId, data: any, config: RequestConfig = {}): Observable<T> {
     return this._api.post(
-      this._dataApiService.getApiPath(['taskId','watchers']),
+      this._dataApiService.getApiPath([taskId,'watchers']),
       data,
       {
         key: 'task',
