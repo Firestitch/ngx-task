@@ -55,7 +55,7 @@ export class FsTasksSummaryComponent implements OnInit, OnDestroy {
 
   @Input() public subjectObjectId: number;
 
-  @Input() public apiPath: string[] = ['tasks'];
+  @Input() public apiPath: (string | number)[] = ['tasks'];
 
   public listConfig: FsListConfig;
 
