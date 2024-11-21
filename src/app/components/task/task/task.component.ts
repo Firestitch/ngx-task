@@ -213,7 +213,7 @@ export class FsTaskComponent implements OnInit, OnDestroy {
           return this._prompt
             .autocompleteChips({
               title: 'Watchers',
-              label: '',
+              label: 'Accounts',
               default: task.watchers
                 .map((item) => ({
                   name: item.name,
