@@ -109,7 +109,7 @@ export class TaskData<T = any> {
 
   public describe(taskId, data: any, config: RequestConfig = {}): Observable<T> {
     return this._api.post(
-      this._dataApiService.getApiPath(['taskId','descriptions']),
+      this._dataApiService.getApiPath([taskId,'descriptions']),
       data,
       {
         key: 'taskDescription',

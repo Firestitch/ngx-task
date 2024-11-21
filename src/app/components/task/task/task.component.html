@@ -67,7 +67,7 @@
             placeholder="None"
             fsDatePicker
             [(ngModel)]="task.dueDate"
-            (ngModelChange)="save({ dueDate: $event})"
+            (ngModelChange)="save({ dueDate: $event })"
             name="dueDate">
         </mat-form-field>
         <app-task-tag-select
