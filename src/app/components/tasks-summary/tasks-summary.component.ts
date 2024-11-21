@@ -17,8 +17,8 @@ import { FsActivityObjectTypeComponent } from '@firestitch/activity';
 import { FsHtmlRendererModule } from '@firestitch/html-editor';
 import { FsListComponent, FsListConfig, FsListModule } from '@firestitch/list';
 
-import { of, Subject } from 'rxjs';
-import { map, switchMap, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 
 import { TaskData } from '../../data';
 import { DataApiService } from '../../services';
@@ -79,26 +79,13 @@ export class FsTasksSummaryComponent implements OnInit, OnDestroy {
   }
 
   public openTask(task: any): void {
-    of(null)
-      .pipe(
-        switchMap(() => {
-          return task.id ?
-            of(task)
-            : this._taskData.save({
-              state: 'draft',
-              subjectObjectId: this.subjectObjectId,
-            });
-        }),
-        switchMap((_task) => {
-          return this._dialog.open(FsTaskComponent, {
-            data: { 
-              task: _task,
-              apiPath: this.apiPath,
-            },
-          })
-            .afterClosed();
-        }),
-      )
+    this._dialog.open(FsTaskComponent, {
+      data: { 
+        task,
+        apiPath: this.apiPath,
+      },
+    })
+      .afterClosed()
       .pipe(
         takeUntil(this._destroy$),
       )
