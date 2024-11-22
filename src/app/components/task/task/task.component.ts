@@ -209,7 +209,7 @@ export class FsTaskComponent implements OnInit, OnDestroy {
             .autocompleteChips({
               title: 'Watchers',
               label: 'Accounts',
-              cancelLabel: 'Save',
+              commitLabel: 'Save',
               required: false,
               default: task.watchers
                 .map((item) => ({
