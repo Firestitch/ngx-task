@@ -157,11 +157,6 @@ export class FsTaskComponent implements OnInit, OnDestroy {
     })
       .pipe(
         tap((task) => {
-          if (this.task.state === 'draft') {
-            const url = this._router
-              .parseUrl(`${window.location.pathname}/${task.id}${window.location.search}`);
-            this._location.replaceState(url.toString());
-          }
           this.task = {
             ...this.task,
             ...task,

@@ -43,7 +43,7 @@ export class ActivityComponent implements OnInit {
   @ViewChild(FsActivitiesComponent)
   public activities: FsActivitiesComponent; 
 
-  public apiPath: string;
+  public apiPath: (string|number)[];
   private _dataApiService = inject(DataApiService);
   
   public loadNewActivities(): void {

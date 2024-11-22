@@ -5,11 +5,10 @@ export class DataApiService {
 
   public apiPath: (number|string)[] = ['tasks'];
 
-  public getApiPath(path: (number|string)[]): string {
+  public getApiPath(path: (number|string)[]): (number|string)[] {
     return [
       ...this.apiPath, 
       ...path,  
-    ]
-      .join('/');
+    ];
   }
 }
