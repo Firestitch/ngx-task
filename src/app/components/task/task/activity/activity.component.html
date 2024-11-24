@@ -3,7 +3,7 @@
       fsActivityPreview
       [activityType]="'taskDueDate'"
       let-data="data">
-    {{ (data?.value | fsDate) || 'None' }}
+    {{ (data.value | taskDueDate) || 'None' }}
   </ng-template>
   <ng-template
       fsActivityPreview

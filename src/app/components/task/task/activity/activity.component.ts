@@ -18,6 +18,8 @@ import { PriorityChipComponent } from '../../../task-priority';
 import { TaskStatusChipComponent } from '../../../task-status';
 import { CommentGalleryComponent } from '../comment-gallery';
 
+import { TaskDueDatePipe } from './pipes/task-due-date.pipe';
+
 
 @Component({
   selector: 'app-task-activity',
@@ -34,6 +36,7 @@ import { CommentGalleryComponent } from '../comment-gallery';
     TaskStatusChipComponent,
     PriorityChipComponent,
     CommentGalleryComponent,
+    TaskDueDatePipe,
   ],
 })
 export class ActivityComponent implements OnInit {
