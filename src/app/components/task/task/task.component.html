@@ -75,50 +75,6 @@
           (ngModelChange)="taskTagsChange($event)"
           name="tag">
         </app-task-tag-select>
-        <!-- <ng-container>
-          <fs-label-field class="subject-field">
-            <fs-label>
-              Client
-            </fs-label>
-            <div class="fs-row">
-              <ng-container *ngIf="task.subjectObject; else noSubject">
-                <fs-chip
-                    [size]="'small'"
-                    [image]="task.subjectObject.imageUrl"
-                    (click)="openObject(task.subjectObject)">
-                  {{ task.subjectObject.name }}
-                </fs-chip>
-              </ng-container>
-            </div>
-          </fs-label-field>
-        </ng-container> -->
-        <!-- <fs-label-field 
-            class="related-field">
-          <fs-label>Related</fs-label>
-          <div class="row">
-            <fs-chips>
-              <ng-container *ngFor="let taskRelate of task.taskRelates">
-                <fs-chip 
-                    [size]="'small'" 
-                    [removable]="true"
-                    [image]="taskRelate.object.imageUrl"
-                    (removed)="relateRemove(taskRelate)"
-                    (click)="relateOpen(taskRelate)">
-                  {{taskRelate.object.name}}
-                </fs-chip>
-              </ng-container>
-            </fs-chips>
-            <ng-container *ngIf="!task.taskRelates.length">
-              <div class="placeholder">None</div>
-            </ng-container>
-            <a 
-                mat-icon-button
-                class="add"
-                (click)="openRelate()">
-              <mat-icon>add_circle_outline</mat-icon>
-            </a>
-          </div>
-        </fs-label-field> -->
       </div>
       <app-task-description
         [task]="task"

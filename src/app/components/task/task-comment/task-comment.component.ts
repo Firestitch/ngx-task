@@ -64,7 +64,6 @@ export class TaskCommentComponent implements OnDestroy {
   ) {}
 
   public get account(): Account {
-    // return this._sessionService.account();
     return null;
   }
 
