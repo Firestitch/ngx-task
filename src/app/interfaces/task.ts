@@ -9,6 +9,7 @@ export interface Task {
   priority?: number;
   state?: string;
   id?: number;
+  number?: number;
   taskStatusId?: number;
   taskStatus?: any;
   taskType?: any

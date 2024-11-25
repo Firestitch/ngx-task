@@ -1,4 +1,4 @@
-import { CommonModule, Location } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -9,7 +9,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { MatButtonModule } from '@angular/material/button';
 import {
@@ -121,8 +121,6 @@ export class FsTaskComponent implements OnInit, OnDestroy {
   private _taskAuditData = inject(TaskAuditData);
   private _taskRelateData = inject(TaskRelateData);
   private _taskAccountData = inject(TaskAccountData);
-  private _router = inject(Router);
-  private _location = inject(Location);
   private _message = inject(FsMessage);
   private _prompt = inject(FsPrompt);
   private _dialog = inject(MatDialog);

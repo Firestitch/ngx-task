@@ -1,7 +1,7 @@
 {
   "name": "@firestitch/task",
   "title": "Task",
-  "version": "18.0.30",
+  "version": "18.0.31",
   "repository": {
     "type": "git",
     "url": "https://github.com/Firestitch/ngx-task"
