@@ -71,8 +71,14 @@ export class PrioritySelectComponent implements ControlValueAccessor {
     //
   }
 
-  public fetch = () => {
-    return of(this.taskPriorities);
+  public fetch = (keyword: string) => {
+    return of(
+      this.taskPriorities
+        .filter((item) => {
+          return String(item.name.toLowerCase())
+            .includes(keyword.toLowerCase());
+        }),
+    );
   };
 
 }
