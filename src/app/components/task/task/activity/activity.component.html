@@ -24,6 +24,8 @@
       let-data="data">
     @if (data?.value) {
       <app-task-status-chip [taskStatus]="data.value"></app-task-status-chip>
+    } @else {
+      None
     }
   </ng-template>
   <ng-template
