@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { FsChipModule } from '@firestitch/chip';
 import { FsDateModule } from '@firestitch/date';
@@ -74,6 +74,8 @@ export class FsTasksComponent implements OnInit, OnDestroy {
   private _destroy$ = new Subject<void>();
   private _dataApiService = inject(DataApiService);
   private _dialog = inject(MatDialog);
+
+  private _dialogRef = inject(MatDialogRef, { optional: true });
   private _router = inject(Router);
   private _location = inject(Location);
   private _fsDialog = inject(FsDialog);
@@ -108,7 +110,7 @@ export class FsTasksComponent implements OnInit, OnDestroy {
       )
       .subscribe(() => {
         this.reload();
-        if (task.state === 'draft' || !task.state) {
+        if (!this._dialogRef && (task.state === 'draft' || !task.state)) {
           const url = this._router
             .parseUrl(`${window.location.pathname.replace(/\/\d+$/, '')}${window.location.search}`);
           this._location.replaceState(url.toString());
@@ -265,19 +267,19 @@ export class FsTasksComponent implements OnInit, OnDestroy {
           taskTags: true,
           subjectObjects: true,
         };
-        
+
         return this._taskData.gets(query, { key: null })
           .pipe(
             map((response: any) => {
               const data = response.tasks
                 .map((task) => {
-                  const taskRouterLink = this.taskRouterLink ? 
-                    [...this.taskRouterLink, task.id] : 
+                  const taskRouterLink = this.taskRouterLink ?
+                    [...this.taskRouterLink, task.id] :
                     null;
 
                   return {
                     ...task,
-                    taskRouterLink, 
+                    taskRouterLink,
                   };
                 });
 
