@@ -1,0 +1,7 @@
+fs-html-editor {
+  ::ng-deep {
+    .field-bottom-margin .field-message {
+      min-height: unset !important;
+    }
+  }
+}

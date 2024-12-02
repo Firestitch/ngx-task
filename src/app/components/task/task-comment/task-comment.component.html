@@ -43,7 +43,7 @@
         <a
             (click)="commentEnabled = true"
             class="comment-placeholder-text">
-          Provide an update for this task...
+          {{ commentPlaceholder }}
         </a>
         <ng-container [ngTemplateOutlet]="fileTmpl"></ng-container>
       </div>

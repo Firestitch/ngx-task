@@ -53,15 +53,18 @@ export class TaskCommentComponent implements OnDestroy {
   public comment: string;
   public files: FsFile[] = [];
   public commentEnabled = false;
-  public htmlEditorConfig: FsHtmlEditorConfig = {
-    placeholder: 'Provide an update for this task...',
-  };
+  public commentPlaceholder = 'Add a comment...';
+  public htmlEditorConfig: FsHtmlEditorConfig;
 
   private _destroy$ = new Subject<void>();
 
   constructor(
     private _taskData: TaskData, 
-  ) {}
+  ) {
+    this.htmlEditorConfig = {
+      placeholder: this.commentPlaceholder,
+    };
+  }
 
   public get account(): Account {
     return null;
@@ -69,7 +72,7 @@ export class TaskCommentComponent implements OnDestroy {
 
   public submit = () => {
     return this._taskData
-      .comment(this.task.id, { comment: this.comment }, this.files)
+      .commentPost(this.task.id, { comment: this.comment }, this.files)
       .pipe(
         tap(() => {
           this.cancelComment();

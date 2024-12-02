@@ -82,7 +82,17 @@ export class TaskData<T = any> {
     );
   }
 
-  public comment(taskId, data: any, files: FsFile[] = []): Observable<T> {
+  public commentPut(taskId, taskComment: any): Observable<T> {
+    return this._api.post(
+      this._dataApiService.getApiPath([taskId,'comments', taskComment.id]),
+      { taskComment },
+      {
+        key: 'taskComment',
+      },
+    );
+  }
+
+  public commentPost(taskId, data: any, files: FsFile[] = []): Observable<T> {
     return this._api.post(
       this._dataApiService.getApiPath([taskId,'comments']),
       data,

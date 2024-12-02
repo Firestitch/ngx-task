@@ -1,4 +1,6 @@
-<fs-activities [apiPath]="apiPath">
+<fs-activities
+    [apiPath]="apiPath"
+    [actions]="actions">
   <ng-template
       fsActivityPreview
       [activityType]="'taskDueDate'"
@@ -32,14 +34,14 @@
       fsActivityPreview
       [activityType]="'taskComment'"
       let-data="data">
-    @if (data?.comment) {
-      <fs-html-renderer [html]="data.comment"></fs-html-renderer>
-    }
-    @if (data.taskFiles?.length) {
-      <div>
+    <div>
+      @if (data?.comment) {
+        <fs-html-renderer [html]="data.comment"></fs-html-renderer>
+      }
+      @if (data.taskFiles?.length) {
         <app-comment-gallery [taskComment]="data"></app-comment-gallery>
-      </div>
-    }
+      }
+    </div>
   </ng-template>
   <ng-template
       fsActivityPreview
