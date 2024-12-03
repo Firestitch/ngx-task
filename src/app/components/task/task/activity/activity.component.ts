@@ -21,7 +21,6 @@ import { filter } from 'rxjs';
 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { TaskData } from '../../../../data';
 import { Task } from '../../../../interfaces';
 import { DataApiService } from '../../../../services';
 import { PriorityChipComponent } from '../../../task-priority';
@@ -47,9 +46,6 @@ import { TaskDueDatePipe } from './pipes/task-due-date.pipe';
     PriorityChipComponent,
     CommentGalleryComponent,
     TaskDueDatePipe,
-  ],
-  providers: [
-    TaskData,
   ],
 })
 export class ActivityComponent implements OnInit {

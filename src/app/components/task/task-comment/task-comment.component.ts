@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  inject,
   Input,
   OnDestroy,
   Output,
@@ -20,7 +21,8 @@ import { FsHtmlEditorConfig, FsHtmlEditorModule } from '@firestitch/html-editor'
 import { Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { TaskData } from '../../../data';
+import { DataApiService } from 'src/app/services';
+
 import { Account, Task } from '../../../interfaces';
 
 
@@ -57,10 +59,9 @@ export class TaskCommentComponent implements OnDestroy {
   public htmlEditorConfig: FsHtmlEditorConfig;
 
   private _destroy$ = new Subject<void>();
-
-  constructor(
-    private _taskData: TaskData, 
-  ) {
+  private _dataApiService = inject(DataApiService);
+  
+  constructor() {
     this.htmlEditorConfig = {
       placeholder: this.commentPlaceholder,
     };
@@ -71,7 +72,8 @@ export class TaskCommentComponent implements OnDestroy {
   }
 
   public submit = () => {
-    return this._taskData
+    return this._dataApiService
+      .createTaskData()
       .commentPost(this.task.id, { comment: this.comment }, this.files)
       .pipe(
         tap(() => {

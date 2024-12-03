@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  inject,
   Input,
   OnInit,
   Output,
@@ -18,7 +19,8 @@ import { FsHtmlEditorComponent, FsHtmlEditorConfig, FsHtmlEditorModule } from '@
 import { of } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 
-import { TaskData } from '../../../data';
+import { DataApiService } from 'src/app/services';
+
 import { Task } from '../../../interfaces';
 
 
@@ -54,9 +56,7 @@ export class TaskDescriptionComponent implements OnInit {
     initOnClick: true,
   };
 
-  constructor(
-    private _taskData: TaskData, 
-  ) {}
+  private _dataApiService = inject(DataApiService);
   
   public ngOnInit(): void {
     this.description = this.task.taskDescription?.description;
@@ -69,15 +69,18 @@ export class TaskDescriptionComponent implements OnInit {
   }
 
   public submit = () => {
-    return this._taskData
+    return this._dataApiService
+      .createTaskData()
       .describe(this.task.id, { description: this.description })
       .pipe(
         switchMap(() => {
           if (this.task.state === 'draft') {
-            return this._taskData.save({
-              id: this.task.id,
-              state: 'active',
-            });
+            return this._dataApiService
+              .createTaskData()
+              .save({
+                id: this.task.id,
+                state: 'active',
+              });
           }
 
           return of(null);

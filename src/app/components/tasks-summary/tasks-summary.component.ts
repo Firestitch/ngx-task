@@ -20,7 +20,6 @@ import { FsListComponent, FsListConfig, FsListModule } from '@firestitch/list';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
-import { TaskData } from '../../data';
 import { DataApiService } from '../../services';
 import { FsTaskComponent } from '../task';
 import { TaskStatusChipComponent } from '../task-status';
@@ -44,7 +43,6 @@ import { TaskStatusChipComponent } from '../task-status';
     TaskStatusChipComponent,
   ],
   providers: [
-    TaskData,
     DataApiService,
   ],
 })
@@ -61,7 +59,6 @@ export class FsTasksSummaryComponent implements OnInit, OnDestroy {
 
   private _destroy$ = new Subject<void>();
   private _dialog = inject(MatDialog);
-  private _taskData = inject(TaskData);
   private _dataApiService = inject(DataApiService);
 
   public ngOnInit(): void {
@@ -107,7 +104,9 @@ export class FsTasksSummaryComponent implements OnInit, OnDestroy {
           subjectObjectId: this.subjectObjectId,
         };
         
-        return this._taskData.gets(query, { key: null })
+        return this._dataApiService
+          .createTaskData()
+          .gets(query, { key: null })
           .pipe(
             map(({ tasks, paging }) => {
               const data = tasks

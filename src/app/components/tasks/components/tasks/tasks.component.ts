@@ -21,7 +21,6 @@ import { FsListComponent, FsListConfig, FsListModule } from '@firestitch/list';
 import { Subject } from 'rxjs';
 import { map, switchMap, takeUntil } from 'rxjs/operators';
 
-import { TaskAccountData, TaskStatusData } from '../../../../data';
 import { Account } from '../../../../interfaces';
 import { DataApiService } from '../../../../services';
 import { FsTaskComponent } from '../../../task';
@@ -29,7 +28,6 @@ import { PriorityChipComponent } from '../../../task-priority';
 import { TaskStatusChipComponent } from '../../../task-status';
 import { TaskTagChipComponent } from '../../../task-tag';
 import { TaskTypeChipComponent } from '../../../task-type';
-import { TaskData } from '../.././../../data/task.data';
 import { TaskAssignedAccountChipComponent } from '../task-assigned-account-chip';
 
 @Component({
@@ -52,12 +50,6 @@ import { TaskAssignedAccountChipComponent } from '../task-assigned-account-chip'
     TaskTypeChipComponent,
     TaskTagChipComponent,
   ],
-  providers: [
-    TaskData,
-    TaskAccountData,
-    TaskStatusData,
-    DataApiService,
-  ],
 })
 export class FsTasksComponent implements OnInit, OnDestroy {
 
@@ -77,9 +69,7 @@ export class FsTasksComponent implements OnInit, OnDestroy {
   private _router = inject(Router);
   private _location = inject(Location);
   private _fsDialog = inject(FsDialog);
-  private _taskData = inject(TaskData);
-  private _taskStatusData = inject(TaskStatusData);
-  private _taskAccountData = inject(TaskAccountData);
+
 
   public ngOnInit(): void {
     this._dataApiService.apiPath = this.apiPath;
@@ -163,7 +153,9 @@ export class FsTasksComponent implements OnInit, OnDestroy {
           chipBackground: 'color',
           chipColor: '#fff',
           values: (keyword) => {
-            return this._taskStatusData.gets({ keyword })
+            return this._dataApiService
+              .createTaskStatusData()
+              .gets({ keyword })
               .pipe(
                 map((taskStatuses) => taskStatuses
                   .map((taskStatus) => ({
@@ -180,7 +172,9 @@ export class FsTasksComponent implements OnInit, OnDestroy {
           type: ItemType.AutoCompleteChips,
           label: 'Assigned',
           values: (keyword) => {
-            return this._taskAccountData.gets({ keyword })
+            return this._dataApiService
+              .createTaskAccountData()
+              .gets({ keyword })
               .pipe(
                 map((accounts) => accounts
                   .map((account) => ({
@@ -246,7 +240,9 @@ export class FsTasksComponent implements OnInit, OnDestroy {
       rowActions: [
         {
           click: (data) => {
-            return this._taskData.delete(data);
+            return this._dataApiService
+              .createTaskData()
+              .delete(data);
           },
           remove: {
             title: 'Confirm',
@@ -266,7 +262,9 @@ export class FsTasksComponent implements OnInit, OnDestroy {
           subjectObjects: true,
         };
         
-        return this._taskData.gets(query, { key: null })
+        return this._dataApiService
+          .createTaskData()
+          .gets(query, { key: null })
           .pipe(
             map((response: any) => {
               const data = response.tasks
@@ -291,7 +289,9 @@ export class FsTasksComponent implements OnInit, OnDestroy {
         menuLabel: 'Restore',
         reload: true,
         click: (row) => {
-          return this._taskData.put({ id: row.id, state: 'active' });
+          return this._dataApiService
+            .createTaskData()
+            .put({ id: row.id, state: 'active' });
         },
       },
     };
