@@ -63,7 +63,7 @@ export class ActivityComponent implements OnInit {
   public apiPath: (string|number)[];
 
   private _dataApiService = inject(DataApiService);
-  private destroyRef = inject(DestroyRef);
+  private _destroyRef = inject(DestroyRef);
   private _dialog = inject(MatDialog);
   private _cdRef = inject(ChangeDetectorRef);
 
@@ -88,7 +88,7 @@ export class ActivityComponent implements OnInit {
               .afterClosed()
               .pipe(
                 filter((taskComment) => !!taskComment),
-                takeUntilDestroyed(this.destroyRef),
+                takeUntilDestroyed(this._destroyRef),
               )
               .subscribe((taskComment) => {
                 activity.concreteActivityObject = taskComment;

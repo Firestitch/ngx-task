@@ -52,7 +52,7 @@ export class CommentComponent implements OnDestroy, OnInit {
   private _destroy$ = new Subject<void>();
   private _dialogRef = inject(MatDialogRef<CommentComponent>);
   private _data = inject<{
-    dataService: DataApiService,
+    dataApiService: DataApiService,
     taskComment: TaskCommentComponent,
   }>(MAT_DIALOG_DATA);
 
@@ -61,7 +61,7 @@ export class CommentComponent implements OnDestroy, OnInit {
   }
 
   public submit = () => {
-    return this._data.dataService
+    return this._data.dataApiService
       .createTaskData()
       .commentPut(this.taskComment.taskId, this.taskComment)
       .pipe(
