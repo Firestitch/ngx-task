@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 
+import { TaskData } from '../data';
+
 @Injectable()
 export class DataApiService {
 
@@ -10,5 +12,9 @@ export class DataApiService {
       ...this.apiPath, 
       ...path,  
     ];
+  }
+
+  public createTaskData() {
+    return new TaskData();
   }
 }
