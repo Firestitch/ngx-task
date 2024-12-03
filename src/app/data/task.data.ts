@@ -83,7 +83,7 @@ export class TaskData<T = any> {
   }
 
   public commentPut(taskId, taskComment: any): Observable<T> {
-    return this._api.post(
+    return this._api.put(
       this._dataApiService.getApiPath([taskId,'comments', taskComment.id]),
       { taskComment },
       {
