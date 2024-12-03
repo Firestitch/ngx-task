@@ -72,7 +72,7 @@ export class ActivityComponent implements OnInit {
       'taskComment': [
         {
           label: 'Edit',
-          action: (activity) => {
+          click: (activity) => {
             this._dialog.open(CommentComponent, {
               data: {
                 taskComment: activity.concreteActivityObject,
