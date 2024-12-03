@@ -2,13 +2,13 @@
     fsForm
     [submit]="submit">
   <fs-dialog>
-    <h1 mat-dialog-title>
-      Relate
-    </h1>
-    <mat-dialog-content>
-      <form
-          fsForm
-          [submit]="submit">
+    <form
+        fsForm
+        [submit]="submit">
+      <h1 mat-dialog-title>
+        Relate
+      </h1>
+      <mat-dialog-content>
         <fs-html-editor
           class="comment"
           [required]="true"
@@ -16,13 +16,13 @@
           [config]="htmlEditorConfig"
           name="comment">
         </fs-html-editor>
-      </form>
-    </mat-dialog-content>
-    <mat-dialog-actions>
-      <fs-form-dialog-actions
-        [save]="true"
-        [close]="true">
-      </fs-form-dialog-actions>
-    </mat-dialog-actions>
+      </mat-dialog-content>
+      <mat-dialog-actions>
+        <fs-form-dialog-actions
+          [save]="true"
+          [close]="true">
+        </fs-form-dialog-actions>
+      </mat-dialog-actions>
+    </form>
   </fs-dialog>
 </form>
