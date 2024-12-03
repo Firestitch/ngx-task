@@ -86,6 +86,9 @@ import { ActivityComponent } from './activity';
 
     ActivityComponent,
   ],
+  providers: [
+    DataApiService,
+  ],
 })
 export class FsTaskComponent implements OnInit, OnDestroy {
 

@@ -50,6 +50,9 @@ import { TaskAssignedAccountChipComponent } from '../task-assigned-account-chip'
     TaskTypeChipComponent,
     TaskTagChipComponent,
   ],
+  providers: [
+    DataApiService,
+  ],
 })
 export class FsTasksComponent implements OnInit, OnDestroy {
 
