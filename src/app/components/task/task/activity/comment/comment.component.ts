@@ -65,8 +65,8 @@ export class CommentComponent implements OnDestroy, OnInit {
       .createTaskData()
       .commentPut(this.taskComment.taskId, this.taskComment)
       .pipe(
-        tap(() => {
-          this._dialogRef.close();
+        tap((taskComment) => {
+          this._dialogRef.close(taskComment);
         }),
       );
   };
