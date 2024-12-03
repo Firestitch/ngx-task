@@ -21,9 +21,8 @@ import { FsHtmlEditorConfig, FsHtmlEditorModule } from '@firestitch/html-editor'
 import { Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { DataApiService } from 'src/app/services';
-
 import { Account, Task } from '../../../interfaces';
+import { DataApiService } from '../../../services';
 
 
 @Component({
@@ -60,7 +59,7 @@ export class TaskCommentComponent implements OnDestroy {
 
   private _destroy$ = new Subject<void>();
   private _dataApiService = inject(DataApiService);
-  
+
   constructor() {
     this.htmlEditorConfig = {
       placeholder: this.commentPlaceholder,

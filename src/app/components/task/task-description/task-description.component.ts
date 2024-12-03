@@ -14,14 +14,15 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 
 import { FsFormModule } from '@firestitch/form';
-import { FsHtmlEditorComponent, FsHtmlEditorConfig, FsHtmlEditorModule } from '@firestitch/html-editor';
+import {
+  FsHtmlEditorComponent, FsHtmlEditorConfig, FsHtmlEditorModule,
+} from '@firestitch/html-editor';
 
 import { of } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 
-import { DataApiService } from 'src/app/services';
-
 import { Task } from '../../../interfaces';
+import { DataApiService } from '../../../services';
 
 
 @Component({
