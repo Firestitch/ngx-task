@@ -18,8 +18,6 @@ export class ApiInterceptor implements HttpInterceptor {
   public readonly API_ERROR_RESOURCE_NOT_FOUND = 404;
   public readonly API_ERROR_INVALID_AUTHORIZATION = 490;
 
-  private _environment: any;
-
   constructor(
     public config: FsApiConfig,
     public data,

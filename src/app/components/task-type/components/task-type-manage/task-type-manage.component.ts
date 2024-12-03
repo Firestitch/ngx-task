@@ -49,12 +49,9 @@ export class TaskTypeManageComponent implements OnInit {
   private _dialog = inject(MatDialog);
   private _data = inject<{ taskTypeData: TaskTypeData }>(MAT_DIALOG_DATA);
 
-  constructor() {
+  public ngOnInit(): void {
     this._taskTypeData = this._data.taskTypeData;
     this._dialogRef.updateSize('400px');
-  }
-
-  public ngOnInit(): void {
     this.listConfig = {
       paging: false,
       style: 'card',

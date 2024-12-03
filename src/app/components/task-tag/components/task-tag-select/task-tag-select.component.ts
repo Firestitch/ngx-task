@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   OnDestroy,
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -15,7 +16,7 @@ import {
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { TaskTagData } from '../../../../data';
+import { DataApiService } from '../../../../services';
 import { TaskTagManageComponent } from '../task-tag-manage';
 
 
@@ -43,12 +44,8 @@ export class TaskTagSelectComponent implements ControlValueAccessor, OnDestroy {
   public onChange: (value) => void;
 
   private _destroy$ = new Subject<void>();
-
-  constructor(
-    private _taskTagData: TaskTagData,
-    private _dialog: MatDialog,
-  ) {
-  }
+  private _dataApiService = inject(DataApiService);
+  private _dialog = inject(MatDialog);
   
   public openManage(event: MouseEvent, autocompleteChip: FsAutocompleteChipsComponent): void {
     autocompleteChip.closePanel();
@@ -57,7 +54,7 @@ export class TaskTagSelectComponent implements ControlValueAccessor, OnDestroy {
     this._dialog.open(TaskTagManageComponent,{
       autoFocus: false,
       data: {
-        taskTagData: this._taskTagData,
+        taskTagData: this._dataApiService.createTaskTagData(),
       },
     })
       .afterClosed()
@@ -90,7 +87,7 @@ export class TaskTagSelectComponent implements ControlValueAccessor, OnDestroy {
   }
 
   public fetch = (keyword) => {
-    return this._taskTagData.gets({ keyword });
+    return this._dataApiService.createTaskTagData().gets({ keyword });
   };
   
   public ngOnDestroy(): void {

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -13,7 +13,8 @@ import { FsListConfig, FsListModule } from '@firestitch/list';
 import { of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { TaskRelateData } from '../../../data';
+import { Task } from '../../../interfaces';
+import { DataApiService } from '../../../services';
 
 
 @Component({
@@ -38,13 +39,10 @@ export class TaskRelateComponent implements OnInit {
   public listConfig: FsListConfig;
   public clients = {};
   
-  constructor(
-    @Inject(MAT_DIALOG_DATA) private _data: any,
-    private _dialogRef: MatDialogRef<TaskRelateComponent>,
-    private _taskRelateData: TaskRelateData,
-    private _cdRef: ChangeDetectorRef,
-  ) {}
-
+  private _dialogRef = inject(MatDialogRef<TaskRelateComponent>);
+  private _data = inject<{ task: Task; notObjectId: string[] }>(MAT_DIALOG_DATA);
+  private _cdRef = inject(ChangeDetectorRef);
+  private _dataApiService = inject(DataApiService);
   public close(value?): void {
     this._dialogRef.close(value);
   }
@@ -54,11 +52,11 @@ export class TaskRelateComponent implements OnInit {
     this._cdRef.markForCheck();
     
     if(this.clients[client.id]) {
-      this._taskRelateData
+      this._dataApiService.createTaskRelateData()
         .relate(this._data.task.id, client.id, true)
         .subscribe();
     } else {
-      this._taskRelateData
+      this._dataApiService.createTaskRelateData()
         .unrelate(this._data.task.id, client.id)
         .subscribe();
     }

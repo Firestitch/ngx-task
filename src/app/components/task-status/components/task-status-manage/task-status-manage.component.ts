@@ -48,13 +48,9 @@ export class TaskStatusManageComponent implements OnInit {
   private _data = inject<{ taskStatusData: TaskStatusData }>(MAT_DIALOG_DATA);
   private _taskStatusData: TaskStatusData;
 
-  constructor(
-  ) {
+  public ngOnInit(): void {
     this._taskStatusData = this._data.taskStatusData;
     this._dialogRef.updateSize('400px');
-  }
-
-  public ngOnInit(): void {
     this.listConfig = {
       status: false,
       paging: false,

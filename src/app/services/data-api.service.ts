@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 
 import { FsApi } from '@firestitch/api';
 
-import { TaskAccountData, TaskAuditData, TaskData, TaskRelateData, TaskStatusData } from '../data';
+import { TaskAccountData, TaskAuditData, TaskData, TaskRelateData, TaskStatusData, TaskTagData, TaskTypeData } from '../data';
 
 @Injectable()
 export class DataApiService {
@@ -37,4 +37,13 @@ export class DataApiService {
   public createTaskRelateData() {
     return new TaskRelateData(this, this._api);
   }
+
+  public createTaskTypeData() {
+    return new TaskTypeData(this, this._api);
+  }
+
+  public createTaskTagData() {
+    return new TaskTagData(this, this._api);
+  }
+
 }

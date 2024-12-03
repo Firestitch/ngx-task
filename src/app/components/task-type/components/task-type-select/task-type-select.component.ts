@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   OnDestroy,
   OnInit,
 } from '@angular/core';
@@ -17,7 +18,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 
-import { TaskTypeData } from '../../../../data';
+import { DataApiService } from '../../../../services';
 import { TaskTypeChipComponent } from '../task-type-chip';
 import { TaskTypeManageComponent } from '../task-type-manage';
 
@@ -52,18 +53,14 @@ export class TaskTypeSelectComponent implements ControlValueAccessor, OnDestroy,
   public onChange: (value) => void;
 
   private _destroy$ = new Subject<void>();
-
-  constructor(
-    private _taskTypeData: TaskTypeData,
-    private _dialog: MatDialog,
-  ) {
-  }
+  private _dialog = inject(MatDialog);
+  private _dataApiService = inject(DataApiService);
   
   public openManage(): void {
     this._dialog.open(TaskTypeManageComponent,{
       autoFocus: false,
       data: {
-        taskTypeData: this._taskTypeData,
+        taskTypeData: this._dataApiService.createTaskTypeData(),
       },
     })
       .afterClosed()
@@ -101,7 +98,8 @@ export class TaskTypeSelectComponent implements ControlValueAccessor, OnDestroy,
   }
 
   public loadTaskTypes(): void {
-    this._taskTypeData.gets()
+    this._dataApiService.createTaskTypeData()
+      .gets()
       .pipe(
         takeUntil(this._destroy$),
       )

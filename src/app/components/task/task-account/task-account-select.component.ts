@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   OnDestroy,
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -9,7 +10,7 @@ import { FsAutocompleteChipsModule } from '@firestitch/autocomplete-chips';
 
 import { Subject } from 'rxjs';
 
-import { TaskAccountData } from '../../../data';
+import { DataApiService } from '../../../services';
 
 
 @Component({
@@ -35,12 +36,8 @@ export class TaskAccountSelectComponent implements ControlValueAccessor, OnDestr
   public onChange: (value) => void;
 
   private _destroy$ = new Subject<void>();
+  private _dataApiService = inject(DataApiService);
 
-  constructor(
-    private _taskAccountData: TaskAccountData,
-  ) {
-  }
-  
   public change(taskStatus): void {
     this.onChange(taskStatus);
   }
@@ -62,7 +59,8 @@ export class TaskAccountSelectComponent implements ControlValueAccessor, OnDestr
   }
 
   public fetch = (keyword) => {
-    return this._taskAccountData
+    return this._dataApiService
+      .createTaskAccountData()
       .gets({ keyword, avatars: true });
   };
   

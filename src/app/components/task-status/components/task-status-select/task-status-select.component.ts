@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   OnDestroy,
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -14,7 +15,7 @@ import {
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { TaskStatusData } from '../../../../data';
+import { DataApiService } from '../../../../services';
 import { TaskStatusManageComponent } from '../task-status-manage';
 
 
@@ -41,12 +42,8 @@ export class TaskStatusSelectComponent implements ControlValueAccessor, OnDestro
   public onChange: (value) => void;
 
   private _destroy$ = new Subject<void>();
-
-  constructor(
-    private _taskStatusData: TaskStatusData,
-    private _dialog: MatDialog,
-  ) {
-  }
+  private _dataApiService = inject(DataApiService);
+  private _dialog = inject(MatDialog);
   
   public openManage(event: MouseEvent, autocompleteChip: FsAutocompleteChipsComponent): void {
     autocompleteChip.closePanel();
@@ -55,7 +52,7 @@ export class TaskStatusSelectComponent implements ControlValueAccessor, OnDestro
     this._dialog.open(TaskStatusManageComponent,{
       autoFocus: false,
       data: {
-        taskStatusData: this._taskStatusData,
+        taskStatusData: this._dataApiService.createTaskStatusData(),
       },
     })
       .afterClosed()
@@ -88,7 +85,7 @@ export class TaskStatusSelectComponent implements ControlValueAccessor, OnDestro
   }
 
   public fetch = (keyword) => {
-    return this._taskStatusData.gets({ keyword });
+    return this._dataApiService.createTaskStatusData().gets({ keyword });
   };
   
   public ngOnDestroy(): void {

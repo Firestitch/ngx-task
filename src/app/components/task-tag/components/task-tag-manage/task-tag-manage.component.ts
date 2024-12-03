@@ -48,13 +48,10 @@ export class TaskTagManageComponent implements OnInit {
   private _taskTagData: TaskTagData;
   private _dialog = inject(MatDialog);
   private _data = inject<{ taskTagData: TaskTagData }>(MAT_DIALOG_DATA);
-  
-  constructor() {
-    this._taskTagData = this._data.taskTagData;
-    this._dialogRef.updateSize('400px');
-  }
 
   public ngOnInit(): void {
+    this._taskTagData = this._data.taskTagData;
+    this._dialogRef.updateSize('400px');
     this.listConfig = {
       status: false,
       paging: false,

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 
-import { MatDialog } from '@angular/material/dialog';
 
 import { Observable, of } from 'rxjs';
 
@@ -9,10 +8,6 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root',
 })
 export class TaskService {
-
-  constructor(
-    private _dialog: MatDialog,
-  ) {}
 
   public openObject(object, data: any = {}): Observable<any> {
     //switch (object.class) {

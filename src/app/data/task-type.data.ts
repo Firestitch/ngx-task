@@ -1,4 +1,3 @@
-import { inject, Injectable } from '@angular/core';
 
 import { FsApi, RequestConfig } from '@firestitch/api';
 
@@ -7,12 +6,13 @@ import { Observable } from 'rxjs';
 import { DataApiService } from '../services';
 
 
-@Injectable()
 export class TaskTypeData<T = any> {
 
-  private _api = inject(FsApi);
-  private _dataApiService = inject(DataApiService);
-
+  constructor(
+    private _dataApiService: DataApiService,
+    private _api: FsApi,
+  ) {}
+  
   public get(id: number, query: any = {}, config: RequestConfig = {}): Observable<T> {
     return this._api.get(
       this._dataApiService.getApiPath(['types',id]),
