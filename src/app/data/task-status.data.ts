@@ -15,7 +15,7 @@ export class TaskStatusData<T = any> {
 
   public get(id: number, query: any = {}, config: RequestConfig = {}): Observable<T> {
     return this._api.get(
-      this._dataApiService.getApiPath(['tasks','statuses',id]),
+      this._dataApiService.getApiPath(['statuses',id]),
       query,
       {
         key: 'taskStatus',
