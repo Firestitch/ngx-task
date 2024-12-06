@@ -12,6 +12,7 @@ import { Router, RouterModule } from '@angular/router';
 
 import { MatDialog } from '@angular/material/dialog';
 
+import { FsBadgeModule } from '@firestitch/badge';
 import { FsChipModule } from '@firestitch/chip';
 import { FsDateModule } from '@firestitch/date';
 import { FsDialog } from '@firestitch/dialog';
@@ -42,6 +43,7 @@ import { TaskAssignedAccountChipComponent } from '../task-assigned-account-chip'
 
     FsListModule,
     FsChipModule,
+    FsBadgeModule,
     FsDateModule,
 
     TaskAssignedAccountChipComponent,
@@ -72,7 +74,6 @@ export class FsTasksComponent implements OnInit, OnDestroy {
   private _router = inject(Router);
   private _location = inject(Location);
   private _fsDialog = inject(FsDialog);
-
 
   public ngOnInit(): void {
     this._dataApiService.apiPath = this.apiPath;
@@ -261,6 +262,10 @@ export class FsTasksComponent implements OnInit, OnDestroy {
           taskTypes: true,
           assignedAccounts: true,
           assignedAccountAvatars: true,
+          modifyAccounts: true,
+          modifyAccountAvatars: true,
+          createAccounts: true,
+          createAccountAvatars: true,
           taskTags: true,
           subjectObjects: true,
         };

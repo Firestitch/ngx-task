@@ -109,6 +109,12 @@
         fs-list-cell
         let-row="row">
       <div class="small modify-date">
+        @if (row.modifyAccount?.avatar) {
+          <fs-badge
+            [size]="25"
+            [image]="row.modifyAccount.avatar.small">
+          </fs-badge>
+        }
         <fs-date-ago [date]="row.modifyDate"></fs-date-ago>
       </div>
     </ng-template>
@@ -122,7 +128,13 @@
     <ng-template
         fs-list-cell
         let-row="row">
-      <div class="small create-date">
+      <div class="fs-row.gap-xs small create-date">
+        @if (row.createAccount?.avatar) {
+          <fs-badge
+            [size]="25"
+            [image]="row.createAccount.avatar.small">
+          </fs-badge>
+        }
         <fs-date-ago [date]="row.createDate"></fs-date-ago>
       </div>
     </ng-template>
