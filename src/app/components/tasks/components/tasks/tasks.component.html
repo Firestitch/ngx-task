@@ -108,10 +108,11 @@
     <ng-template
         fs-list-cell
         let-row="row">
-      <div class="small modify-date">
+      <div class="fs-row.gap-xs.nowrap small modify-date">
         @if (row.modifyAccount?.avatar) {
           <fs-badge
             [size]="25"
+            [tooltip]="row.modifyAccount.name"
             [image]="row.modifyAccount.avatar.small">
           </fs-badge>
         }
@@ -128,10 +129,11 @@
     <ng-template
         fs-list-cell
         let-row="row">
-      <div class="fs-row.gap-xs small create-date">
+      <div class="fs-row.gap-xs.nowrap small create-date">
         @if (row.createAccount?.avatar) {
           <fs-badge
             [size]="25"
+            [tooltip]="row.createAccount.name"
             [image]="row.createAccount.avatar.small">
           </fs-badge>
         }
