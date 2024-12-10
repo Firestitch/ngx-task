@@ -38,7 +38,7 @@ export class ApiInterceptor implements HttpInterceptor {
           if (this.config.context?.get(ProcessApiError) ?? true) {
             if (event.status === this.API_ERROR_RESOURCE_NOT_FOUND) {
               this._injector.get(Router).navigateByUrl('/notfound');
-            } else if (event.status === this.API_ERROR_INVALID_AUTHORIZATION) {            
+            } else if (event.status === this.API_ERROR_INVALID_AUTHORIZATION) {
               this._injector.get(Router).navigateByUrl('/signin');
             } else if (this.config.context?.get(DisplayApiError) ?? true) {
               this._injector.get(FsErrorMessage).processHttpErrorResponse(event);
