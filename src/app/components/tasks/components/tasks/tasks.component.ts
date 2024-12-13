@@ -27,6 +27,7 @@ import { TaskAccountData, TaskData, TaskStatusData } from '../../../../data';
 import { TaskApiService } from '../../../../interceptors/task-api.service';
 import { Account } from '../../../../interfaces';
 import { DataApiService } from '../../../../services';
+import { FsBaseComponent } from '../../../base/base.component';
 import { FsTaskComponent } from '../../../task';
 import { PriorityChipComponent } from '../../../task-priority';
 import { TaskStatusChipComponent } from '../../../task-status';
@@ -63,18 +64,10 @@ import { TaskAssignedAccountChipComponent } from '../task-assigned-account-chip'
     { provide: FsApi, useClass: TaskApiService },
   ],
 })
-export class FsTasksComponent implements OnInit, OnDestroy {
+export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestroy {
 
   @ViewChild(FsListComponent)
   public list: FsListComponent;
-
-  @Input('apiPath') public set apiPath(path: (string | number)[]) {
-    this._dataApiService.apiPath = path;
-  } 
-
-  @Input('apiData') public set apiData(data: any) {
-    this._dataApiService.apiData = data;
-  }
 
   @Input() public activeSavedFilterId: number;
   @Input() public taskRouterLink: any[];
@@ -83,7 +76,6 @@ export class FsTasksComponent implements OnInit, OnDestroy {
   public listConfig: FsListConfig;
 
   private _destroy$ = new Subject<void>();
-  private _dataApiService = inject(DataApiService);
   private _dialog = inject(MatDialog);
   private _router = inject(Router);
   private _location = inject(Location);

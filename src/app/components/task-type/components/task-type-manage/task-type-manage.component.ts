@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { MatDialog } from '@angular/material/dialog';
 
+import { FsApi } from '@firestitch/api';
 import { FsChipModule } from '@firestitch/chip';
 import { list } from '@firestitch/common';
 import { FsFormModule } from '@firestitch/form';
@@ -14,7 +15,9 @@ import { map, tap } from 'rxjs/operators';
 
 
 import { TaskTypeData } from '../../../../data';
+import { TaskApiService } from '../../../../interceptors';
 import { DataApiService } from '../../../../services';
+import { FsBaseComponent } from '../../../base/base.component';
 import { TaskTypeComponent } from '../task-type';
 
 
@@ -36,9 +39,10 @@ import { TaskTypeComponent } from '../task-type';
   providers: [
     TaskTypeData,
     DataApiService,
+    { provide: FsApi, useClass: TaskApiService },
   ],
 })
-export class FsTaskTypeManageComponent implements OnInit {
+export class FsTaskTypeManageComponent extends FsBaseComponent implements OnInit {
 
   @ViewChild(FsListComponent)
   public list: FsListComponent;
@@ -50,7 +54,6 @@ export class FsTaskTypeManageComponent implements OnInit {
   
   private _taskTypeData = inject(TaskTypeData);
   private _dialog = inject(MatDialog);
-  private _dataApiService = inject(DataApiService);
 
   public ngOnInit(): void {
     this.listConfig = {

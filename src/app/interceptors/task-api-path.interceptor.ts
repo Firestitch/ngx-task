@@ -1,7 +1,5 @@
 
 
-import { makeInterceptorFactory } from '@firestitch/api';
-
 import { Observable } from 'rxjs';
 
 import {
@@ -24,5 +22,3 @@ export class TaskApiPathInterceptor implements HttpInterceptor {
     return next.handle(req.clone({ url }));
   }
 }
-
-export const TaskApiInterceptorFactory = makeInterceptorFactory(TaskApiPathInterceptor);

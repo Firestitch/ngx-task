@@ -24,6 +24,7 @@ import { map, takeUntil } from 'rxjs/operators';
 import { TaskData } from '../../data';
 import { TaskApiService } from '../../interceptors/task-api.service';
 import { DataApiService } from '../../services';
+import { FsBaseComponent } from '../base/base.component';
 import { FsTaskComponent } from '../task';
 import { TaskStatusChipComponent } from '../task-status';
 
@@ -51,26 +52,17 @@ import { TaskStatusChipComponent } from '../task-status';
     { provide: FsApi, useClass: TaskApiService },
   ],
 })
-export class FsTasksSummaryComponent implements OnInit, OnDestroy {
+export class FsTasksSummaryComponent extends FsBaseComponent implements OnInit, OnDestroy {
 
   @ViewChild(FsListComponent)
   public list: FsListComponent;
 
   @Input() public subjectObjectId: number;
 
-  @Input('apiPath') public set apiPath(path: (string | number)[]) {
-    this._dataApiService.apiPath = path;
-  }
-
-  @Input('apiData') public set apiData(data: any) {
-    this._dataApiService.apiData = data;
-  }
-
   public listConfig: FsListConfig;
 
   private _destroy$ = new Subject<void>();
   private _dialog = inject(MatDialog);
-  private _dataApiService = inject(DataApiService);
   private _taskData = inject(TaskData);
 
   public ngOnInit(): void {
@@ -90,8 +82,7 @@ export class FsTasksSummaryComponent implements OnInit, OnDestroy {
     this._dialog.open(FsTaskComponent, {
       data: { 
         task,
-        apiPath: this.apiPath,
-        apiData: this.apiData,
+        dataApiService: this._dataApiService,
       },
     })
       .afterClosed()

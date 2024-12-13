@@ -4,7 +4,6 @@ import {
   ChangeDetectorRef,
   Component,
   inject,
-  Input,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -43,6 +42,7 @@ import { TaskAccountData, TaskAuditData, TaskData } from '../../../data';
 import { TaskApiService } from '../../../interceptors/task-api.service';
 import { Task } from '../../../interfaces';
 import { DataApiService } from '../../../services';
+import { FsBaseComponent } from '../../base/base.component';
 import { PrioritySelectComponent } from '../../task-priority';
 import { TaskStatusSelectComponent } from '../../task-status';
 import { TaskTagSelectComponent } from '../../task-tag';
@@ -98,21 +98,13 @@ import { ActivityComponent } from './activity';
     { provide: FsApi, useClass: TaskApiService },
   ],
 })
-export class FsTaskComponent implements OnInit, OnDestroy {
+export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestroy {
 
   @ViewChild(ActivityComponent)
   public activity: ActivityComponent; 
 
   @ViewChild(FsHtmlEditorComponent)
   public htmlEditor: FsHtmlEditorComponent; 
-
-  @Input('apiPath') public set apiPath(path: (string | number)[]) {
-    this._dataApiService.apiPath = path;
-  } 
-
-  @Input('apiData') public set apiData(data: any) {
-    this._dataApiService.apiData = data;
-  }
 
   public task: Task;
   public htmlEditorConfig: FsHtmlEditorConfig;
@@ -126,7 +118,6 @@ export class FsTaskComponent implements OnInit, OnDestroy {
   private _route = inject(ActivatedRoute);
   private _taskData = inject(TaskData);
   private _taskAccountData = inject(TaskAccountData);
-  private _dataApiService = inject(DataApiService);
   private _taskAuditData = inject(TaskAuditData);
   private _data = inject<{ 
     task: Task,

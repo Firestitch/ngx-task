@@ -1,6 +1,6 @@
 
 
-import { makeInterceptorFactory, RequestMethod } from '@firestitch/api';
+import { RequestMethod } from '@firestitch/api';
 
 import { Observable } from 'rxjs';
 
@@ -38,5 +38,3 @@ export class TaskApiDataInterceptor implements HttpInterceptor {
     return next.handle(req.clone({ params, body }));
   }
 }
-
-export const TaskApiInterceptorFactory = makeInterceptorFactory(TaskApiDataInterceptor);
