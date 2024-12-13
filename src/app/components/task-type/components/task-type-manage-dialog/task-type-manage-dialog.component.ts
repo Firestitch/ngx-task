@@ -13,7 +13,7 @@ import { tap } from 'rxjs/operators';
 
 
 import { DataApiService } from '../../../../services';
-import { TaskTypeManageComponent } from '../task-type-manage/task-type-manage.component';
+import { FsTaskTypeManageComponent } from '../task-type-manage/task-type-manage.component';
 
 
 @Component({
@@ -30,7 +30,7 @@ import { TaskTypeManageComponent } from '../task-type-manage/task-type-manage.co
     FsDialogModule,
     FsFormModule,
 
-    TaskTypeManageComponent,
+    FsTaskTypeManageComponent,
   ],
   providers: [  
     DataApiService,
@@ -38,12 +38,12 @@ import { TaskTypeManageComponent } from '../task-type-manage/task-type-manage.co
 })
 export class TaskTypeManageDialogComponent implements OnInit {
 
-  @ViewChild(TaskTypeManageComponent)
-  public taskTypeManage: TaskTypeManageComponent;
+  @ViewChild(FsTaskTypeManageComponent)
+  public taskTypeManage: FsTaskTypeManageComponent;
 
   public listConfig: FsListConfig;
   
-  private _dialogRef = inject(MatDialogRef<TaskTypeManageComponent>);
+  private _dialogRef = inject(MatDialogRef<FsTaskTypeManageComponent>);
   private _data = inject<{ dataApiService: DataApiService }>(MAT_DIALOG_DATA);
   private _dataApiService = inject(DataApiService);
 

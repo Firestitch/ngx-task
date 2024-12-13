@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 import { FsChipModule } from '@firestitch/chip';
 import { list } from '@firestitch/common';
@@ -38,20 +38,21 @@ import { TaskTypeComponent } from '../task-type';
     DataApiService,
   ],
 })
-export class TaskTypeManageComponent implements OnInit {
+export class FsTaskTypeManageComponent implements OnInit {
 
   @ViewChild(FsListComponent)
   public list: FsListComponent;
 
+  @Input()
+  public showCreate = false;
+
   public listConfig: FsListConfig;
   
   private _taskTypeData = inject(TaskTypeData);
-  private _dataApiService = inject(DataApiService);
   private _dialog = inject(MatDialog);
-  private _data = inject<{ dataApiService: DataApiService }>(MAT_DIALOG_DATA);
+  private _dataApiService = inject(DataApiService);
 
   public ngOnInit(): void {
-    this._dataApiService.inherit(this._data.dataApiService);
     this.listConfig = {
       paging: false,
       style: 'card',
@@ -68,6 +69,16 @@ export class TaskTypeManageComponent implements OnInit {
           this._saveOrder(data.map((item) => item.data));
         },
       },
+      actions: [
+        {
+          label: 'Create',
+          primary: true,
+          click: () => {
+            this.openTaskType({});
+          },
+          show: () => this.showCreate,
+        },
+      ],
       rowActions: [
         {
           icon: 'delete',
