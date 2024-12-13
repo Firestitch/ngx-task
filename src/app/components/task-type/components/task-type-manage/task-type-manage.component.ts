@@ -37,9 +37,9 @@ import { TaskTypeComponent } from '../task-type';
     FsFormModule,
   ],
   providers: [
+    { provide: FsApi, useClass: TaskApiService },
     TaskTypeData,
     DataApiService,
-    { provide: FsApi, useClass: TaskApiService },
   ],
 })
 export class FsTaskTypeManageComponent extends FsBaseComponent implements OnInit {

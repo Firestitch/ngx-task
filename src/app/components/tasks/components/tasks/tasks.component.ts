@@ -57,11 +57,11 @@ import { TaskAssignedAccountChipComponent } from '../task-assigned-account-chip'
     TaskTagChipComponent,
   ],
   providers: [
+    { provide: FsApi, useClass: TaskApiService },
     DataApiService,
     TaskData,
     TaskStatusData,
     TaskAccountData,
-    { provide: FsApi, useClass: TaskApiService },
   ],
 })
 export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestroy {
