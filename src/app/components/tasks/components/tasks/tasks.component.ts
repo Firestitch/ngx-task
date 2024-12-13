@@ -83,6 +83,7 @@ export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestr
   private _taskData = inject(TaskData);
   private _taskStatusData = inject(TaskStatusData);
   private _taskAccountData = inject(TaskAccountData);
+
   public ngOnInit(): void {
     this._initList();
     this._initDialog();

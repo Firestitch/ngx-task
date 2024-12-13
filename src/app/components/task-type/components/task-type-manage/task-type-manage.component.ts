@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy, Component, inject, Input, OnInit, ViewChild,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { MatDialog } from '@angular/material/dialog';
@@ -37,9 +39,9 @@ import { TaskTypeComponent } from '../task-type';
     FsFormModule,
   ],
   providers: [
-    { provide: FsApi, useClass: TaskApiService },
     TaskTypeData,
     DataApiService,
+    { provide: FsApi, useClass: TaskApiService },
   ],
 })
 export class FsTaskTypeManageComponent extends FsBaseComponent implements OnInit {

@@ -13,6 +13,7 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
+import { FsApi } from '@firestitch/api';
 import { FsColorPickerModule, randomColor } from '@firestitch/colorpicker';
 import { FsDialogModule } from '@firestitch/dialog';
 import { FsFormModule } from '@firestitch/form';
@@ -23,6 +24,7 @@ import { FsSkeletonModule } from '@firestitch/skeleton';
 import { tap } from 'rxjs/operators';
 
 import { TaskTypeData } from '../../../../data';
+import { TaskApiService } from '../../../../interceptors';
 import { DataApiService } from '../../../../services';
 
 
@@ -49,6 +51,7 @@ import { DataApiService } from '../../../../services';
   providers: [
     TaskTypeData,
     DataApiService,
+    { provide: FsApi, useClass: TaskApiService },
   ],
 })
 export class TaskTypeComponent implements OnInit {
