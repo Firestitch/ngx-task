@@ -1,15 +1,11 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { FsApi } from '@firestitch/api';
-
-import { TaskAccountData, TaskAuditData, TaskData, TaskRelateData, TaskStatusData, TaskTagData, TaskTypeData } from '../data';
 
 @Injectable()
 export class DataApiService {
 
   public apiPath: (number|string)[] = ['tasks'];
-
-  private _api = inject(FsApi);
+  public apiData: any;
 
   public getApiPath(path: (number|string)[]): (number|string)[] {
     return [
@@ -18,32 +14,11 @@ export class DataApiService {
     ];
   }
 
-  public createTaskData() {
-    return new TaskData(this, this._api);
-  }
-
-  public createTaskStatusData() {
-    return new TaskStatusData(this, this._api);
-  }
-
-  public createTaskAccountData() {
-    return new TaskAccountData(this, this._api);
-  }
-
-  public createTaskAuditData() {
-    return new TaskAuditData(this, this._api);
-  }
-
-  public createTaskRelateData() {
-    return new TaskRelateData(this, this._api);
-  }
-
-  public createTaskTypeData() {
-    return new TaskTypeData(this, this._api);
-  }
-
-  public createTaskTagData() {
-    return new TaskTagData(this, this._api);
+  public inherit(dataApiService: DataApiService): void {
+    if(dataApiService) {
+      this.apiPath = dataApiService.apiPath;
+      this.apiData = dataApiService.apiData;
+    }
   }
 
 }

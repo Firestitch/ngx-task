@@ -22,7 +22,6 @@ import { filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { Task } from '../../../../interfaces';
-import { DataApiService } from '../../../../services';
 import { PriorityChipComponent } from '../../../task-priority';
 import { TaskStatusChipComponent } from '../../../task-status';
 import { CommentGalleryComponent } from '../comment-gallery';
@@ -56,9 +55,7 @@ export class ActivityComponent implements OnInit {
   public activities: FsActivitiesComponent; 
 
   public actions;
-  public apiPath: (string|number)[];
 
-  private _dataApiService = inject(DataApiService);
   private _destroyRef = inject(DestroyRef);
   private _dialog = inject(MatDialog);
   private _cdRef = inject(ChangeDetectorRef);
@@ -77,7 +74,6 @@ export class ActivityComponent implements OnInit {
           click: (activity) => {
             this._dialog.open(CommentComponent, {
               data: {
-                dataApiService: this._dataApiService,
                 taskComment: activity.concreteActivityObject,
               },
             })
@@ -94,9 +90,6 @@ export class ActivityComponent implements OnInit {
         },
       ],
     };
-
-    this.apiPath = this._dataApiService
-      .getApiPath([this.task.id,'activities']);
   }
 
 }

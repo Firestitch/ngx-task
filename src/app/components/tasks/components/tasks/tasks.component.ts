@@ -12,6 +12,7 @@ import { Router, RouterModule } from '@angular/router';
 
 import { MatDialog } from '@angular/material/dialog';
 
+import { FsApi } from '@firestitch/api';
 import { FsBadgeModule } from '@firestitch/badge';
 import { FsChipModule } from '@firestitch/chip';
 import { FsDateModule } from '@firestitch/date';
@@ -22,6 +23,8 @@ import { FsListComponent, FsListConfig, FsListModule } from '@firestitch/list';
 import { Subject } from 'rxjs';
 import { map, switchMap, takeUntil } from 'rxjs/operators';
 
+import { TaskAccountData, TaskData, TaskStatusData } from '../../../../data';
+import { TaskApiService } from '../../../../interceptors/task-api.service';
 import { Account } from '../../../../interfaces';
 import { DataApiService } from '../../../../services';
 import { FsTaskComponent } from '../../../task';
@@ -42,7 +45,7 @@ import { TaskAssignedAccountChipComponent } from '../task-assigned-account-chip'
     RouterModule,
 
     FsListModule,
-    FsChipModule,
+    FsChipModule, 
     FsBadgeModule,
     FsDateModule,
 
@@ -54,6 +57,10 @@ import { TaskAssignedAccountChipComponent } from '../task-assigned-account-chip'
   ],
   providers: [
     DataApiService,
+    TaskData,
+    TaskStatusData,
+    TaskAccountData,
+    { provide: FsApi, useClass: TaskApiService },
   ],
 })
 export class FsTasksComponent implements OnInit, OnDestroy {
@@ -61,7 +68,14 @@ export class FsTasksComponent implements OnInit, OnDestroy {
   @ViewChild(FsListComponent)
   public list: FsListComponent;
 
-  @Input() public apiPath: (string | number)[] = ['tasks'];
+  @Input('apiPath') public set apiPath(path: (string | number)[]) {
+    this._dataApiService.apiPath = path;
+  } 
+
+  @Input('apiData') public set apiData(data: any) {
+    this._dataApiService.apiData = data;
+  }
+
   @Input() public activeSavedFilterId: number;
   @Input() public taskRouterLink: any[];
   @Input() public assignedAccounts: Account[] = [];
@@ -74,9 +88,10 @@ export class FsTasksComponent implements OnInit, OnDestroy {
   private _router = inject(Router);
   private _location = inject(Location);
   private _fsDialog = inject(FsDialog);
-
+  private _taskData = inject(TaskData);
+  private _taskStatusData = inject(TaskStatusData);
+  private _taskAccountData = inject(TaskAccountData);
   public ngOnInit(): void {
-    this._dataApiService.apiPath = this.apiPath;
     this._initList();
     this._initDialog();
   }
@@ -93,7 +108,7 @@ export class FsTasksComponent implements OnInit, OnDestroy {
     this._dialog.open(FsTaskComponent, {
       data: {
         task,
-        apiPath: this.apiPath,
+        dataApiService: this._dataApiService,
       },
     })
       .afterClosed()
@@ -157,8 +172,7 @@ export class FsTasksComponent implements OnInit, OnDestroy {
           chipBackground: 'color',
           chipColor: '#fff',
           values: (keyword) => {
-            return this._dataApiService
-              .createTaskStatusData()
+            return this._taskStatusData
               .gets({ keyword })
               .pipe(
                 map((taskStatuses) => taskStatuses
@@ -176,8 +190,7 @@ export class FsTasksComponent implements OnInit, OnDestroy {
           type: ItemType.AutoCompleteChips,
           label: 'Assigned',
           values: (keyword) => {
-            return this._dataApiService
-              .createTaskAccountData()
+            return this._taskAccountData
               .gets({ keyword })
               .pipe(
                 map((accounts) => accounts
@@ -244,8 +257,7 @@ export class FsTasksComponent implements OnInit, OnDestroy {
       rowActions: [
         {
           click: (data) => {
-            return this._dataApiService
-              .createTaskData()
+            return this._taskData
               .delete(data);
           },
           remove: {
@@ -270,8 +282,7 @@ export class FsTasksComponent implements OnInit, OnDestroy {
           subjectObjects: true,
         };
         
-        return this._dataApiService
-          .createTaskData()
+        return this._taskData
           .gets(query, { key: null })
           .pipe(
             map((response: any) => {
@@ -297,8 +308,7 @@ export class FsTasksComponent implements OnInit, OnDestroy {
         menuLabel: 'Restore',
         reload: true,
         click: (row) => {
-          return this._dataApiService
-            .createTaskData()
+          return this._taskData
             .put({ id: row.id, state: 'active' });
         },
       },

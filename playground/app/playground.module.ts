@@ -8,6 +8,7 @@ import { FS_API_REQUEST_INTERCEPTOR } from '@firestitch/api';
 import { FsDatePickerModule } from '@firestitch/datepicker';
 import { FsExampleModule } from '@firestitch/example';
 import { FsFileModule } from '@firestitch/file';
+import { FsFilterModule } from '@firestitch/filter';
 import { FsHtmlEditorModule } from '@firestitch/html-editor';
 import { FsMessageModule } from '@firestitch/message';
 import { FsTasksComponent } from '@firestitch/task';
@@ -35,6 +36,7 @@ const routes: Routes = [
     FormsModule,
     FsMessageModule.forRoot(),
     FsFileModule.forRoot(),
+    FsFilterModule.forRoot(),
     FsExampleModule.forRoot(),
     FsDatePickerModule.forRoot(),
     RouterModule.forRoot(routes),

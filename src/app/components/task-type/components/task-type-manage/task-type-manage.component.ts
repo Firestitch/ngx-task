@@ -1,40 +1,41 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
-import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 
 import { FsChipModule } from '@firestitch/chip';
 import { list } from '@firestitch/common';
-import { FsDialogModule } from '@firestitch/dialog';
 import { FsFormModule } from '@firestitch/form';
 import { FsListComponent, FsListConfig, FsListModule } from '@firestitch/list';
 import { FsSkeletonModule } from '@firestitch/skeleton';
 
-import { of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 
 import { TaskTypeData } from '../../../../data';
+import { DataApiService } from '../../../../services';
 import { TaskTypeComponent } from '../task-type';
 
 
 @Component({
+  selector: 'fs-task-type-manage',
   templateUrl: './task-type-manage.component.html',
   styleUrls: ['./task-type-manage.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
     CommonModule,
-
-    MatDialogModule,
-    MatButtonModule,
+    FormsModule,
 
     FsChipModule,
-    FsDialogModule,
     FsSkeletonModule,
     FsListModule,
     FsFormModule,
+  ],
+  providers: [
+    TaskTypeData,
+    DataApiService,
   ],
 })
 export class TaskTypeManageComponent implements OnInit {
@@ -44,14 +45,13 @@ export class TaskTypeManageComponent implements OnInit {
 
   public listConfig: FsListConfig;
   
-  private _taskTypeData: TaskTypeData;
-  private _dialogRef = inject(MatDialogRef<TaskTypeManageComponent>);
+  private _taskTypeData = inject(TaskTypeData);
+  private _dataApiService = inject(DataApiService);
   private _dialog = inject(MatDialog);
-  private _data = inject<{ taskTypeData: TaskTypeData }>(MAT_DIALOG_DATA);
+  private _data = inject<{ dataApiService: DataApiService }>(MAT_DIALOG_DATA);
 
   public ngOnInit(): void {
-    this._taskTypeData = this._data.taskTypeData;
-    this._dialogRef.updateSize('400px');
+    this._dataApiService.inherit(this._data.dataApiService);
     this.listConfig = {
       paging: false,
       style: 'card',
@@ -90,7 +90,7 @@ export class TaskTypeManageComponent implements OnInit {
       .open(TaskTypeComponent,{
         data: {
           taskType,
-          taskTypeData: this._taskTypeData,
+          dataApiService: this._dataApiService,
         },
       })
       .afterClosed()
@@ -99,19 +99,6 @@ export class TaskTypeManageComponent implements OnInit {
       )
       .subscribe();
   }
-
-  public close(value?): void {
-    this._dialogRef.close(value);
-  }
-
-  public save = () => {
-    return of(true)
-      .pipe(
-        tap((response) => {
-          this._dialogRef.close(response);
-        }),
-      );
-  };
 
   private _saveOrder(data): void {
     this._taskTypeData.order({

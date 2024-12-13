@@ -21,8 +21,8 @@ import { FsHtmlEditorConfig, FsHtmlEditorModule } from '@firestitch/html-editor'
 import { Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
+import { TaskData } from '../../../data';
 import { Account, Task } from '../../../interfaces';
-import { DataApiService } from '../../../services';
 
 
 @Component({
@@ -44,6 +44,9 @@ import { DataApiService } from '../../../services';
 
     FsHtmlEditorModule,
   ],
+  providers: [
+    TaskData,
+  ],
 })
 export class TaskCommentComponent implements OnDestroy {
 
@@ -58,7 +61,7 @@ export class TaskCommentComponent implements OnDestroy {
   public htmlEditorConfig: FsHtmlEditorConfig;
 
   private _destroy$ = new Subject<void>();
-  private _dataApiService = inject(DataApiService);
+  private _taskData = inject(TaskData);
 
   constructor() {
     this.htmlEditorConfig = {
@@ -71,8 +74,7 @@ export class TaskCommentComponent implements OnDestroy {
   }
 
   public submit = () => {
-    return this._dataApiService
-      .createTaskData()
+    return this._taskData
       .commentPost(this.task.id, { comment: this.comment }, this.files)
       .pipe(
         tap(() => {

@@ -10,7 +10,7 @@ import { FsAutocompleteChipsModule } from '@firestitch/autocomplete-chips';
 
 import { Subject } from 'rxjs';
 
-import { DataApiService } from '../../../services';
+import { TaskAccountData } from '../../../data';
 
 
 @Component({
@@ -18,11 +18,14 @@ import { DataApiService } from '../../../services';
   templateUrl: './task-account-select.component.html',
   styleUrls: ['./task-account-select.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: TaskAccountSelectComponent,
-    multi: true,
-  }],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: TaskAccountSelectComponent,
+      multi: true,
+    },
+    TaskAccountData,
+  ],
   standalone: true,
   imports: [
     FormsModule,
@@ -35,8 +38,8 @@ export class TaskAccountSelectComponent implements ControlValueAccessor, OnDestr
   public account;
   public onChange: (value) => void;
 
+  private _taskAccountData = inject(TaskAccountData);
   private _destroy$ = new Subject<void>();
-  private _dataApiService = inject(DataApiService);
 
   public change(taskStatus): void {
     this.onChange(taskStatus);
@@ -59,8 +62,7 @@ export class TaskAccountSelectComponent implements ControlValueAccessor, OnDestr
   }
 
   public fetch = (keyword) => {
-    return this._dataApiService
-      .createTaskAccountData()
+    return this._taskAccountData
       .gets({ keyword, avatars: true });
   };
   

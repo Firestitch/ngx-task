@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   inject,
+  Input,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -13,13 +14,15 @@ import { ActivatedRoute } from '@angular/router';
 
 import { MatButtonModule } from '@angular/material/button';
 import {
-  MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialogModule, MatDialogRef,
 } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 
+import { FsApi } from '@firestitch/api';
 import { FsAuditsModule } from '@firestitch/audit';
 import { FsChipModule } from '@firestitch/chip';
 import { FsClipboardModule } from '@firestitch/clipboard';
@@ -36,7 +39,9 @@ import { FsSkeletonModule } from '@firestitch/skeleton';
 import { of, Subject } from 'rxjs';
 import { catchError, filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 
-import { Task, TaskRelate } from '../../../interfaces';
+import { TaskAccountData, TaskAuditData, TaskData } from '../../../data';
+import { TaskApiService } from '../../../interceptors/task-api.service';
+import { Task } from '../../../interfaces';
 import { DataApiService } from '../../../services';
 import { PrioritySelectComponent } from '../../task-priority';
 import { TaskStatusSelectComponent } from '../../task-status';
@@ -45,7 +50,6 @@ import { TaskTypeSelectComponent } from '../../task-type';
 import { TaskAccountSelectComponent } from '../task-account';
 import { TaskCommentComponent } from '../task-comment';
 import { TaskDescriptionComponent } from '../task-description';
-import { TaskRelateComponent } from '../task-relate';
 
 import { ActivityComponent } from './activity';
 
@@ -86,8 +90,12 @@ import { ActivityComponent } from './activity';
 
     ActivityComponent,
   ],
-  providers: [
+  viewProviders: [
+    TaskData,
+    TaskAccountData,
+    TaskAuditData,
     DataApiService,
+    { provide: FsApi, useClass: TaskApiService },
   ],
 })
 export class FsTaskComponent implements OnInit, OnDestroy {
@@ -98,6 +106,14 @@ export class FsTaskComponent implements OnInit, OnDestroy {
   @ViewChild(FsHtmlEditorComponent)
   public htmlEditor: FsHtmlEditorComponent; 
 
+  @Input('apiPath') public set apiPath(path: (string | number)[]) {
+    this._dataApiService.apiPath = path;
+  } 
+
+  @Input('apiData') public set apiData(data: any) {
+    this._dataApiService.apiData = data;
+  }
+
   public task: Task;
   public htmlEditorConfig: FsHtmlEditorConfig;
 
@@ -105,25 +121,29 @@ export class FsTaskComponent implements OnInit, OnDestroy {
   
   private _message = inject(FsMessage);
   private _prompt = inject(FsPrompt);
-  private _dialog = inject(MatDialog);
   private _dialogRef = inject(MatDialogRef);
   private _cdRef = inject(ChangeDetectorRef);
   private _route = inject(ActivatedRoute);
+  private _taskData = inject(TaskData);
+  private _taskAccountData = inject(TaskAccountData);
   private _dataApiService = inject(DataApiService);
+  private _taskAuditData = inject(TaskAuditData);
   private _data = inject<{ 
     task: Task,
-    apiPath: string[],
+    dataApiService: DataApiService,
   }>(MAT_DIALOG_DATA, { optional: true });
 
   public ngOnInit(): void {
-    this._dataApiService.apiPath = this._data?.apiPath || ['tasks'];
+    if(this._data?.dataApiService) {
+      this._dataApiService.inherit(this._data.dataApiService);
+    }
+    
     this._fetchData();
     this._initHtmlEditor();
   }
    
   public loadAudits = (query) => {
-    return this._dataApiService
-      .createTaskAuditData()
+    return this._taskAuditData
       .gets(this.task.id, query);
   };
 
@@ -133,8 +153,7 @@ export class FsTaskComponent implements OnInit, OnDestroy {
   }
   
   public save$(data) {
-    return this._dataApiService
-      .createTaskData()
+    return this._taskData
       .save({
         id: this.task.id,
         ...data,
@@ -158,8 +177,7 @@ export class FsTaskComponent implements OnInit, OnDestroy {
 
   public loadRelated(): void {
     this.loadNewActivities();
-    this._dataApiService
-      .createTaskData()
+    this._taskData
       .get(this.task.id, {
         taskRelates: true,
         taskRelateObjects: true,
@@ -173,20 +191,19 @@ export class FsTaskComponent implements OnInit, OnDestroy {
       });
   }
 
-  public relateRemove(taskRelate: TaskRelate): void {
-    this._dataApiService
-      .createTaskRelateData()
-      .unrelate(this.task.id, taskRelate.objectId)
-      .subscribe(() => {
-        this.task.taskRelates = this.task.taskRelates
-          .filter((item) => item.objectId !== taskRelate.objectId);
-        this._cdRef.markForCheck();
-      });
-  }
+  // public relateRemove(taskRelate: TaskRelate): void {
+  //   this._dataApiService
+  //     .createTaskRelateData()
+  //     .unrelate(this.task.id, taskRelate.objectId)
+  //     .subscribe(() => {
+  //       this.task.taskRelates = this.task.taskRelates
+  //         .filter((item) => item.objectId !== taskRelate.objectId);
+  //       this._cdRef.markForCheck();
+  //     });
+  // }
 
   public openWatcher(): void {
-    this._dataApiService
-      .createTaskData()
+    this._taskData
       .get(this.task.id, {
         watchers: true,
       })
@@ -211,8 +228,7 @@ export class FsTaskComponent implements OnInit, OnDestroy {
                     .join(','),
                 };
 
-                return this._dataApiService
-                  .createTaskAccountData()
+                return this._taskAccountData
                   .gets(query)
                   .pipe(
                     map((account) => account
@@ -230,8 +246,7 @@ export class FsTaskComponent implements OnInit, OnDestroy {
         }),
         filter((response) => !!response),
         switchMap((watchers) => {
-          return this._dataApiService
-            .createTaskData()
+          return this._taskData
             .watchers(this.task.id, {
               watchers,
             });
@@ -264,28 +279,10 @@ export class FsTaskComponent implements OnInit, OnDestroy {
   }
 
   public taskTagsChange(taskTags): void {
-    this._dataApiService
-      .createTaskData()
+    this._taskData
       .taskTags(this.task.id, taskTags)
       .subscribe(() =>{
         this._message.success();
-      });
-  }
-
-  public openRelate() {
-    this._dialog.open(TaskRelateComponent, {
-      data: { 
-        task: this.task,        
-        notObjectId: this.task.taskRelates
-          .map((item) => item.objectId),
-      },
-    })
-      .afterClosed()
-      .pipe(
-        takeUntil(this._destroy$),
-      )
-      .subscribe(() => {
-        this.loadRelated();
       });
   }
 
@@ -302,8 +299,7 @@ export class FsTaskComponent implements OnInit, OnDestroy {
           const taskId = this._route.snapshot.params.id || this._data.task.id;
 
           return taskId
-            ? this._dataApiService
-              .createTaskData()
+            ? this._taskData
               .get(taskId,{
                 taskStatuses: true,
                 taskTypes: true,
@@ -315,8 +311,7 @@ export class FsTaskComponent implements OnInit, OnDestroy {
                 taskTags: true,
                 subjectObjects: true,
               })
-            : this._dataApiService
-              .createTaskData()
+            : this._taskData
               .save({
                 ...this._data.task,
                 state: 'draft',

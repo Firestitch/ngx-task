@@ -26,8 +26,8 @@ export class ApiInterceptor implements HttpInterceptor {
   }
 
   public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const url = 'https://cure.local.firestitch.com/api/'.concat(req.url);
-
+    const url = 'https://specify.local.firestitch.com/api/'.concat(req.url);
+ 
     const headers = req.headers;
 
     return next.handle(req.clone({ url, headers }))
@@ -43,7 +43,7 @@ export class ApiInterceptor implements HttpInterceptor {
             }
           }
 
-          return throwError(event);
+          return throwError(() => new Error(event.message));
         }),
       );
   }

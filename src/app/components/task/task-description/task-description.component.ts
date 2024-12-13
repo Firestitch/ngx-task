@@ -21,6 +21,7 @@ import {
 import { of } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 
+import { TaskData } from '../../../data';
 import { Task } from '../../../interfaces';
 import { DataApiService } from '../../../services';
 
@@ -58,6 +59,7 @@ export class TaskDescriptionComponent implements OnInit {
   };
 
   private _dataApiService = inject(DataApiService);
+  private _taskData = inject(TaskData);
   
   public ngOnInit(): void {
     this.description = this.task.taskDescription?.description;
@@ -70,14 +72,12 @@ export class TaskDescriptionComponent implements OnInit {
   }
 
   public submit = () => {
-    return this._dataApiService
-      .createTaskData()
+    return this._taskData
       .describe(this.task.id, { description: this.description })
       .pipe(
         switchMap(() => {
           if (this.task.state === 'draft') {
-            return this._dataApiService
-              .createTaskData()
+            return this._taskData
               .save({
                 id: this.task.id,
                 state: 'active',

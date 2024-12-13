@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
+import { MatIconRegistry } from '@angular/material/icon';
+
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
+  
+  constructor(
+    private _iconRegistry: MatIconRegistry,
+  ) {
+    this._iconRegistry.setDefaultFontSetClass('material-symbols-outlined');
+  }
+
 }

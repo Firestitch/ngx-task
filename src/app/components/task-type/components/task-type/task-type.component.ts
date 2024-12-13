@@ -23,6 +23,7 @@ import { FsSkeletonModule } from '@firestitch/skeleton';
 import { tap } from 'rxjs/operators';
 
 import { TaskTypeData } from '../../../../data';
+import { DataApiService } from '../../../../services';
 
 
 @Component({
@@ -45,22 +46,27 @@ import { TaskTypeData } from '../../../../data';
     FsSkeletonModule,
     FsFormModule,
   ],
+  providers: [
+    TaskTypeData,
+    DataApiService,
+  ],
 })
 export class TaskTypeComponent implements OnInit {
 
   public taskType;
 
-  private _taskTypeData: TaskTypeData;
+  private _taskTypeData = inject(TaskTypeData);
   private _dialogRef = inject(MatDialogRef<TaskTypeComponent>);
-  private _data = inject<{ 
-    taskType: any, 
-    taskTypeData: TaskTypeData 
-  }>(MAT_DIALOG_DATA);
   private _message = inject(FsMessage);
   private _cdRef = inject(ChangeDetectorRef);   
+  private _dataApiService = inject(DataApiService);
+  private _data = inject<{ 
+    taskType: any, 
+    dataApiService: DataApiService 
+  }>(MAT_DIALOG_DATA);
 
   public ngOnInit(): void {
-    this._taskTypeData = this._data.taskTypeData;
+    this._dataApiService.inherit(this._data.dataApiService);
     if (this._data.taskType.id) {
       this._taskTypeData
         .get(this._data.taskType.id)

@@ -17,10 +17,10 @@ import { FsMenuModule } from '@firestitch/menu';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-
+import { TaskTypeData } from '../../../../data';
 import { DataApiService } from '../../../../services';
 import { TaskTypeChipComponent } from '../task-type-chip';
-import { TaskTypeManageComponent } from '../task-type-manage';
+import { TaskTypeManageDialogComponent } from '../task-type-manage-dialog';
 
 
 @Component({
@@ -28,11 +28,14 @@ import { TaskTypeManageComponent } from '../task-type-manage';
   templateUrl: './task-type-select.component.html',
   styleUrls: ['./task-type-select.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: TaskTypeSelectComponent,
-    multi: true,
-  }],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: TaskTypeSelectComponent,
+      multi: true,
+    },
+    TaskTypeData,
+  ],
   standalone: true,
   imports: [
     CommonModule,
@@ -55,12 +58,13 @@ export class TaskTypeSelectComponent implements ControlValueAccessor, OnDestroy,
   private _destroy$ = new Subject<void>();
   private _dialog = inject(MatDialog);
   private _dataApiService = inject(DataApiService);
+  private _taskTypeData = inject(TaskTypeData);
   
   public openManage(): void {
-    this._dialog.open(TaskTypeManageComponent,{
+    this._dialog.open(TaskTypeManageDialogComponent,{
       autoFocus: false,
       data: {
-        taskTypeData: this._dataApiService.createTaskTypeData(),
+        dataApiService: this._dataApiService,
       },
     })
       .afterClosed()
@@ -98,7 +102,7 @@ export class TaskTypeSelectComponent implements ControlValueAccessor, OnDestroy,
   }
 
   public loadTaskTypes(): void {
-    this._dataApiService.createTaskTypeData()
+    this._taskTypeData
       .gets()
       .pipe(
         takeUntil(this._destroy$),

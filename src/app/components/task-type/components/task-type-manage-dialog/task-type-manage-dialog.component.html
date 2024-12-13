@@ -1,0 +1,23 @@
+<form
+    fsForm
+    [submit]="save">
+  <fs-dialog>
+    <h1 mat-dialog-title>
+      Manage task types
+    </h1>
+    <mat-dialog-content>
+      <fs-task-type-manage></fs-task-type-manage>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <fs-form-dialog-actions
+          [save]="false"
+          [close]="true">
+        <a
+            mat-button
+            (click)="openTaskType({})">
+          Add
+        </a>
+      </fs-form-dialog-actions>
+    </mat-dialog-actions>
+  </fs-dialog>
+</form>

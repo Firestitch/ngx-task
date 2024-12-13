@@ -1,21 +1,21 @@
 
+import { Injectable } from '@angular/core';
+
 import { FsApi, RequestConfig } from '@firestitch/api';
 
 import { Observable } from 'rxjs';
 
-import { DataApiService } from '../services';
 
-
+@Injectable()
 export class TaskStatusData<T = any> {
 
   constructor(
-    private _dataApiService: DataApiService,
     private _api: FsApi,
   ) {}
 
   public get(id: number, query: any = {}, config: RequestConfig = {}): Observable<T> {
     return this._api.get(
-      this._dataApiService.getApiPath(['statuses',id]),
+      ['statuses',id],
       query,
       {
         key: 'taskStatus',
@@ -27,7 +27,7 @@ export class TaskStatusData<T = any> {
   public gets(query: any = {}, config: RequestConfig = {}): Observable<T> {
     return this._api.request(
       'GET',
-      this._dataApiService.getApiPath(['statuses']),
+      ['statuses'],
       query,
       {
         key: 'taskStatuses',
@@ -38,7 +38,7 @@ export class TaskStatusData<T = any> {
 
   public put(data: any, config: RequestConfig = {}): Observable<T> {
     return this._api.put(
-      this._dataApiService.getApiPath(['statuses',data.id]),
+      ['statuses',data.id],
       data,
       {
         key: 'taskStatus',
@@ -49,7 +49,7 @@ export class TaskStatusData<T = any> {
 
   public post(data: any, config: RequestConfig = {}): Observable<T> {
     return this._api.post(
-      this._dataApiService.getApiPath(['statuses']),
+      ['statuses'],
       data,
       {
         key: 'taskStatus',
@@ -60,7 +60,7 @@ export class TaskStatusData<T = any> {
 
   public delete(data: any, config: RequestConfig = {}): Observable<T> {
     return this._api.delete(
-      this._dataApiService.getApiPath(['statuses',data.id]),
+      ['statuses',data.id],
       data,
       {
         key: 'taskStatus',
@@ -71,7 +71,7 @@ export class TaskStatusData<T = any> {
 
   public order(data): Observable<any> {
     return this._api.put(
-      this._dataApiService.getApiPath(['statuses','order']),
+      ['statuses','order'],
       data,
       { key: null },
     );

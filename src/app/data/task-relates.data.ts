@@ -1,21 +1,21 @@
 
+import { Injectable } from '@angular/core';
+
 import { FsApi, RequestConfig } from '@firestitch/api';
 
 import { Observable } from 'rxjs';
 
-import { DataApiService } from '../services';
 
-
+@Injectable()
 export class TaskRelateData<T = any> {
 
   constructor(
-    private _dataApiService: DataApiService,
     private _api: FsApi,
   ) {}
 
   public relate(taskId: number, objectId: number, pin, config: RequestConfig = {}): Observable<T> {
     return this._api.post(
-      this._dataApiService.getApiPath([taskId,'relates',objectId]),
+      [taskId,'relates',objectId],
       { pin },
       {
         ...config,
@@ -25,8 +25,7 @@ export class TaskRelateData<T = any> {
 
   public unrelate(taskId: number, objectId: number, config: RequestConfig = {}): Observable<T> {
     return this._api.delete(
-      
-      this._dataApiService.getApiPath([taskId,'relates',objectId]),
+      [taskId,'relates',objectId],
       {},
       {
         ...config,

@@ -19,7 +19,7 @@ import { FsHtmlEditorConfig, FsHtmlEditorModule } from '@firestitch/html-editor'
 import { Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { DataApiService } from '../../../../../services';
+import { TaskData } from '../../../../../data';
 import { TaskCommentComponent } from '../../../task-comment';
 
 
@@ -41,6 +41,9 @@ import { TaskCommentComponent } from '../../../task-comment';
 
     FsHtmlEditorModule,
   ],
+  providers: [
+    TaskData,
+  ],
 })
 export class CommentComponent implements OnDestroy, OnInit {
 
@@ -50,9 +53,9 @@ export class CommentComponent implements OnDestroy, OnInit {
   };
 
   private _destroy$ = new Subject<void>();
+  private _taskData = inject(TaskData);
   private _dialogRef = inject(MatDialogRef<CommentComponent>);
   private _data = inject<{
-    dataApiService: DataApiService,
     taskComment: TaskCommentComponent,
   }>(MAT_DIALOG_DATA);
 
@@ -61,8 +64,7 @@ export class CommentComponent implements OnDestroy, OnInit {
   }
 
   public submit = () => {
-    return this._data.dataApiService
-      .createTaskData()
+    return this._taskData
       .commentPut(this.taskComment.taskId, this.taskComment)
       .pipe(
         tap((taskComment) => {
