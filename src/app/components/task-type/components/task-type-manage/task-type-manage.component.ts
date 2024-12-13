@@ -5,6 +5,7 @@ import {
 import { FormsModule } from '@angular/forms';
 
 import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 
 import { FsApi } from '@firestitch/api';
 import { FsChipModule } from '@firestitch/chip';
@@ -32,6 +33,8 @@ import { TaskTypeComponent } from '../task-type';
   imports: [
     CommonModule,
     FormsModule,
+
+    MatIconModule,
 
     FsChipModule,
     FsSkeletonModule,

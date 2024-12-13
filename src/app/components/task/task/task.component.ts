@@ -125,7 +125,6 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
   }>(MAT_DIALOG_DATA, { optional: true });
 
   public ngOnInit(): void {
-    debugger;
     if(this._data?.dataApiService) {
       this._dataApiService.inherit(this._data.dataApiService);
     }

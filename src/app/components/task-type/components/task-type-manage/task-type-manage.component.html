@@ -1,4 +1,13 @@
 <fs-list [config]="listConfig">
+  <fs-list-column [width]="'1%'">
+    <ng-template
+        fs-list-cell
+        let-row="row">
+      <mat-icon [style.color]="row.color">
+        {{ row.icon }}
+      </mat-icon>
+    </ng-template>
+  </fs-list-column>
   <fs-list-column>
     <ng-template
         fs-list-cell
