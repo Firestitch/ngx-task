@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { MatDialog } from '@angular/material/dialog';
@@ -15,6 +15,7 @@ import { map, tap } from 'rxjs/operators';
 import { TaskStatusData } from '../../../../data';
 import { TaskApiService } from '../../../../interceptors';
 import { DataApiService } from '../../../../services';
+import { FsBaseComponent } from '../../../base/base.component';
 import { TaskStatusComponent } from '../task-status';
 
 
@@ -38,10 +39,12 @@ import { TaskStatusComponent } from '../task-status';
     { provide: FsApi, useClass: TaskApiService },
   ],
 })
-export class FsTaskStatusManageComponent implements OnInit {
+export class FsTaskStatusManageComponent extends FsBaseComponent implements OnInit {
 
   @ViewChild(FsListComponent)
   public list: FsListComponent;
+
+  @Input() public showCreate = true;
 
   public listConfig: FsListConfig;
 
@@ -55,7 +58,16 @@ export class FsTaskStatusManageComponent implements OnInit {
       style: 'card',
       reload: false,
       rowHoverHighlight: false,
-
+      actions: [
+        {
+          label: 'Create',
+          primary: true,
+          click: () => {
+            this.openTaskStatus({});
+          },
+          show: () => this.showCreate,
+        },
+      ],
       rowActions: [
         {
           icon: 'delete',
