@@ -16,7 +16,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { TaskStatusData } from '../../../../data';
-import { TaskStatusManageComponent } from '../task-status-manage';
+import { TaskStatusManageDialogComponent } from '../task-status-manage-dialog';
 
 
 @Component({
@@ -52,7 +52,7 @@ export class TaskStatusSelectComponent implements ControlValueAccessor, OnDestro
     autocompleteChip.closePanel();
     event.stopPropagation();
 
-    this._dialog.open(TaskStatusManageComponent,{
+    this._dialog.open(TaskStatusManageDialogComponent,{
       autoFocus: false,
       data: {
         taskStatusData: this._taskStatusData,

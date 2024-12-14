@@ -1,3 +1,4 @@
+export { FsTaskStatusManageComponent } from './app/components/task-status/components/task-status-manage/task-status-manage.component';
 export { FsTaskTypeManageComponent } from './app/components/task-type/components/task-type-manage/task-type-manage.component';
 export { FsTaskComponent } from './app/components/task/task/task.component';
 export { FsTasksSummaryComponent } from './app/components/tasks-summary/tasks-summary.component';

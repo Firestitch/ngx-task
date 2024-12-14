@@ -1,0 +1,23 @@
+<form
+    fsForm
+    [submit]="save">
+  <fs-dialog>
+    <h1 mat-dialog-title>
+      Manage Task Statuses
+    </h1>
+    <mat-dialog-content>
+      <fs-task-status-manage></fs-task-status-manage>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <fs-form-dialog-actions
+          [save]="false"
+          [close]="true">
+        <a
+            mat-button
+            (click)="openTaskStatus({})">
+          Create
+        </a>
+      </fs-form-dialog-actions>
+    </mat-dialog-actions>
+  </fs-dialog>
+</form>

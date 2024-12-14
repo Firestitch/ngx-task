@@ -2,23 +2,24 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 
+import { FsApi } from '@firestitch/api';
 import { FsChipModule } from '@firestitch/chip';
 import { list } from '@firestitch/common';
-import { FsDialogModule } from '@firestitch/dialog';
 import { FsFormModule } from '@firestitch/form';
 import { FsListComponent, FsListConfig, FsListModule } from '@firestitch/list';
 
-import { of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 import { TaskStatusData } from '../../../../data';
+import { TaskApiService } from '../../../../interceptors';
+import { DataApiService } from '../../../../services';
 import { TaskStatusComponent } from '../task-status';
 
 
 @Component({
+  selector: 'fs-task-status-manage',
   templateUrl: './task-status-manage.component.html',
   styleUrls: ['./task-status-manage.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,30 +28,27 @@ import { TaskStatusComponent } from '../task-status';
     FormsModule,
     CommonModule,
 
-    MatButtonModule,
-    MatDialogModule,
-
     FsListModule,
     FsChipModule,
     FsFormModule,
-    FsDialogModule,
+  ],
+  providers: [
+    TaskStatusData,
+    DataApiService,
+    { provide: FsApi, useClass: TaskApiService },
   ],
 })
-export class TaskStatusManageComponent implements OnInit {
+export class FsTaskStatusManageComponent implements OnInit {
 
   @ViewChild(FsListComponent)
   public list: FsListComponent;
 
   public listConfig: FsListConfig;
 
-  private _dialogRef = inject(MatDialogRef<TaskStatusManageComponent>);
   private _dialog = inject(MatDialog);
-  private _data = inject<{ taskStatusData: TaskStatusData }>(MAT_DIALOG_DATA);
   private _taskStatusData: TaskStatusData;
 
   public ngOnInit(): void {
-    this._taskStatusData = this._data.taskStatusData;
-    this._dialogRef.updateSize('400px');
     this.listConfig = {
       status: false,
       paging: false,
@@ -100,19 +98,6 @@ export class TaskStatusManageComponent implements OnInit {
       )
       .subscribe();
   }
-
-  public close(value?): void {
-    this._dialogRef.close(value);
-  }
-
-  public save = () => {
-    return of(true)
-      .pipe(
-        tap((response) => {
-          this._dialogRef.close(response);
-        }),
-      );
-  };
 
   private _saveOrder(data): void {
     this._taskStatusData
