@@ -49,7 +49,7 @@ export class FsTaskStatusManageComponent extends FsBaseComponent implements OnIn
   public listConfig: FsListConfig;
 
   private _dialog = inject(MatDialog);
-  private _taskStatusData: TaskStatusData;
+  private _taskStatusData = inject(TaskStatusData);
 
   public ngOnInit(): void {
     this.listConfig = {
