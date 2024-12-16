@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Injector, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { FsChipModule } from '@firestitch/chip';
 import { list } from '@firestitch/common';
@@ -45,12 +45,11 @@ export class TaskTagManageComponent implements OnInit {
   public listConfig: FsListConfig;
 
   private _dialogRef = inject(MatDialogRef<TaskTagManageComponent>);
-  private _taskTagData: TaskTagData;
   private _dialog = inject(MatDialog);
-  private _data = inject<{ taskTagData: TaskTagData }>(MAT_DIALOG_DATA);
+  private _injector = inject(Injector);
+  private _taskTagData = inject(TaskTagData);
 
   public ngOnInit(): void {
-    this._taskTagData = this._data.taskTagData;
     this._dialogRef.updateSize('400px');
     this.listConfig = {
       status: false,
@@ -88,9 +87,9 @@ export class TaskTagManageComponent implements OnInit {
 
   public openTaskTag(taskTag?): void {
     this._dialog.open(TaskTagComponent,{
+      injector: this._injector,
       data: {
         taskTag,
-        taskTagData: this._taskTagData,
       },
     })
       .afterClosed()

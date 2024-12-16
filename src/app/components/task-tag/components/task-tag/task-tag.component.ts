@@ -48,14 +48,13 @@ export class TaskTagComponent implements OnInit {
 
   public taskTag;
 
-  private _taskTagData: TaskTagData;  
+  private _taskTagData = inject(TaskTagData);  
   private _dialogRef = inject(MatDialogRef<TaskTagComponent>);
-  private _data = inject<{ taskTag: any, taskTagData: TaskTagData }>(MAT_DIALOG_DATA);
+  private _data = inject<{ taskTag: any }>(MAT_DIALOG_DATA);
   private _message = inject(FsMessage);
   private _cdRef = inject(ChangeDetectorRef);
 
   public ngOnInit(): void {
-    this._taskTagData = this._data.taskTagData;
     if (this._data.taskTag.id) {
       this._taskTagData
         .get(this._data.taskTag.id)

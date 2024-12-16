@@ -31,6 +31,7 @@ import { TaskStatusManageDialogComponent } from '../task-status-manage-dialog';
       useExisting: TaskStatusSelectComponent,
       multi: true,
     },
+    TaskStatusData,
   ],
   standalone: true,
   imports: [

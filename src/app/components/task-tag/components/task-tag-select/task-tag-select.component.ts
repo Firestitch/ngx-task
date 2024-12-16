@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  Injector,
   Input,
   OnDestroy,
 } from '@angular/core';
@@ -32,6 +33,7 @@ import { TaskTagManageComponent } from '../task-tag-manage';
       useExisting: TaskTagSelectComponent,
       multi: true,
     },
+    TaskTagData,
   ],
   standalone: true,
   imports: [
@@ -48,6 +50,7 @@ export class TaskTagSelectComponent implements ControlValueAccessor, OnDestroy {
   public taskTags = [];
   public onChange: (value) => void;
 
+  private _injector = inject(Injector);
   private _destroy$ = new Subject<void>();
   private _taskTagData = inject(TaskTagData);
   private _dialog = inject(MatDialog);
@@ -58,6 +61,7 @@ export class TaskTagSelectComponent implements ControlValueAccessor, OnDestroy {
 
     this._dialog.open(TaskTagManageComponent,{
       autoFocus: false,
+      injector: this._injector,
       data: {
         taskTagData: this._taskTagData,
       },

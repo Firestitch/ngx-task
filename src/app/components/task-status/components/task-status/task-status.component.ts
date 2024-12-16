@@ -40,19 +40,21 @@ import { TaskStatusData } from '../../../../data';
     FsDialogModule,
     FsColorPickerModule,
   ],
+  providers: [
+    TaskStatusData,
+  ],
 })
 export class TaskStatusComponent implements OnInit {
 
   public taskStatus;
 
-  private _taskStatusData: TaskStatusData;
+  private _taskStatusData = inject(TaskStatusData);
   private _dialogRef = inject(MatDialogRef<TaskStatusComponent>);
-  private _data = inject<{ taskStatus: any, taskStatusData: TaskStatusData }>(MAT_DIALOG_DATA);
+  private _data = inject<{ taskStatus: any }>(MAT_DIALOG_DATA);
   private _message = inject(FsMessage);
   private _cdRef = inject(ChangeDetectorRef); 
 
   public ngOnInit(): void {
-    this._taskStatusData = this._data.taskStatusData;
     if (this._data.taskStatus.id) {
       this._taskStatusData
         .get(this._data.taskStatus.id)
