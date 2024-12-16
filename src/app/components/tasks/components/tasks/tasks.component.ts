@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  Injector,
   Input,
   OnDestroy,
   OnInit,
@@ -33,7 +34,7 @@ import { PriorityChipComponent } from '../../../task-priority';
 import { TaskStatusChipComponent } from '../../../task-status';
 import { TaskTagChipComponent } from '../../../task-tag';
 import { TaskTypeChipComponent } from '../../../task-type';
-import { FsTaskDialogComponent } from '../../../task/task/components/dialog/dialog.component';
+import { FsTaskDialogComponent } from '../../../task/components/dialog/dialog.component';
 import { TaskAssignedAccountChipComponent } from '../task-assigned-account-chip';
 
 @Component({
@@ -84,6 +85,7 @@ export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestr
   private _taskData = inject(TaskData);
   private _taskStatusData = inject(TaskStatusData);
   private _taskAccountData = inject(TaskAccountData);
+  private _injector = inject(Injector);
 
   public ngOnInit(): void {
     this._initList();
@@ -100,6 +102,7 @@ export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestr
 
   public openDialog(task: any): void {
     this._dialog.open(FsTaskDialogComponent, {
+      injector: this._injector,
       data: {
         task,
         dataApiService: this._dataApiService,

@@ -13,7 +13,6 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
-import { FsApi } from '@firestitch/api';
 import { FsColorPickerModule, randomColor } from '@firestitch/colorpicker';
 import { FsDialogModule } from '@firestitch/dialog';
 import { FsFormModule } from '@firestitch/form';
@@ -24,8 +23,6 @@ import { FsSkeletonModule } from '@firestitch/skeleton';
 import { tap } from 'rxjs/operators';
 
 import { TaskTypeData } from '../../../../data';
-import { TaskApiService } from '../../../../interceptors';
-import { DataApiService } from '../../../../services';
 
 
 @Component({
@@ -48,11 +45,6 @@ import { DataApiService } from '../../../../services';
     FsSkeletonModule,
     FsFormModule,
   ],
-  providers: [
-    TaskTypeData,
-    DataApiService,
-    { provide: FsApi, useClass: TaskApiService },
-  ],
 })
 export class TaskTypeComponent implements OnInit {
 
@@ -62,14 +54,11 @@ export class TaskTypeComponent implements OnInit {
   private _dialogRef = inject(MatDialogRef<TaskTypeComponent>);
   private _message = inject(FsMessage);
   private _cdRef = inject(ChangeDetectorRef);   
-  private _dataApiService = inject(DataApiService);
   private _data = inject<{ 
     taskType: any, 
-    dataApiService: DataApiService 
   }>(MAT_DIALOG_DATA);
 
   public ngOnInit(): void {
-    this._dataApiService.inherit(this._data.dataApiService);
     if (this._data.taskType.id) {
       this._taskTypeData
         .get(this._data.taskType.id)

@@ -11,7 +11,7 @@ import { FsAutocompleteChipsModule } from '@firestitch/autocomplete-chips';
 
 import { Subject } from 'rxjs';
 
-import { TaskAccountData } from '../../../data';
+import { TaskAccountData } from '../../../../data';
 
 
 @Component({
@@ -25,7 +25,6 @@ import { TaskAccountData } from '../../../data';
       useExisting: TaskAccountSelectComponent,
       multi: true,
     },
-    TaskAccountData,
   ],
   standalone: true,
   imports: [

@@ -21,9 +21,8 @@ import {
 import { of } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 
-import { TaskData } from '../../../data';
-import { Task } from '../../../interfaces';
-import { DataApiService } from '../../../services';
+import { TaskData } from '../../../../data';
+import { Task } from '../../../../interfaces';
 
 
 @Component({
@@ -59,7 +58,6 @@ export class TaskDescriptionComponent implements OnInit {
     label: 'Description', 
   };
 
-  private _dataApiService = inject(DataApiService);
   private _taskData = inject(TaskData);
   
   public ngOnInit(): void {

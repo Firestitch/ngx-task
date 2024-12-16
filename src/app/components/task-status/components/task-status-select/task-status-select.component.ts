@@ -26,7 +26,6 @@ import { TaskStatusManageDialogComponent } from '../task-status-manage-dialog';
   styleUrls: ['./task-status-select.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    TaskStatusData,
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: TaskStatusSelectComponent,

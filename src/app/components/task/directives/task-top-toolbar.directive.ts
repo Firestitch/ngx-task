@@ -1,6 +1,6 @@
 import { Directive, TemplateRef } from '@angular/core';
 
-import { Task } from '../../../../interfaces';
+import { Task } from '../../../interfaces';
 
 
 @Directive({

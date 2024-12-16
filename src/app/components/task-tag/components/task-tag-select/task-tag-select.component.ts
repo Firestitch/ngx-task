@@ -32,7 +32,6 @@ import { TaskTagManageComponent } from '../task-tag-manage';
       useExisting: TaskTagSelectComponent,
       multi: true,
     },
-    TaskTagData,
   ],
   standalone: true,
   imports: [

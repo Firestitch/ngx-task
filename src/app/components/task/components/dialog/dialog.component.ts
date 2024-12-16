@@ -15,8 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { FsDialogModule } from '@firestitch/dialog';
 
-import { Task } from '../../../../../interfaces';
-import { DataApiService } from '../../../../../services';
+import { Task } from '../../../../interfaces';
 import { FsTaskTopToolbarDirective } from '../../directives';
 import { FsTaskComponent } from '../../task.component';
 
@@ -37,26 +36,18 @@ import { FsTaskComponent } from '../../task.component';
     FsTaskComponent,
     FsTaskTopToolbarDirective,
   ],
-  providers: [
-    DataApiService,
-  ],
 })
 export class FsTaskDialogComponent implements OnInit {
 
   public task: Task;
   
   private _dialogRef = inject(MatDialogRef);
-  private _dataApiService = inject(DataApiService);
   private _data = inject<{ 
     task: Task,
-    dataApiService: DataApiService,
   }>(MAT_DIALOG_DATA, { optional: true });
 
   public ngOnInit(): void {
     this.task = this._data.task;
-    if(this._data?.dataApiService) {
-      this._dataApiService.inherit(this._data.dataApiService);
-    }
   }
 
   public close(value?): void {

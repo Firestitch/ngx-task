@@ -21,9 +21,9 @@ import { filter } from 'rxjs';
 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { Task } from '../../../../../interfaces';
-import { PriorityChipComponent } from '../../../../task-priority';
-import { TaskStatusChipComponent } from '../../../../task-status';
+import { Task } from '../../../../interfaces';
+import { PriorityChipComponent } from '../../../task-priority';
+import { TaskStatusChipComponent } from '../../../task-status';
 import { CommentGalleryComponent } from '../comment-gallery';
 
 import { CommentComponent } from './comment';

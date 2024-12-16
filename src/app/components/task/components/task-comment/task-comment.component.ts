@@ -21,8 +21,8 @@ import { FsHtmlEditorConfig, FsHtmlEditorModule } from '@firestitch/html-editor'
 import { Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { TaskData } from '../../../data';
-import { Account, Task } from '../../../interfaces';
+import { TaskData } from '../../../../data';
+import { Account, Task } from '../../../../interfaces';
 
 
 @Component({
@@ -43,9 +43,6 @@ import { Account, Task } from '../../../interfaces';
     FsFormModule,
 
     FsHtmlEditorModule,
-  ],
-  providers: [
-    TaskData,
   ],
 })
 export class TaskCommentComponent implements OnDestroy {

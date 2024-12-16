@@ -39,20 +39,21 @@ import { FsSkeletonModule } from '@firestitch/skeleton';
 import { of, Subject } from 'rxjs';
 import { catchError, filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 
-import { TaskAccountData, TaskAuditData, TaskData } from '../../../data';
-import { TaskApiService } from '../../../interceptors/task-api.service';
-import { Task } from '../../../interfaces';
-import { DataApiService } from '../../../services';
-import { FsBaseComponent } from '../../base/base.component';
-import { PrioritySelectComponent } from '../../task-priority';
-import { TaskStatusSelectComponent } from '../../task-status';
-import { TaskTagSelectComponent } from '../../task-tag';
-import { TaskTypeSelectComponent } from '../../task-type';
-import { TaskAccountSelectComponent } from '../task-account';
-import { TaskCommentComponent } from '../task-comment';
-import { TaskDescriptionComponent } from '../task-description';
 
-import { ActivityComponent } from './components';
+import { TaskAccountData, TaskAuditData, TaskData } from '../../data';
+import { TaskApiService } from '../../interceptors/task-api.service';
+import { Task } from '../../interfaces';
+import { DataApiService } from '../../services';
+import { FsBaseComponent } from '../base/base.component';
+import { PrioritySelectComponent } from '../task-priority';
+import { TaskStatusSelectComponent } from '../task-status';
+import { TaskTagSelectComponent } from '../task-tag';
+import { TaskTypeSelectComponent } from '../task-type';
+
+import { ActivityComponent } from './components/activity';
+import { TaskAccountSelectComponent } from './components/task-account';
+import { TaskCommentComponent } from './components/task-comment';
+import { TaskDescriptionComponent } from './components/task-description';
 import { FsTaskBottomToolbarDirective, FsTaskTopToolbarDirective } from './directives';
 
 

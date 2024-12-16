@@ -14,11 +14,4 @@ export class DataApiService {
     ];
   }
 
-  public inherit(dataApiService: DataApiService): void {
-    if(dataApiService) {
-      this.apiPath = dataApiService.apiPath;
-      this.apiData = dataApiService.apiData;
-    }
-  }
-
 }

@@ -7,7 +7,7 @@ import {
 
 import { Observable, of } from 'rxjs';
 
-import { DataApiService } from '../../../../../services';
+import { DataApiService } from '../../../../services';
 
 
 @Component({
