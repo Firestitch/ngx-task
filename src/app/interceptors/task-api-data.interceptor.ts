@@ -28,10 +28,17 @@ export class TaskApiDataInterceptor implements HttpInterceptor {
             params = params.set(key, this._dataApiService.apiData[key]);
           });
       } else {
-        body = {
-          ...req.body,
-          ...this._dataApiService.apiData,
-        };
+        if(body instanceof FormData) {
+          Object.keys(this._dataApiService.apiData)
+            .forEach((key) => {
+              body.append(key, this._dataApiService.apiData[key]);
+            });
+        } else {
+          body = {
+            ...req.body,
+            ...this._dataApiService.apiData,
+          };
+        }
       }
     }
 
