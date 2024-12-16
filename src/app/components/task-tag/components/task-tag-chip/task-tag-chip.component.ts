@@ -9,7 +9,7 @@ import { FsChipModule } from '@firestitch/chip';
 
 
 @Component({
-  selector: 'app-task-tag-chip',
+  selector: 'fs-task-tag-chip',
   templateUrl: './task-tag-chip.component.html',
   styleUrls: ['./task-tag-chip.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,7 +20,7 @@ import { FsChipModule } from '@firestitch/chip';
     FsChipModule,
   ],
 })
-export class TaskTagChipComponent {
+export class FsTaskTagChipComponent {
 
   @Input() public taskTag;
   @Input() public size = 'tiny';

@@ -32,7 +32,7 @@ import { FsBaseComponent } from '../../../base/base.component';
 import { FsTaskComponent } from '../../../task';
 import { PriorityChipComponent } from '../../../task-priority';
 import { TaskStatusChipComponent } from '../../../task-status';
-import { TaskTagChipComponent } from '../../../task-tag';
+import { FsTaskTagChipComponent } from '../../../task-tag';
 import { TaskTypeChipComponent } from '../../../task-type';
 import { FsTaskDialogComponent } from '../../../task/components/dialog/dialog.component';
 import { TaskAssignedAccountChipComponent } from '../task-assigned-account-chip';
@@ -56,7 +56,7 @@ import { TaskAssignedAccountChipComponent } from '../task-assigned-account-chip'
     PriorityChipComponent,
     TaskStatusChipComponent,
     TaskTypeChipComponent,
-    TaskTagChipComponent,
+    FsTaskTagChipComponent,
   ],
   providers: [
     { provide: FsApi, useClass: TaskApiService },
