@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 
 import { FsApi } from '@firestitch/api';
 import {
@@ -6,8 +6,6 @@ import {
 } from '@firestitch/gallery';
 
 import { Observable, of } from 'rxjs';
-
-import { DataApiService } from '../../../../services';
 
 
 @Component({
@@ -26,8 +24,6 @@ export class CommentGalleryComponent implements OnInit {
 
   public galleryConfig: FsGalleryConfig;
   
-  private _dataApiService = inject(DataApiService);
-
   constructor(
     private _api: FsApi,
   ) { }
@@ -53,8 +49,7 @@ export class CommentGalleryComponent implements OnInit {
         const items: FsGalleryItem[] = this.taskComment.taskFiles
           .map((taskFile) => {
             const url = this._api
-              .createApiFile(this._dataApiService
-                .getApiPath([this.taskComment.taskId,'files',taskFile.id,'download']));
+              .createApiFile([this.taskComment.taskId,'files',taskFile.id,'download']);
 
             const item: FsGalleryItem = { 
               name: taskFile.file.filename,
