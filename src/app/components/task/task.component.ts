@@ -40,7 +40,7 @@ import { of, Subject } from 'rxjs';
 import { catchError, filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 
-import { TaskAccountData, TaskAuditData, TaskData } from '../../data';
+import { TaskAccountData, TaskAuditData, TaskData, TaskStatusData } from '../../data';
 import { TaskApiService } from '../../interceptors/task-api.service';
 import { Task } from '../../interfaces';
 import { DataApiService } from '../../services';
@@ -97,7 +97,8 @@ import { FsTaskBottomToolbarDirective, FsTaskTopToolbarDirective } from './direc
   viewProviders: [
     TaskData,
     TaskAccountData,
-    TaskAuditData,
+    TaskAuditData,    
+    TaskStatusData,
     DataApiService,
     { provide: FsApi, useClass: TaskApiService },
   ],

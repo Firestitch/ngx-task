@@ -40,9 +40,6 @@ import { TaskStatusData } from '../../../../data';
     FsDialogModule,
     FsColorPickerModule,
   ],
-  providers: [
-    TaskStatusData,
-  ],
 })
 export class TaskStatusComponent implements OnInit {
 

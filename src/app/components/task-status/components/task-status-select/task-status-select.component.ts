@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  Injector,
   Input,
   OnDestroy,
 } from '@angular/core';
@@ -31,7 +32,6 @@ import { TaskStatusManageDialogComponent } from '../task-status-manage-dialog';
       useExisting: TaskStatusSelectComponent,
       multi: true,
     },
-    TaskStatusData,
   ],
   standalone: true,
   imports: [
@@ -50,6 +50,7 @@ export class TaskStatusSelectComponent implements ControlValueAccessor, OnDestro
   private _destroy$ = new Subject<void>();
   private _taskStatusData = inject(TaskStatusData);
   private _dialog = inject(MatDialog);
+  private _injector = inject(Injector);
   
   public openManage(event: MouseEvent, autocompleteChip: FsAutocompleteChipsComponent): void {
     autocompleteChip.closePanel();
@@ -57,9 +58,7 @@ export class TaskStatusSelectComponent implements ControlValueAccessor, OnDestro
 
     this._dialog.open(TaskStatusManageDialogComponent,{
       autoFocus: false,
-      data: {
-        taskStatusData: this._taskStatusData,
-      },
+      injector: this._injector,
     })
       .afterClosed()
       .pipe(

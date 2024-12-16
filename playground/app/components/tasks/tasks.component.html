@@ -6,7 +6,10 @@
 </fs-tasks>
 <fs-task
     [task]="{ id: 6849 }"
-    [apiPath]="['tasks']">
+    [apiPath]="['tasks']"
+    [apiData]="{
+      apiData: 5455
+    }">
   <ng-template
       fsTaskBottomToolbar
       let-taskSelect="taskSelect"
@@ -22,3 +25,6 @@
     <ng-container *ngTemplateOutlet="taskTagSelect"></ng-container>
   </ng-template>
 </fs-task>
+<fs-task-status-manage [apiData]="{
+  apiData: 88888
+}"></fs-task-status-manage>

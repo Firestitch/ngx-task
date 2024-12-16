@@ -34,9 +34,19 @@ import { TaskStatusComponent } from '../task-status';
     FsFormModule,
   ],
   providers: [
-    TaskStatusData,
-    DataApiService,
     { provide: FsApi, useClass: TaskApiService },
+    { 
+      provide: DataApiService, 
+      useFactory: () => {
+        return inject(DataApiService, { optional: true, skipSelf: true }) || new DataApiService();
+      },
+    },
+    { 
+      provide: TaskStatusData, 
+      useFactory: () => {
+        return inject(TaskStatusData, { optional: true, skipSelf: true }) || new TaskStatusData();
+      },
+    },
   ],
 })
 export class FsTaskStatusManageComponent extends FsBaseComponent implements OnInit {

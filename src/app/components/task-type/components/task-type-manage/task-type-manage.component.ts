@@ -42,9 +42,19 @@ import { TaskTypeComponent } from '../task-type';
     FsFormModule,
   ],
   providers: [
-    TaskTypeData,
-    DataApiService,
     { provide: FsApi, useClass: TaskApiService },
+    { 
+      provide: DataApiService, 
+      useFactory: () => {
+        return inject(DataApiService, { optional: true, skipSelf: true }) || new DataApiService();
+      },
+    },
+    { 
+      provide: TaskTypeData, 
+      useFactory: () => {
+        return inject(TaskTypeData, { optional: true, skipSelf: true }) || new TaskTypeData();
+      },
+    },
   ],
 })
 export class FsTaskTypeManageComponent extends FsBaseComponent implements OnInit {

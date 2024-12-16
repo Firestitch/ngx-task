@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
+import { FsApi } from '@firestitch/api';
 import { FsChipModule } from '@firestitch/chip';
 import { list } from '@firestitch/common';
 import { FsDialogModule } from '@firestitch/dialog';
@@ -15,6 +16,8 @@ import { of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 import { TaskTagData } from '../../../../data';
+import { TaskApiService } from '../../../../interceptors/task-api.service';
+import { DataApiService } from '../../../../services/data-api.service';
 import { TaskTagComponent } from '../task-tag';
 
 
@@ -35,6 +38,21 @@ import { TaskTagComponent } from '../task-tag';
     FsDialogModule,
     FsChipModule,
     FsListModule,
+  ],
+  providers: [
+    { provide: FsApi, useClass: TaskApiService },
+    { 
+      provide: DataApiService, 
+      useFactory: () => {
+        return inject(DataApiService, { optional: true, skipSelf: true }) || new DataApiService();
+      },
+    },
+    { 
+      provide: TaskTagData, 
+      useFactory: () => {
+        return inject(TaskTagData, { optional: true, skipSelf: true }) || new TaskTagData();
+      },
+    },
   ],
 })
 export class TaskTagManageComponent implements OnInit {
