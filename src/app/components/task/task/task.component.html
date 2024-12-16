@@ -1,106 +1,158 @@
 <ng-container *fsSkeletonForm="task">
-  <fs-dialog [dock]="'expanded'">
-    <fs-dialog-title [close]="true">
-      <div class="fs-row">
-        <app-task-type-select
-          [(ngModel)]="task.taskType"
-          (ngModelChange)="taskTypeChange($event)"
-          name="taskType">
-        </app-task-type-select>
-        <div
-            class="task-number"
-            #identifier>
-          <fs-clipboard [content]="identifier">
-            T-{{ task.number }}
-          </fs-clipboard>
-        </div>
-        <mat-form-field class="task-name form-field-padless">
-          <input
-            matInput
-            placeholder="Name"
-            [(ngModel)]="task.name"
-            [fsAutoSelect]="task.state === 'draft'"
-            (fsModelChange)="save({ name: $event})"
-            name="name">
-        </mat-form-field>
-        <a
-            mat-icon-button
-            [fsMenuTriggerFor]="menu">
-          <mat-icon>
-            more_vert
-          </mat-icon>
-        </a>
-        <fs-menu #menu>
-          <ng-template
-              fs-menu-item
-              (click)="openWatcher()">
-            Watchers
-          </ng-template>
-        </fs-menu>
-      </div>
-    </fs-dialog-title>
-    <div mat-dialog-content>
-      <div class="fs-row.wrap.align-start.gap-sm toolbar">
-        <app-task-status-select
-          [(ngModel)]="task.taskStatus"
-          (ngModelChange)="taskStatusChange($event)"
-          name="status">
-        </app-task-status-select>
-        <app-task-account-select
-          [(ngModel)]="task.assignedAccount"
-          (ngModelChange)="assignedAccountChange($event)"
-          name="account">
-        </app-task-account-select>
-        <app-priority-select
-          [(ngModel)]="task.priority"
-          (ngModelChange)="save({ priority: $event || null })"
-          name="priority">
-        </app-priority-select>
-        <mat-form-field
-            [floatLabel]="'always'"
-            class="due-date form-field-lineless form-field-padless">
-          <mat-label>
-            Due Date
-          </mat-label>
-          <input
-            matInput
-            placeholder="None"
-            fsDatePicker
-            [(ngModel)]="task.dueDate"
-            (ngModelChange)="save({ dueDate: $event })"
-            name="dueDate">
-        </mat-form-field>
-        <app-task-tag-select
-          [(ngModel)]="task.taskTags"
-          (ngModelChange)="taskTagsChange($event)"
-          name="tag">
-        </app-task-tag-select>
-      </div>
-      <app-task-description
-        [task]="task"
-        (descriptionCreated)="loadNewActivities()">
-      </app-task-description>
-      <br>
-      <mat-tab-group>
-        <mat-tab label="Activity">
-          <ng-template matTabContent>
-            <app-task-comment
-              [task]="task"
-              (commentCreated)="loadNewActivities()">
-            </app-task-comment>
-            <br>
-            <app-task-activity [task]="task"></app-task-activity>
-          </ng-template>
-        </mat-tab>
-        <mat-tab label="Audits">
-          <ng-template matTabContent>
-            <fs-audits
-              [loadAudits]="loadAudits"
-              [subjectObjectId]="task.id">
-            </fs-audits>
-          </ng-template>
-        </mat-tab>
-      </mat-tab-group>
-    </div>
-  </fs-dialog>
+  <div class="fs-row top-toolbar">
+    @if (taskTopToolbar) {
+      <ng-container
+        [ngTemplateOutlet]="taskTopToolbar"
+        [ngTemplateOutletContext]="{ 
+          $implicit: taskTopToolbarImplicit,
+          task: task
+        }">
+      </ng-container>
+    } @else {
+      <ng-container [ngTemplateOutlet]="taskTopToolbarImplicit"></ng-container>
+    }
+  </div>
+  <div class="fs-row.wrap.align-start.gap-sm bottom-toolbar">
+    @if (taskBottomToolbar) {
+      <ng-container
+        [ngTemplateOutlet]="taskBottomToolbar"
+        [ngTemplateOutletContext]="{  
+          $implicit: taskBottomToolbarImplicit,
+          taskSelect: taskSelect,
+          taskAccountSelect: taskAccountSelect,
+          taskPrioritySelect: taskPrioritySelect,
+          taskDueDate: taskDueDate,
+          taskTagSelect: taskTagSelect,
+          task: task
+        }">
+      </ng-container>
+    } @else {
+      <ng-container [ngTemplateOutlet]="taskBottomToolbarImplicit"></ng-container>
+    }
+  </div>
+  <app-task-description
+    [task]="task"
+    (descriptionCreated)="loadNewActivities()">
+  </app-task-description>
+  <br>
+  <mat-tab-group>
+    <mat-tab label="Activity">
+      <ng-template matTabContent>
+        <app-task-comment
+          [task]="task"
+          (commentCreated)="loadNewActivities()">
+        </app-task-comment>
+        <br>
+        <app-task-activity [task]="task"></app-task-activity>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Audits">
+      <ng-template matTabContent>
+        <fs-audits
+          [loadAudits]="loadAudits"
+          [subjectObjectId]="task.id">
+        </fs-audits>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
 </ng-container>
+<ng-template #taskSelect>
+  <app-task-status-select
+    [(ngModel)]="task.taskStatus"
+    (ngModelChange)="taskStatusChange($event)"
+    name="status">
+  </app-task-status-select>
+</ng-template>
+<ng-template #taskAccountSelect>
+  <app-task-account-select
+    [(ngModel)]="task.assignedAccount"
+    (ngModelChange)="assignedAccountChange($event)"
+    name="account">
+  </app-task-account-select>
+</ng-template>
+<ng-template #taskPrioritySelect>
+  <app-priority-select
+    [(ngModel)]="task.priority"
+    (ngModelChange)="save({ priority: $event || null })"
+    name="priority">
+  </app-priority-select>
+</ng-template>
+<ng-template #taskDueDate>
+  <mat-form-field
+      [floatLabel]="'always'"
+      class="due-date form-field-lineless form-field-padless">
+    <mat-label>
+      Due Date
+    </mat-label>
+    <input
+      matInput
+      placeholder="None"
+      fsDatePicker
+      [(ngModel)]="task.dueDate"
+      (ngModelChange)="save({ dueDate: $event })"
+      name="dueDate">
+  </mat-form-field>
+</ng-template>
+<ng-template #taskTagSelect>
+  <app-task-tag-select
+    [(ngModel)]="task.taskTags"
+    (ngModelChange)="taskTagsChange($event)"
+    name="tag">
+  </app-task-tag-select>
+</ng-template>
+<ng-template #taskTypeSelect>
+  <app-task-type-select
+    [(ngModel)]="task.taskType"
+    (ngModelChange)="taskTypeChange($event)"
+    name="taskType">
+  </app-task-type-select>
+</ng-template>
+<ng-template #taskNumber>
+  <div
+      class="task-number"
+      #identifier>
+    <fs-clipboard [content]="identifier">
+      T-{{ task.number }}
+    </fs-clipboard>
+  </div>
+</ng-template>
+<ng-template #taskName>
+  <mat-form-field class="task-name form-field-padless">
+    <input
+      matInput
+      placeholder="Name"
+      [(ngModel)]="task.name"
+      [fsAutoSelect]="task.state === 'draft'"
+      (fsModelChange)="save({ name: $event})"
+      name="name">
+  </mat-form-field>
+</ng-template>
+<ng-template #taskMenu>
+  <a
+      mat-icon-button
+      [fsMenuTriggerFor]="menu">
+    <mat-icon>
+      more_vert
+    </mat-icon>
+  </a>
+  <fs-menu #menu>
+    <ng-template
+        fs-menu-item
+        (click)="openWatcher()">
+      Watchers
+    </ng-template>
+  </fs-menu>
+</ng-template>
+<ng-template #taskTopToolbarImplicit>
+  <ng-container [ngTemplateOutlet]="taskTypeSelect"></ng-container>
+  <ng-container [ngTemplateOutlet]="taskNumber"></ng-container>
+  <ng-container [ngTemplateOutlet]="taskName"></ng-container>
+  <ng-container [ngTemplateOutlet]="taskMenu"></ng-container>
+</ng-template>
+<ng-template #taskBottomToolbarImplicit>
+  <ng-container [ngTemplateOutlet]="taskSelect"></ng-container>
+  <ng-container [ngTemplateOutlet]="taskAccountSelect"></ng-container>
+  <ng-container [ngTemplateOutlet]="taskPrioritySelect"></ng-container>
+  <ng-container [ngTemplateOutlet]="taskDueDate"></ng-container>
+  <ng-container [ngTemplateOutlet]="taskTagSelect"></ng-container>
+</ng-template>

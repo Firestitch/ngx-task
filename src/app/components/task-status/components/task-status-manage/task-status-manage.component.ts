@@ -44,7 +44,7 @@ export class FsTaskStatusManageComponent extends FsBaseComponent implements OnIn
   @ViewChild(FsListComponent)
   public list: FsListComponent;
 
-  @Input() public showCreate = true;
+  @Input() public showCreate = false;
 
   public listConfig: FsListConfig;
 

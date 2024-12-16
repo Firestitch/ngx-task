@@ -33,6 +33,7 @@ import { PriorityChipComponent } from '../../../task-priority';
 import { TaskStatusChipComponent } from '../../../task-status';
 import { TaskTagChipComponent } from '../../../task-tag';
 import { TaskTypeChipComponent } from '../../../task-type';
+import { FsTaskDialogComponent } from '../../../task/task/components/dialog/dialog.component';
 import { TaskAssignedAccountChipComponent } from '../task-assigned-account-chip';
 
 @Component({
@@ -98,7 +99,7 @@ export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestr
   }
 
   public openDialog(task: any): void {
-    this._dialog.open(FsTaskComponent, {
+    this._dialog.open(FsTaskDialogComponent, {
       data: {
         task,
         dataApiService: this._dataApiService,

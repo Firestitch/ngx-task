@@ -1,29 +1,23 @@
-fs-dialog-title {
-  ::ng-deep {
-    .title {
-      width: 100%;
+.top-toolbar {
+  width: 100%;
 
-      app-task-type-select {
-        margin-right: 2px;
-      }
+  app-task-type-select {
+    margin-right: 2px;
+  }
 
-      .task-number {
-       white-space: nowrap;
-       font-size: 70%; 
-       margin-right: 10px;
-      }
+  .task-number {
+    white-space: nowrap;
+    margin-right: 10px;
+  }
 
-      .task-name {
-        font-size: 80%;
-        width: 100%;
-        margin: 0;
-      }
-    }
+  .task-name {
+    width: 100%;
+    margin: 0;
   }
 }
 
-.toolbar {
-  margin: 10px 0;
+.bottom-toolbar {
+  margin: 15px 0;
 }
 
 

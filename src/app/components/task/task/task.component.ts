@@ -3,18 +3,19 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ContentChild,
   inject,
+  Input,
   OnDestroy,
   OnInit,
+  TemplateRef,
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 
 import { MatButtonModule } from '@angular/material/button';
 import {
-  MAT_DIALOG_DATA,
-  MatDialogModule, MatDialogRef,
+  MatDialogModule,
 } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -51,10 +52,12 @@ import { TaskAccountSelectComponent } from '../task-account';
 import { TaskCommentComponent } from '../task-comment';
 import { TaskDescriptionComponent } from '../task-description';
 
-import { ActivityComponent } from './activity';
+import { ActivityComponent } from './components';
+import { FsTaskBottomToolbarDirective, FsTaskTopToolbarDirective } from './directives';
 
 
 @Component({
+  selector: 'fs-task',
   templateUrl: './task.component.html',
   styleUrls: ['./task.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -100,35 +103,35 @@ import { ActivityComponent } from './activity';
 })
 export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestroy {
 
+  @ContentChild(FsTaskTopToolbarDirective, { read: TemplateRef })
+  public taskTopToolbar: TemplateRef<any>;
+
+  @ContentChild(FsTaskBottomToolbarDirective, { read: TemplateRef })
+  public taskBottomToolbar: TemplateRef<any>;
+
   @ViewChild(ActivityComponent)
   public activity: ActivityComponent; 
 
   @ViewChild(FsHtmlEditorComponent)
   public htmlEditor: FsHtmlEditorComponent; 
 
-  public task: Task;
+  @Input('task') public set setTask(task: Task) {
+    this._task = task;
+  }
+
   public htmlEditorConfig: FsHtmlEditorConfig;
+  public task: Task;
 
   private _destroy$ = new Subject<void>();
-  
   private _message = inject(FsMessage);
   private _prompt = inject(FsPrompt);
-  private _dialogRef = inject(MatDialogRef);
   private _cdRef = inject(ChangeDetectorRef);
-  private _route = inject(ActivatedRoute);
   private _taskData = inject(TaskData);
   private _taskAccountData = inject(TaskAccountData);
   private _taskAuditData = inject(TaskAuditData);
-  private _data = inject<{ 
-    task: Task,
-    dataApiService: DataApiService,
-  }>(MAT_DIALOG_DATA, { optional: true });
+  private _task: Task;
 
   public ngOnInit(): void {
-    if(this._data?.dataApiService) {
-      this._dataApiService.inherit(this._data.dataApiService);
-    }
-    
     this._fetchData();
     this._initHtmlEditor();
   }
@@ -181,17 +184,6 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
         this._cdRef.markForCheck();
       });
   }
-
-  // public relateRemove(taskRelate: TaskRelate): void {
-  //   this._dataApiService
-  //     .createTaskRelateData()
-  //     .unrelate(this.task.id, taskRelate.objectId)
-  //     .subscribe(() => {
-  //       this.task.taskRelates = this.task.taskRelates
-  //         .filter((item) => item.objectId !== taskRelate.objectId);
-  //       this._cdRef.markForCheck();
-  //     });
-  // }
 
   public openWatcher(): void {
     this._taskData
@@ -253,10 +245,6 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
     this.save$(data).subscribe();
   }
 
-  public close(value?): void {
-    this._dialogRef.close(value);
-  }
-
   public taskTypeChange(taskType?): void {
     this.save({
       taskTypeId: taskType?.id,
@@ -287,11 +275,9 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
     of(null)
       .pipe(
         switchMap(() => {
-          const taskId = this._route.snapshot.params.id || this._data.task.id;
-
-          return taskId
+          return this._task?.id
             ? this._taskData
-              .get(taskId,{
+              .get(this._task?.id,{
                 taskStatuses: true,
                 taskTypes: true,
                 taskDescriptions: true,
@@ -304,13 +290,13 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
               })
             : this._taskData
               .save({
-                ...this._data.task,
+                ...this._task,
                 state: 'draft',
               })
               .pipe(
                 map((response) => {
                   return {
-                    ...this._data.task,
+                    ...this.task,
                     ...response,
                   };
                 }),

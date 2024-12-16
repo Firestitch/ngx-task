@@ -1,0 +1,18 @@
+<fs-dialog [dock]="'expanded'">
+  <div mat-dialog-content>
+    <fs-task [task]="task">
+      <ng-template
+          fsTaskTopToolbar
+          let-template="$implicit">
+        <ng-container *ngTemplateOutlet="template"></ng-container>
+        <a
+            mat-icon-button
+            (click)="close()">
+          <mat-icon>
+            close
+          </mat-icon>
+        </a>
+      </ng-template>
+    </fs-task>
+  </div>
+</fs-dialog>

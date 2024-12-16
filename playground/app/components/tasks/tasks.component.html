@@ -4,3 +4,21 @@
     apiData: 999
   }">
 </fs-tasks>
+<fs-task
+    [task]="{ id: 6849 }"
+    [apiPath]="['tasks']">
+  <ng-template
+      fsTaskBottomToolbar
+      let-taskSelect="taskSelect"
+      let-taskAccountSelect="taskAccountSelect"
+      let-taskPrioritySelect="taskPrioritySelect"
+      let-taskDueDate="taskDueDate"
+      let-taskTagSelect="taskTagSelect"
+      let-task="task">
+    <ng-container *ngTemplateOutlet="taskSelect"></ng-container>
+    <ng-container *ngTemplateOutlet="taskAccountSelect"></ng-container>
+    <ng-container *ngTemplateOutlet="taskPrioritySelect"></ng-container>
+    <ng-container *ngTemplateOutlet="taskDueDate"></ng-container>
+    <ng-container *ngTemplateOutlet="taskTagSelect"></ng-container>
+  </ng-template>
+</fs-task>

@@ -4,6 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 
 
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+
 import { FS_API_REQUEST_INTERCEPTOR } from '@firestitch/api';
 import { FsDatePickerModule } from '@firestitch/datepicker';
 import { FsExampleModule } from '@firestitch/example';
@@ -11,7 +13,7 @@ import { FsFileModule } from '@firestitch/file';
 import { FsFilterModule } from '@firestitch/filter';
 import { FsHtmlEditorModule } from '@firestitch/html-editor';
 import { FsMessageModule } from '@firestitch/message';
-import { FsTasksComponent } from '@firestitch/task';
+import { FsTaskBottomToolbarDirective, FsTaskComponent, FsTasksComponent } from '@firestitch/task';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -44,6 +46,8 @@ const routes: Routes = [
       activationKey: '2J1B10dD7F6F5A3F3I3cWHNGGDTCWHId1Eb1Oc1Yh1b2Ld1POkE3D3F3C9A4E5A3G3B2G2==',
     }),
     FsTasksComponent,
+    FsTaskComponent,    
+    FsTaskBottomToolbarDirective,
   ],
   declarations: [
     AppComponent,
@@ -55,6 +59,12 @@ const routes: Routes = [
       provide: FS_API_REQUEST_INTERCEPTOR,
       useFactory: ApiInterceptorFactory,
       deps: [Injector],
+    },
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: {
+        appearance: 'outline',
+      },
     },
   ],
 })

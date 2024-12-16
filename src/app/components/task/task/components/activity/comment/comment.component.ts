@@ -19,8 +19,8 @@ import { FsHtmlEditorConfig, FsHtmlEditorModule } from '@firestitch/html-editor'
 import { Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { TaskData } from '../../../../../data';
-import { TaskCommentComponent } from '../../../task-comment';
+import { TaskData } from '../../../../../../data';
+import { TaskCommentComponent } from '../../../../task-comment';
 
 
 @Component({
