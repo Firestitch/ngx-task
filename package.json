@@ -1,7 +1,7 @@
 {
   "name": "@firestitch/task",
   "title": "Task",
-  "version": "18.0.66",
+  "version": "18.0.67",
   "repository": {
     "type": "git",
     "url": "https://github.com/Firestitch/ngx-task"
@@ -47,7 +47,7 @@
     "@firestitch/attribute": "^18.0.25",
     "@firestitch/audit": "^18.0.5",
     "@firestitch/autocomplete": "^18.0.3",
-    "@firestitch/autocomplete-chips": "^18.0.22",
+    "@firestitch/autocomplete-chips": "^18.0.23",
     "@firestitch/badge": "^18.0.0",
     "@firestitch/checkboxgroup": "^18.0.2",
     "@firestitch/clear": "^18.0.10",

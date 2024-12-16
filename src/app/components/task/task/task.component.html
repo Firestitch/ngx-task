@@ -58,6 +58,7 @@
 </ng-container>
 <ng-template #taskSelect>
   <app-task-status-select
+    [padless]="true"
     [(ngModel)]="task.taskStatus"
     (ngModelChange)="taskStatusChange($event)"
     name="status">
@@ -65,6 +66,7 @@
 </ng-template>
 <ng-template #taskAccountSelect>
   <app-task-account-select
+    [padless]="true"
     [(ngModel)]="task.assignedAccount"
     (ngModelChange)="assignedAccountChange($event)"
     name="account">
@@ -72,6 +74,7 @@
 </ng-template>
 <ng-template #taskPrioritySelect>
   <app-priority-select
+    [padless]="true"
     [(ngModel)]="task.priority"
     (ngModelChange)="save({ priority: $event || null })"
     name="priority">
@@ -95,6 +98,7 @@
 </ng-template>
 <ng-template #taskTagSelect>
   <app-task-tag-select
+    [padless]="true"
     [(ngModel)]="task.taskTags"
     (ngModelChange)="taskTagsChange($event)"
     name="tag">

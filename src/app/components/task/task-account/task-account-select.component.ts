@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  Input,
   OnDestroy,
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -34,6 +35,8 @@ import { TaskAccountData } from '../../../data';
   ],
 })
 export class TaskAccountSelectComponent implements ControlValueAccessor, OnDestroy {
+
+  @Input() public padless = false;
 
   public account;
   public onChange: (value) => void;

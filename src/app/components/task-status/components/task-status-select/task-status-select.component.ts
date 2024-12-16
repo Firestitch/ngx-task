@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  Input,
   OnDestroy,
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -40,6 +41,8 @@ import { TaskStatusManageDialogComponent } from '../task-status-manage-dialog';
   ],
 })
 export class TaskStatusSelectComponent implements ControlValueAccessor, OnDestroy {
+
+  @Input() public padless = false;
 
   public taskStatus;
   public onChange: (value) => void;

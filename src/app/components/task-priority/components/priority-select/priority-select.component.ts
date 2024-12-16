@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  Input,
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -31,6 +32,8 @@ import { TaskPriorities } from '../../../../consts';
   ],
 })
 export class PrioritySelectComponent implements ControlValueAccessor {
+
+  @Input() public padless = false;
 
   public taskPriorities;
   public taskPriority;

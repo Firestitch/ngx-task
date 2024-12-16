@@ -6,4 +6,5 @@ export { FsTasksComponent } from './app/components/tasks/components/tasks/tasks.
 
 export { FsTaskBottomToolbarDirective } from './app/components/task/task/directives/task-bottom-toolbar.directive';
 export { FsTaskTopToolbarDirective } from './app/components/task/task/directives/task-top-toolbar.directive';
+export { Task } from './app/interfaces';
 

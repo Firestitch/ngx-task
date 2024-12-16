@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  Input,
   OnDestroy,
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -42,6 +43,8 @@ import { TaskTagManageComponent } from '../task-tag-manage';
   ],
 })
 export class TaskTagSelectComponent implements ControlValueAccessor, OnDestroy {
+
+  @Input() public padless = false;
 
   public taskTags = [];
   public onChange: (value) => void;

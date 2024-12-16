@@ -56,6 +56,7 @@ export class TaskDescriptionComponent implements OnInit {
   public htmlEditorConfig: FsHtmlEditorConfig = {
     placeholder: 'Provide task description (optional)....',
     initOnClick: true,
+    label: 'Description', 
   };
 
   private _dataApiService = inject(DataApiService);
