@@ -1,0 +1,17 @@
+<fs-autocomplete-chips
+    [fetch]="fetch"
+    [(ngModel)]="taskType"
+    label="Type"
+    placeholder="None"
+    size="small"
+    [multiple]="false"
+    [required]="required"
+    [initOnClick]="initOnClick"
+    (ngModelChange)="change($event)"
+    name="taskType">
+  <ng-template
+      fsAutocompleteChipsTemplate
+      let-object="object">
+    {{ object.name }}
+  </ng-template>
+</fs-autocomplete-chips>
