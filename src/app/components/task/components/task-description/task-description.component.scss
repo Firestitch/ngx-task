@@ -1,11 +1,3 @@
-fs-html-editor {
-  ::ng-deep {
-    .field-bottom-margin .field-message {
-      min-height: unset !important;
-    }
-  }
-
-  &:not(.initialized) {
-    margin-left: 16px;
-  }
-} 
+.buttons {
+  margin-top: 10px;
+}
