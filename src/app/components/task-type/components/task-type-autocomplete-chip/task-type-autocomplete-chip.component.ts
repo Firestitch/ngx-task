@@ -18,6 +18,7 @@ import { takeUntil } from 'rxjs/operators';
 import { TaskTypeData } from '../../../../data';
 import { TaskApiService } from '../../../../interceptors';
 import { DataApiService } from '../../../../services';
+import { FsBaseComponent } from '../../../base/base.component';
 import { TaskTypeManageDialogComponent } from '../task-type-manage-dialog';
 
 
@@ -53,8 +54,8 @@ import { TaskTypeManageDialogComponent } from '../task-type-manage-dialog';
     FsAutocompleteChipsModule,
   ],
 })
-export class FsTaskTypeAutocompleteChipComponent 
-implements ControlValueAccessor, OnDestroy {
+export class FsTaskTypeAutocompleteChipComponent extends FsBaseComponent
+  implements ControlValueAccessor, OnDestroy {
 
   @Input() public required = false;
   @Input() public initOnClick = false;
@@ -64,7 +65,6 @@ implements ControlValueAccessor, OnDestroy {
 
   private _destroy$ = new Subject<void>();
   private _dialog = inject(MatDialog);
-  private _dataApiService = inject(DataApiService);
   private _taskTypeData = inject(TaskTypeData);
   
   public openManage(): void {
