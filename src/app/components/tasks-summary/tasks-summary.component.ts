@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  Injector,
   Input,
   OnDestroy,
   OnInit,
@@ -64,7 +65,8 @@ export class FsTasksSummaryComponent extends FsBaseComponent implements OnInit, 
   private _destroy$ = new Subject<void>();
   private _dialog = inject(MatDialog);
   private _taskData = inject(TaskData);
-
+  private _injector = inject(Injector);
+  
   public ngOnInit(): void {
     this._initList();
   }
@@ -80,9 +82,9 @@ export class FsTasksSummaryComponent extends FsBaseComponent implements OnInit, 
 
   public openTask(task: any): void {
     this._dialog.open(FsTaskComponent, {
+      injector: this._injector,
       data: { 
         task,
-        dataApiService: this._dataApiService,
       },
     })
       .afterClosed()
