@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Injector, Input, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { MatDialog } from '@angular/material/dialog';
@@ -41,12 +41,7 @@ import { TaskStatusComponent } from '../task-status';
         return inject(DataApiService, { optional: true, skipSelf: true }) || new DataApiService();
       },
     },
-    { 
-      provide: TaskStatusData, 
-      useFactory: () => {
-        return inject(TaskStatusData, { optional: true, skipSelf: true }) || new TaskStatusData();
-      },
-    },
+    TaskStatusData,
   ],
 })
 export class FsTaskStatusManageComponent extends FsBaseComponent implements OnInit {
@@ -60,7 +55,8 @@ export class FsTaskStatusManageComponent extends FsBaseComponent implements OnIn
 
   private _dialog = inject(MatDialog);
   private _taskStatusData = inject(TaskStatusData);
-
+  private _injector = inject(Injector);
+  
   public ngOnInit(): void {
     this.listConfig = {
       status: false,
@@ -108,7 +104,8 @@ export class FsTaskStatusManageComponent extends FsBaseComponent implements OnIn
   }
 
   public openTaskStatus(taskStatus?): void {
-    this._dialog.open(TaskStatusComponent,{
+    this._dialog.open(TaskStatusComponent, {
+      injector: this._injector,
       data: {
         taskStatus,
         taskStatusData: this._taskStatusData,

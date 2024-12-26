@@ -121,11 +121,6 @@ export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestr
       )
       .subscribe(() => {
         this.reload();
-        if (task.state === 'draft' || !task.state) {
-          const url = this._router
-            .parseUrl(`${window.location.pathname.replace(/\/\d+$/, '')}${window.location.search}`);
-          this._location.replaceState(url.toString());
-        }
       });
   }
 

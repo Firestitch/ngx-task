@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
-  ChangeDetectionStrategy, Component, inject, Input, OnInit, ViewChild,
+  ChangeDetectionStrategy, Component, inject, Injector, Input, OnInit, ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
@@ -64,7 +64,8 @@ export class FsTaskTypeManageComponent extends FsBaseComponent implements OnInit
   
   private _taskTypeData = inject(TaskTypeData);
   private _dialog = inject(MatDialog);
-
+  private _injector = inject(Injector);
+  
   public ngOnInit(): void {
     this.listConfig = {
       paging: false,
@@ -111,7 +112,8 @@ export class FsTaskTypeManageComponent extends FsBaseComponent implements OnInit
 
   public openTaskType(taskType): void {
     this._dialog
-      .open(TaskTypeComponent,{
+      .open(TaskTypeComponent, {
+        injector: this._injector,
         data: {
           taskType,
           dataApiService: this._dataApiService,
