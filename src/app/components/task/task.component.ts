@@ -95,12 +95,17 @@ import { FsTaskBottomToolbarDirective, FsTaskTopToolbarDirective } from './direc
     ActivityComponent,
   ],
   viewProviders: [
+    { 
+      provide: DataApiService, 
+      useFactory: () => {
+        return inject(DataApiService, { optional: true, skipSelf: true }) || new DataApiService();
+      },
+    },
+    { provide: FsApi, useClass: TaskApiService },
     TaskData,
     TaskAccountData,
     TaskAuditData,    
     TaskStatusData,
-    DataApiService,
-    { provide: FsApi, useClass: TaskApiService },
   ],
 })
 export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestroy {

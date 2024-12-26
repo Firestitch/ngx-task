@@ -13,7 +13,11 @@ import { FsFileModule } from '@firestitch/file';
 import { FsFilterModule } from '@firestitch/filter';
 import { FsHtmlEditorModule } from '@firestitch/html-editor';
 import { FsMessageModule } from '@firestitch/message';
-import { FsTaskBottomToolbarDirective, FsTaskComponent, FsTasksComponent, FsTaskStatusManageComponent } from '@firestitch/task';
+import {
+  FsTaskBottomToolbarDirective, FsTaskComponent,
+  FsTasksComponent, FsTaskStatusManageComponent,
+  FsTaskWorkflowManageComponent,
+} from '@firestitch/task';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -49,6 +53,7 @@ const routes: Routes = [
     FsTaskComponent,    
     FsTaskBottomToolbarDirective,
     FsTaskStatusManageComponent,
+    FsTaskWorkflowManageComponent,
   ],
   declarations: [
     AppComponent,

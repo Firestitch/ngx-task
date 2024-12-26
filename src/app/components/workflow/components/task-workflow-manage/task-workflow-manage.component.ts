@@ -1,45 +1,36 @@
 import { CommonModule } from '@angular/common';
 import {
-  ChangeDetectionStrategy, Component, inject, Input, OnInit, ViewChild,
+  ChangeDetectionStrategy, Component, inject,
+  Injector,
+  OnInit, ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { MatDialog } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
 
 import { FsApi } from '@firestitch/api';
-import { FsChipModule } from '@firestitch/chip';
-import { list } from '@firestitch/common';
-import { FsFormModule } from '@firestitch/form';
 import { FsListComponent, FsListConfig, FsListModule } from '@firestitch/list';
-import { FsSkeletonModule } from '@firestitch/skeleton';
 
 import { map, tap } from 'rxjs/operators';
 
-
-import { TaskTypeData } from '../../../../data';
-import { TaskApiService } from '../../../../interceptors';
+import { TaskWorkflowData } from '../../../../data';
+import { TaskApiService } from '../../../../interceptors/task-api.service';
 import { DataApiService } from '../../../../services';
 import { FsBaseComponent } from '../../../base/base.component';
-import { TaskTypeComponent } from '../task-type';
+import { TaskWorkflowComponent } from '../task-workflow';
 
 
 @Component({
-  selector: 'fs-task-type-manage',
-  templateUrl: './task-type-manage.component.html',
-  styleUrls: ['./task-type-manage.component.scss'],
+  selector: 'fs-task-workflow-manage',
+  templateUrl: './task-workflow-manage.component.html',
+  styleUrls: ['./task-workflow-manage.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
     CommonModule,
     FormsModule,
 
-    MatIconModule,
-
-    FsChipModule,
-    FsSkeletonModule,
     FsListModule,
-    FsFormModule,
   ],
   providers: [
     { provide: FsApi, useClass: TaskApiService },
@@ -49,22 +40,24 @@ import { TaskTypeComponent } from '../task-type';
         return inject(DataApiService, { optional: true, skipSelf: true }) || new DataApiService();
       },
     },
-    TaskTypeData,
+    { 
+      provide: TaskWorkflowData, 
+      useFactory: () => {
+        return inject(TaskWorkflowData, { optional: true, skipSelf: true }) || new TaskWorkflowData();
+      },
+    },
   ],
 })
-export class FsTaskTypeManageComponent extends FsBaseComponent implements OnInit {
+export class FsTaskWorkflowManageComponent extends FsBaseComponent implements OnInit {
 
   @ViewChild(FsListComponent)
   public list: FsListComponent;
 
-  @Input()
-  public showCreate = false;
-
   public listConfig: FsListConfig;
   
-  private _taskTypeData = inject(TaskTypeData);
+  private _taskWorkflowData = inject(TaskWorkflowData);
   private _dialog = inject(MatDialog);
-
+  private _injector = inject(Injector);
   public ngOnInit(): void {
     this.listConfig = {
       paging: false,
@@ -72,24 +65,18 @@ export class FsTaskTypeManageComponent extends FsBaseComponent implements OnInit
       reload: false,
       rowHoverHighlight: false,
       fetch: (query) => {
-        return this._taskTypeData.gets(query, { key: null })
+        return this._taskWorkflowData.gets(query, { key: null })
           .pipe(
-            map((response) => ({ data: response.taskTypes, paging: response.paging })),
+            map((response) => ({ data: response.taskWorkflows, paging: response.paging })),
           );
-      },
-      reorder: {
-        done: (data) => {
-          this._saveOrder(data.map((item) => item.data));
-        },
       },
       actions: [
         {
           label: 'Create',
           primary: true,
           click: () => {
-            this.openTaskType({});
+            this.openTaskWorkflow({});
           },
-          show: () => this.showCreate,
         },
       ],
       rowActions: [
@@ -97,24 +84,24 @@ export class FsTaskTypeManageComponent extends FsBaseComponent implements OnInit
           icon: 'delete',
           menu: false,
           click: (data) => {
-            return this._taskTypeData
+            return this._taskWorkflowData
               .delete(data);
           },
           remove: {
             title: 'Confirm',
-            template: 'Are you sure you want to delete this task type?',
+            template: 'Are you sure you want to delete this workflow?',
           },
         },
       ],
     };
   }
 
-  public openTaskType(taskType): void {
+  public openTaskWorkflow(taskWorkflow): void {
     this._dialog
-      .open(TaskTypeComponent,{
+      .open(TaskWorkflowComponent,{
+        injector: this._injector,
         data: {
-          taskType,
-          dataApiService: this._dataApiService,
+          taskWorkflow,
         },
       })
       .afterClosed()
@@ -123,17 +110,5 @@ export class FsTaskTypeManageComponent extends FsBaseComponent implements OnInit
       )
       .subscribe();
   }
-
-  private _saveOrder(data): void {
-    this._taskTypeData.order({
-      taskTypeIds: list(data, 'id'),
-      limit: data.length,
-      offset: this.list.list.paging.offset,
-    })
-      .subscribe(() => {
-        this.list.reload();
-      });
-  }
-
 
 }

@@ -60,7 +60,12 @@ import { TaskAssignedAccountChipComponent } from '../task-assigned-account-chip'
   ],
   providers: [
     { provide: FsApi, useClass: TaskApiService },
-    DataApiService,
+    { 
+      provide: DataApiService, 
+      useFactory: () => {
+        return inject(DataApiService, { optional: true, skipSelf: true }) || new DataApiService();
+      },
+    },
     TaskData,
     TaskStatusData,
     TaskAccountData,
@@ -74,6 +79,9 @@ export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestr
   @Input() public activeSavedFilterId: number;
   @Input() public taskRouterLink: any[];
   @Input() public assignedAccounts: Account[] = [];
+  @Input() public showSubjectObject = false;
+  @Input() public showCreateTask = false;
+  @Input() public subjectObjectName = 'Subject';
 
   public listConfig: FsListConfig;
 
@@ -105,7 +113,6 @@ export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestr
       injector: this._injector,
       data: {
         task,
-        dataApiService: this._dataApiService,
       },
     })
       .afterClosed()
@@ -126,21 +133,6 @@ export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestr
     if (task.state === 'deleted') {
       return;
     }
-
-    // const dialog = this._taskService
-    //   .openObject(task.subjectObject, {
-    //     tab: 'tasks',
-    //   });
-    // dialog
-    //   .then((dialogRef) => {
-    //     dialogRef.afterClosed()
-    //       .pipe(
-    //         takeUntil(this._destroy$),
-    //       )
-    //       .subscribe(() => {
-    //         this.list.reload();
-    //       });
-    //   });
   }
 
   private _initDialog(): void {
@@ -203,7 +195,7 @@ export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestr
         //   name: 'subjectObjectId',
         //   type: ItemType.AutoCompleteChips,
         //   label: 'Client',
-        //   hide: !!this.subjectObjectId,
+        //   hide: !this.showSubjectObject,
         //   values: (keyword) => {
         //     return this._clientData.gets({ keyword })
         //       .pipe(
@@ -246,6 +238,7 @@ export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestr
       actions: [
         {
           label: 'Create',
+          show: () => this.showCreateTask,
           click: () => {
             this.openDialog({});
           },
@@ -276,8 +269,11 @@ export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestr
           createAccounts: true,
           createAccountAvatars: true,
           taskTags: true,
-          subjectObjects: true,
         };
+
+        if(this.showSubjectObject) {
+          query.subjectObjects = true;
+        }
         
         return this._taskData
           .gets(query, { key: null })

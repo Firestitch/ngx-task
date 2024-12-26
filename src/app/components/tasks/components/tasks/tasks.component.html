@@ -71,22 +71,22 @@
       </div>
     </ng-template>
   </fs-list-column>
-  <!-- <fs-list-column
-      title="Client"
-      [show]="!subjectObjectId">
+  <fs-list-column
+      [title]="subjectObjectName"
+      [show]="showSubjectObject">
     <ng-template
         fs-list-cell
         let-row="row">
-      <ng-container *ngIf="row.subjectObject">
+      @if (row.subjectObject) {
         <fs-chip
             [size]="'small'"
             [image]="row.subjectObject.imageUrl"
             (click)="openObject(row)">
           {{ row.subjectObject.name }}
         </fs-chip>
-      </ng-container>
+      }
     </ng-template>
-  </fs-list-column> -->
+  </fs-list-column>
   <fs-list-column
       name="due_date"
       title="Due"

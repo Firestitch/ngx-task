@@ -5,6 +5,7 @@ export { FsTaskTypeManageComponent } from './app/components/task-type/components
 export { FsTaskComponent } from './app/components/task/task.component';
 export { FsTasksSummaryComponent } from './app/components/tasks-summary/tasks-summary.component';
 export { FsTasksComponent } from './app/components/tasks/components/tasks/tasks.component';
+export { FsTaskWorkflowManageComponent } from './app/components/workflow/components/task-workflow-manage/task-workflow-manage.component';
 
 export { FsTaskBottomToolbarDirective } from './app/components/task/directives/task-bottom-toolbar.directive';
 export { FsTaskTopToolbarDirective } from './app/components/task/directives/task-top-toolbar.directive';

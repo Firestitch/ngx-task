@@ -1,0 +1,86 @@
+<div class="fs-row.gap-tiny container">
+  <div
+      class="toolbar"
+      class="fs-column">
+    <button
+        type="button"
+        mat-icon-button
+        (click)="zoomIn()">
+      <mat-icon>
+        zoom_in
+      </mat-icon>
+    </button>
+    <button
+        type="button"
+        mat-icon-button
+        (click)="zoomOut()">
+      <mat-icon>
+        zoom_out
+      </mat-icon>
+    </button>
+    <button
+        type="button"
+        mat-icon-button
+        (click)="reset()">
+      <mat-icon>
+        youtube_searched_for
+      </mat-icon>
+    </button>
+  </div>
+  <div class="zoom-pan-container">
+    <fs-zoom-pan>
+      <div
+          fsDiagram
+          [config]="config"
+          (objectsAdded)="objectsAdded($event)"
+          (connectionAdded)="connectionAdded($event)">
+        @for (workflowStep of workflowSteps | objectValues; track workflowStep) {
+          <div
+              fsDiagramObject
+              class="workflow-step"
+              [data]="workflowStep"
+              [x1]="workflowStep.x1"
+              [y1]="workflowStep.y1"
+              [scale]="zoomPan.scale"
+              (dragStop)="workflowStepDragStop($event, workflowStep.taskStatusId)">
+            <app-task-status-chip [taskStatus]="taskStatuses[workflowStep.taskStatusId]"></app-task-status-chip>
+            <div
+              fsDiagramSource
+              placement="north">
+            </div>
+            <div
+              fsDiagramSource
+              placement="south">
+            </div>
+            <div
+              fsDiagramSource
+              placement="east">
+            </div>
+            <div
+              fsDiagramSource
+              placement="west">
+            </div>
+          </div>
+        }
+      </div>
+    </fs-zoom-pan>
+  </div>
+  <div class="right-pane">
+    <div class="workflow-task">
+      <fs-label-field>
+        <fs-label>
+          Statuses
+        </fs-label>
+        @for (taskStatus of taskStatuses | objectValues; track taskStatus.id) {
+          <div>
+            <mat-checkbox
+                [checked]="!!workflowSteps[taskStatus.id]"
+                (change)="workflowTaskStatusClick($event, taskStatus)">
+              <app-task-status-chip [taskStatus]="taskStatus"></app-task-status-chip>
+            </mat-checkbox>
+          </div>
+        }
+      </fs-label-field>
+    </div>
+  </div>
+</div>

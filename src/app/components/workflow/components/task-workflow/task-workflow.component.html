@@ -1,0 +1,67 @@
+<form
+    fsForm
+    [submit]="save"
+    *fsSkeletonForm="taskWorkflow"
+    [ngClass]="{ 'full-height': selectedIndex===1 }">
+  <fs-dialog>
+    <h1 mat-dialog-title>
+      {{ taskWorkflow.id ? 'Edit' : 'Create' }} Workflow
+    </h1>
+    <mat-dialog-content>
+      <mat-tab-group
+          *ngIf="taskWorkflow.id"
+          (selectedIndexChange)="selectedIndexChange($event)">
+        <mat-tab label="General">
+          <ng-template matTabContent>
+            <ng-container *ngTemplateOutlet="general"></ng-container>
+          </ng-template>
+        </mat-tab>
+        <mat-tab label="Design">
+          <ng-template matTabContent>
+            <app-design [taskWorkflow]="taskWorkflow"></app-design>
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+      <ng-container *ngIf="!taskWorkflow.id">
+        <ng-container *ngTemplateOutlet="general"></ng-container>
+      </ng-container>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <ng-container *ngIf="selectedIndex===0">
+        <button
+            mat-button
+            color="primary">
+          {{ taskWorkflow.id ? 'Save' : 'Create' }}
+        </button>
+        <button
+            mat-button
+            type="button"
+            [mat-dialog-close]="undefined">
+          Cancel
+        </button>
+      </ng-container>
+      <ng-container *ngIf="selectedIndex===1">
+        <button
+            mat-button
+            type="button"
+            [mat-dialog-close]="undefined">
+          Done
+        </button>
+      </ng-container>
+    </mat-dialog-actions>
+  </fs-dialog>
+  <ng-template #general>
+    <div class="fs-column">
+      <mat-form-field>
+        <mat-label>
+          Name
+        </mat-label>
+        <input
+          [(ngModel)]="taskWorkflow.name"
+          name="name"
+          matInput
+          [required]="true">
+      </mat-form-field>
+    </div>
+  </ng-template>
+</form>
