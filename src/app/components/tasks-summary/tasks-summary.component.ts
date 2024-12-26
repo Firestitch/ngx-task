@@ -26,8 +26,8 @@ import { TaskData } from '../../data';
 import { TaskApiService } from '../../interceptors/task-api.service';
 import { DataApiService } from '../../services';
 import { FsBaseComponent } from '../base/base.component';
-import { FsTaskComponent } from '../task';
 import { TaskStatusChipComponent } from '../task-status';
+import { FsTaskDialogComponent } from '../task/components/dialog';
 
 
 @Component({
@@ -66,7 +66,7 @@ export class FsTasksSummaryComponent extends FsBaseComponent implements OnInit, 
   private _dialog = inject(MatDialog);
   private _taskData = inject(TaskData);
   private _injector = inject(Injector);
-  
+
   public ngOnInit(): void {
     this._initList();
   }
@@ -81,7 +81,7 @@ export class FsTasksSummaryComponent extends FsBaseComponent implements OnInit, 
   }
 
   public openTask(task: any): void {
-    this._dialog.open(FsTaskComponent, {
+    this._dialog.open(FsTaskDialogComponent, {
       injector: this._injector,
       data: { 
         task,
