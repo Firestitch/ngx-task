@@ -126,8 +126,8 @@
       matInput
       placeholder="Name"
       [(ngModel)]="task.name"
-      [fsAutoSelect]="task.state === 'draft'"
-      (fsModelChange)="save({ name: $event})"
+      [fsAutoSelect]="task.name === 'Untitled'"
+      (fsModelChange)="save({ name: $event })"
       name="name">
   </mat-form-field>
 </ng-template>

@@ -298,7 +298,6 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
             : this._taskData
               .save({
                 ...this._task,
-                state: 'draft',
               })
               .pipe(
                 map((response) => {

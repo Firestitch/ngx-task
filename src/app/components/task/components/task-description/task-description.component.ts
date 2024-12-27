@@ -18,8 +18,7 @@ import {
   FsHtmlEditorComponent, FsHtmlEditorConfig, FsHtmlEditorModule,
 } from '@firestitch/html-editor';
 
-import { of } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 import { TaskData } from '../../../../data';
 import { Task } from '../../../../interfaces';
@@ -74,17 +73,6 @@ export class TaskDescriptionComponent implements OnInit {
     return this._taskData
       .describe(this.task.id, { description: this.description })
       .pipe(
-        switchMap(() => {
-          if (this.task.state === 'draft') {
-            return this._taskData
-              .save({
-                id: this.task.id,
-                state: 'active',
-              });
-          }
-
-          return of(null);
-        }),
         tap(() => {
           this.previousDescription = this.description;
           this.htmlEditor.uninitialize();
