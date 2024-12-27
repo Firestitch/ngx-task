@@ -2,6 +2,7 @@ export { FsTaskStatusManageComponent } from './app/components/task-status/compon
 export { FsTaskTagChipComponent } from './app/components/task-tag/components/task-tag-chip/task-tag-chip.component';
 export { FsTaskTypeAutocompleteChipComponent } from './app/components/task-type/components/task-type-autocomplete-chip/task-type-autocomplete-chip.component';
 export { FsTaskTypeManageComponent } from './app/components/task-type/components/task-type-manage/task-type-manage.component';
+export { FsTaskDialogComponent } from './app/components/task/components/dialog/dialog.component';
 export { FsTaskComponent } from './app/components/task/task.component';
 export { FsTasksSummaryComponent } from './app/components/tasks-summary/tasks-summary.component';
 export { FsTasksComponent } from './app/components/tasks/components/tasks/tasks.component';
