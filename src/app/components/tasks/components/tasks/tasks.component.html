@@ -63,7 +63,7 @@
       </div>
       <div class="fs-row.wrap.gap-xs">
         <div class="small">
-          T-{{ row.number }}
+          {{ row.identifier }}
         </div>
         <ng-container *ngFor="let taskTag of row.taskTags">
           <fs-task-tag-chip [taskTag]="taskTag"></fs-task-tag-chip>

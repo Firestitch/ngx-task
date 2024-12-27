@@ -1,6 +1,7 @@
 export interface Task {
   assignedAccountId?: number;
   assignedAccount?: any;
+  identifier?: string;
   createDate?: Date;
   description?: string;
   dueDate?: Date;
