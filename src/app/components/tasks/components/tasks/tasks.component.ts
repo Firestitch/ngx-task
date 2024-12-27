@@ -1,4 +1,4 @@
-import { CommonModule, Location } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -9,7 +9,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 import { MatDialog } from '@angular/material/dialog';
 
@@ -80,15 +80,13 @@ export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestr
   @Input() public taskRouterLink: any[];
   @Input() public assignedAccounts: Account[] = [];
   @Input() public showSubjectObject = false;
-  @Input() public showCreateTask = false;
+  @Input() public showCreate = false;
   @Input() public subjectObjectName = 'Subject';
 
   public listConfig: FsListConfig;
 
   private _destroy$ = new Subject<void>();
   private _dialog = inject(MatDialog);
-  private _router = inject(Router);
-  private _location = inject(Location);
   private _fsDialog = inject(FsDialog);
   private _taskData = inject(TaskData);
   private _taskStatusData = inject(TaskStatusData);
@@ -233,7 +231,7 @@ export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestr
       actions: [
         {
           label: 'Create',
-          show: () => this.showCreateTask,
+          show: () => this.showCreate,
           click: () => {
             this.openDialog({});
           },
