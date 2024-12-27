@@ -73,7 +73,7 @@ export class TaskData<T = any> {
 
   public delete(data: any, config: RequestConfig = {}): Observable<T> {
     return this._api.delete(
-      `tasks/${data.id}`,
+      [data.id],
       data,
       {
         key: 'task',

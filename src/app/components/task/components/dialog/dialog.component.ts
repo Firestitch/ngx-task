@@ -5,6 +5,7 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { MatButtonModule } from '@angular/material/button';
 import {
@@ -42,12 +43,17 @@ export class FsTaskDialogComponent implements OnInit {
   public task: Task;
   
   private _dialogRef = inject(MatDialogRef);
+  private _route = inject(ActivatedRoute);
   private _data = inject<{ 
     task: Task,
   }>(MAT_DIALOG_DATA, { optional: true });
 
   public ngOnInit(): void {
-    this.task = this._data.task;
+    if(this._data?.task) {
+      this.task = this._data.task;
+    } else if(this._route.snapshot.params.id) {
+      this.task = { id: this._route.snapshot.params.id };
+    }
   }
 
   public close(value?): void {
