@@ -184,18 +184,6 @@ export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestr
               );
           },
         },
-        // {
-        //   name: 'subjectObjectId',
-        //   type: ItemType.AutoCompleteChips,
-        //   label: 'Client',
-        //   hide: !this.showSubjectObject,
-        //   values: (keyword) => {
-        //     return this._clientData.gets({ keyword })
-        //       .pipe(
-        //         map((response) => nameValue(response, 'name', 'id')),
-        //       );
-        //   },
-        // },
         {
           name: 'dueDate',
           type: ItemType.DateRange,

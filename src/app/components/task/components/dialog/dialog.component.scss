@@ -1,0 +1,14 @@
+:host ::ng-deep {
+  .mat-mdc-dialog-content {
+    padding-top: 0px;
+    max-height: none;
+
+    .top-toolbar {
+      position: sticky;
+      top: 0;
+      background: #fff;
+      z-index: 7;
+      padding-top: 20px;
+    }
+  }
+}
