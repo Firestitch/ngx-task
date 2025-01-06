@@ -35,7 +35,7 @@
       [activityType]="'taskType'"
       let-data="data">
     @if (data) {
-      <div class="fs-row.gap-sm">
+      <div class="fs-row.gap-xs">
         <app-task-type-chip [taskType]="data"></app-task-type-chip>
         {{ data.name }}
       </div>
@@ -48,7 +48,7 @@
       [activityType]="'taskAssignedAccount'"
       let-data="data">
     @if (data) {
-      <div class="fs-row.gap-sm">
+      <div class="fs-row.gap-xs">
         @if (data.avatar) {
           <app-task-assigned-account-chip
             [assignedAccount]="data"
