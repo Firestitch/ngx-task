@@ -41,6 +41,7 @@ import { catchError, filter, map, switchMap, takeUntil, tap } from 'rxjs/operato
 
 
 import { TaskAccountData, TaskAuditData, TaskData, TaskStatusData } from '../../data';
+import { FS_TASK_CONFIG } from '../../injectors';
 import { TaskApiService } from '../../interceptors/task-api.service';
 import { Task, TaskConfig } from '../../interfaces';
 import { DataApiService } from '../../services';
@@ -83,7 +84,7 @@ import { FsTaskBottomToolbarDirective, FsTaskTopToolbarDirective } from './direc
     FsLabelModule,
     FsChipModule,
     FsAuditsModule,
-    
+
     TaskAccountSelectComponent,
     TaskCommentComponent,
     TaskDescriptionComponent,
@@ -134,6 +135,7 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
 
   private _destroy$ = new Subject<void>();
   private _message = inject(FsMessage);
+  private _taskConfig = inject(FS_TASK_CONFIG, { optional: true });
   private _prompt = inject(FsPrompt);
   private _cdRef = inject(ChangeDetectorRef);
   private _taskData = inject(TaskData);
@@ -142,6 +144,13 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
   private _task: Task;
 
   public ngOnInit(): void {
+    this.config = {
+      commentPlaceholder: 'Add a comment...',
+      showSubjectObject: false,
+      ...this._taskConfig,
+      ...this.config,
+    };
+
     this._fetchData();
     this._initHtmlEditor();
   }

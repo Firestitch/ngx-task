@@ -1,7 +1,9 @@
 <fs-dialog [dock]="'expanded'">
   <mat-dialog-content>
     @if (task) {
-      <fs-task [task]="task">
+      <fs-task
+          [task]="task"
+          [config]="config">
         <ng-template
             fsTaskTopToolbar
             let-template="$implicit">

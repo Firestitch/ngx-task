@@ -26,7 +26,7 @@ import { map, switchMap, takeUntil } from 'rxjs/operators';
 
 import { TaskAccountData, TaskData, TaskStatusData } from '../../../../data';
 import { TaskApiService } from '../../../../interceptors/task-api.service';
-import { Account } from '../../../../interfaces';
+import { Account, TasksConfig } from '../../../../interfaces';
 import { DataApiService } from '../../../../services';
 import { FsBaseComponent } from '../../../base/base.component';
 import { FsTaskComponent } from '../../../task';
@@ -82,6 +82,7 @@ export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestr
   @Input() public showSubjectObject = false;
   @Input() public showCreate = false;
   @Input() public subjectObjectName = 'Subject';
+  @Input() public config: TasksConfig;
 
   public listConfig: FsListConfig;
 
@@ -111,6 +112,7 @@ export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestr
       injector: this._injector,
       data: {
         task,
+        config: this.config,
       },
     })
       .afterClosed()

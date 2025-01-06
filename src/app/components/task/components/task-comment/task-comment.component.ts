@@ -63,7 +63,7 @@ export class TaskCommentComponent implements OnDestroy {
 
   constructor() {
     this.htmlEditorConfig = {
-      placeholder: this.config.commentPlaceholder || this.commentPlaceholder || 'Add a comment...',
+      placeholder: this.commentPlaceholder || this.config.commentPlaceholder,
     };
   }
 
