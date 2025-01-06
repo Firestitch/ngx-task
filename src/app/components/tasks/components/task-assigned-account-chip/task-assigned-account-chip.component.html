@@ -1,1 +1,4 @@
-<fs-badge [image]="assignedAccount.avatar.small" [tooltip]="assignedAccount.name"></fs-badge>
+<fs-badge
+  [image]="assignedAccount.avatar.small"
+  [tooltip]="showTooltip ? assignedAccount.name : null">
+</fs-badge>

@@ -6,6 +6,8 @@ import {
 
 import { FsBadgeModule } from '@firestitch/badge';
 
+import { Account } from '../../../../interfaces';
+
 
 @Component({
   selector: 'app-task-assigned-account-chip',
@@ -19,6 +21,7 @@ import { FsBadgeModule } from '@firestitch/badge';
 })
 export class TaskAssignedAccountChipComponent {
 
-  @Input() public assignedAccount;
+  @Input() public assignedAccount: Account;
+  @Input() public showTooltip: boolean = true;
 
 }

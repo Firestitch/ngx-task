@@ -24,6 +24,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Task } from '../../../../interfaces';
 import { PriorityChipComponent } from '../../../task-priority';
 import { TaskStatusChipComponent } from '../../../task-status';
+import { TaskTypeChipComponent } from '../../../task-type';
+import { TaskAssignedAccountChipComponent } from '../../../tasks';
 import { CommentGalleryComponent } from '../comment-gallery';
 
 import { CommentComponent } from './comment';
@@ -45,6 +47,8 @@ import { TaskDueDatePipe } from './pipes/task-due-date.pipe';
     PriorityChipComponent,
     CommentGalleryComponent,
     TaskDueDatePipe,
+    TaskTypeChipComponent,
+    TaskAssignedAccountChipComponent,
   ],
 })
 export class ActivityComponent implements OnInit {

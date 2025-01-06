@@ -22,10 +22,41 @@
   </ng-template>
   <ng-template
       fsActivityPreview
-      [activityType]="'taskTaskStatus'"
+      [activityType]="'taskStatus'"
       let-data="data">
     @if (data?.value) {
       <app-task-status-chip [taskStatus]="data.value"></app-task-status-chip>
+    } @else {
+      None
+    }
+  </ng-template>
+  <ng-template
+      fsActivityPreview
+      [activityType]="'taskType'"
+      let-data="data">
+    @if (data?.value) {
+      <div class="fs-row.gap-sm">
+        <app-task-type-chip [taskType]="data.value"></app-task-type-chip>
+        {{ data.value.name }}
+      </div>
+    } @else {
+      None
+    }
+  </ng-template>
+  <ng-template
+      fsActivityPreview
+      [activityType]="'taskAssignedAccount'"
+      let-data="data">
+    @if (data?.value) {
+      <div class="fs-row.gap-sm">
+        @if (data.value.avatar) {
+          <app-task-assigned-account-chip
+            [assignedAccount]="data.value"
+            [showTooltip]="false">
+          </app-task-assigned-account-chip>
+        }
+        {{ data.value.name }}
+      </div>
     } @else {
       None
     }
