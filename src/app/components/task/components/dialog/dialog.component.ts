@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  Injector,
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -46,6 +47,7 @@ export class FsTaskDialogComponent implements OnInit {
 
   private _dialogRef = inject(MatDialogRef);
   private _route = inject(ActivatedRoute);
+  private _injector = inject(Injector);
   private _taskConfig = inject(FS_TASK_CONFIG, { optional: true });
   private _data = inject<{ 
     task: Task,
