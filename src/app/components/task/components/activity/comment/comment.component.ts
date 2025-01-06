@@ -46,7 +46,7 @@ export class CommentComponent implements OnDestroy, OnInit {
 
   public taskComment;
   public htmlEditorConfig: FsHtmlEditorConfig = {
-    placeholder: 'Add a comment...',
+    placeholder: 'Comment',
   };
 
   private _destroy$ = new Subject<void>();

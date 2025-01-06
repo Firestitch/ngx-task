@@ -4,6 +4,7 @@ import {
   Component,
   DestroyRef,
   inject,
+  Injector,
   Input,
   OnInit,
   ViewChild,
@@ -63,7 +64,8 @@ export class ActivityComponent implements OnInit {
   private _destroyRef = inject(DestroyRef);
   private _dialog = inject(MatDialog);
   private _cdRef = inject(ChangeDetectorRef);
-
+  private _injector = inject(Injector);
+  
   public loadNewActivities(): void {
     if (this.activities) {
       this.activities.loadNew();
@@ -77,6 +79,7 @@ export class ActivityComponent implements OnInit {
           label: 'Edit',
           click: (activity) => {
             this._dialog.open(CommentComponent, {
+              injector: this._injector,
               data: {
                 taskComment: activity.concreteActivityObject,
               },

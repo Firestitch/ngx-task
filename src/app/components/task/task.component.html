@@ -104,6 +104,16 @@
     name="tag">
   </app-task-tag-select>
 </ng-template>
+<ng-template #taskSubjectObject>
+  @if (task.subjectObject) {
+    <fs-label-field>
+      <fs-label>
+        Subject
+      </fs-label>
+      {{ task.subjectObject?.name }}
+    </fs-label-field>
+  }
+</ng-template>
 <ng-template #taskTypeSelect>
   <app-task-type-select
     [(ngModel)]="task.taskType"
@@ -159,4 +169,7 @@
   <ng-container [ngTemplateOutlet]="taskPrioritySelect"></ng-container>
   <ng-container [ngTemplateOutlet]="taskDueDate"></ng-container>
   <ng-container [ngTemplateOutlet]="taskTagSelect"></ng-container>
+  @if (config.showSubjectObject) {
+    <ng-container [ngTemplateOutlet]="taskSubjectObject"></ng-container>
+  }
 </ng-template>

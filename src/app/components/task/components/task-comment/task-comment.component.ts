@@ -22,7 +22,7 @@ import { Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { TaskData } from '../../../../data';
-import { Account, Task } from '../../../../interfaces';
+import { Account, Task, TaskConfig } from '../../../../interfaces';
 
 
 @Component({
@@ -48,13 +48,14 @@ import { Account, Task } from '../../../../interfaces';
 export class TaskCommentComponent implements OnDestroy {
 
   @Input() public task: Task;
+  @Input() public config: TaskConfig;
+  @Input() public commentPlaceholder: string;
 
   @Output() public commentCreated = new EventEmitter<void>();
 
   public comment: string;
   public files: FsFile[] = [];
   public commentEnabled = false;
-  public commentPlaceholder = 'Add a comment...';
   public htmlEditorConfig: FsHtmlEditorConfig;
 
   private _destroy$ = new Subject<void>();
@@ -62,7 +63,7 @@ export class TaskCommentComponent implements OnDestroy {
 
   constructor() {
     this.htmlEditorConfig = {
-      placeholder: this.commentPlaceholder,
+      placeholder: this.config.commentPlaceholder || this.commentPlaceholder || 'Add a comment...',
     };
   }
 

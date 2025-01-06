@@ -42,7 +42,7 @@ import { catchError, filter, map, switchMap, takeUntil, tap } from 'rxjs/operato
 
 import { TaskAccountData, TaskAuditData, TaskData, TaskStatusData } from '../../data';
 import { TaskApiService } from '../../interceptors/task-api.service';
-import { Task } from '../../interfaces';
+import { Task, TaskConfig } from '../../interfaces';
 import { DataApiService } from '../../services';
 import { FsBaseComponent } from '../base/base.component';
 import { PrioritySelectComponent } from '../task-priority';
@@ -83,6 +83,7 @@ import { FsTaskBottomToolbarDirective, FsTaskTopToolbarDirective } from './direc
     FsLabelModule,
     FsChipModule,
     FsAuditsModule,
+    
     TaskAccountSelectComponent,
     TaskCommentComponent,
     TaskDescriptionComponent,
@@ -125,6 +126,8 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
   @Input('task') public set setTask(task: Task) {
     this._task = task;
   }
+
+  @Input() public config: TaskConfig = {};
 
   public htmlEditorConfig: FsHtmlEditorConfig;
   public task: Task;
@@ -293,7 +296,7 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
                 taskRelates: true,
                 taskRelateObjects: true,
                 taskTags: true,
-                subjectObjects: true,
+                subjectObjects: this.config.showSubjectObject ?? undefined,
               })
             : this._taskData
               .save({
