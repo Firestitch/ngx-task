@@ -16,6 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { FsDialogModule } from '@firestitch/dialog';
 
+import { FS_TASK_CONFIG } from '../../../../injectors';
 import { Task, TasksConfig } from '../../../../interfaces';
 import { FsTaskTopToolbarDirective } from '../../directives';
 import { FsTaskComponent } from '../../task.component';
@@ -45,14 +46,19 @@ export class FsTaskDialogComponent implements OnInit {
 
   private _dialogRef = inject(MatDialogRef);
   private _route = inject(ActivatedRoute);
+  private _taskConfig = inject(FS_TASK_CONFIG, { optional: true });
   private _data = inject<{ 
     task: Task,
     config: TasksConfig,
   }>(MAT_DIALOG_DATA, { optional: true });
 
   public ngOnInit(): void {
+    this.config = { 
+      ...this._taskConfig,
+      ...this._data?.config,
+    };
+
     if(this._data?.task) {
-      this.config = this._data.config;
       this.task = this._data.task;
     } else if(this._route.snapshot.params.id) {
       this.task = { id: this._route.snapshot.params.id };

@@ -6,6 +6,7 @@ import {
   inject,
   Input,
   OnDestroy,
+  OnInit,
   Output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -45,7 +46,7 @@ import { Account, Task, TaskConfig } from '../../../../interfaces';
     FsHtmlEditorModule,
   ],
 })
-export class TaskCommentComponent implements OnDestroy {
+export class TaskCommentComponent implements OnDestroy, OnInit {
 
   @Input() public task: Task;
   @Input() public config: TaskConfig;
@@ -61,7 +62,7 @@ export class TaskCommentComponent implements OnDestroy {
   private _destroy$ = new Subject<void>();
   private _taskData = inject(TaskData);
 
-  constructor() {
+  public ngOnInit(): void {
     this.htmlEditorConfig = {
       placeholder: this.commentPlaceholder || this.config.commentPlaceholder,
     };
