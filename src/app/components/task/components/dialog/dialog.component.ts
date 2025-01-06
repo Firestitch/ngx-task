@@ -55,6 +55,8 @@ export class FsTaskDialogComponent implements OnInit {
   }>(MAT_DIALOG_DATA, { optional: true });
 
   public ngOnInit(): void {
+    const x = this._injector;
+    console.log(x);
     this.config = { 
       ...this._taskConfig,
       ...this._data?.config,
