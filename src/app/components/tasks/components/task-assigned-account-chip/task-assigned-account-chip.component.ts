@@ -23,5 +23,6 @@ export class TaskAssignedAccountChipComponent {
 
   @Input() public assignedAccount: Account;
   @Input() public showTooltip: boolean = true;
+  @Input() public size: number = 22;
 
 }
