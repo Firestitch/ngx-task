@@ -63,8 +63,9 @@ export class TaskCommentComponent implements OnDestroy, OnInit {
   private _taskData = inject(TaskData);
 
   public ngOnInit(): void {
+    this.commentPlaceholder = this.commentPlaceholder || this.config.commentPlaceholder;
     this.htmlEditorConfig = {
-      placeholder: this.commentPlaceholder || this.config.commentPlaceholder,
+      placeholder: this.commentPlaceholder,
     };
   }
 

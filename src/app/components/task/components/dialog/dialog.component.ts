@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
-  Injector,
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -18,7 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { FsDialogModule } from '@firestitch/dialog';
 
 import { FS_TASK_CONFIG } from '../../../../injectors';
-import { Task, TasksConfig } from '../../../../interfaces';
+import { Task, TaskConfig } from '../../../../interfaces';
 import { FsTaskTopToolbarDirective } from '../../directives';
 import { FsTaskComponent } from '../../task.component';
 
@@ -43,20 +42,17 @@ import { FsTaskComponent } from '../../task.component';
 export class FsTaskDialogComponent implements OnInit {
 
   public task: Task;
-  public config: TasksConfig;
+  public config: TaskConfig;
 
   private _dialogRef = inject(MatDialogRef);
   private _route = inject(ActivatedRoute);
-  private _injector = inject(Injector);
   private _taskConfig = inject(FS_TASK_CONFIG, { optional: true });
   private _data = inject<{ 
     task: Task,
-    config: TasksConfig,
+    config: TaskConfig,
   }>(MAT_DIALOG_DATA, { optional: true });
 
   public ngOnInit(): void {
-    const x = this._injector;
-    console.log(x);
     this.config = { 
       ...this._taskConfig,
       ...this._data?.config,

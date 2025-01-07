@@ -26,7 +26,7 @@ import { map, switchMap, takeUntil } from 'rxjs/operators';
 
 import { TaskAccountData, TaskData, TaskStatusData } from '../../../../data';
 import { TaskApiService } from '../../../../interceptors/task-api.service';
-import { Account, TasksConfig } from '../../../../interfaces';
+import { TasksConfig } from '../../../../interfaces';
 import { DataApiService } from '../../../../services';
 import { FsBaseComponent } from '../../../base/base.component';
 import { FsTaskComponent } from '../../../task';
@@ -36,6 +36,7 @@ import { FsTaskTagChipComponent } from '../../../task-tag';
 import { TaskTypeChipComponent } from '../../../task-type';
 import { FsTaskDialogComponent } from '../../../task/components/dialog/dialog.component';
 import { TaskAssignedAccountChipComponent } from '../task-assigned-account-chip';
+
 
 @Component({
   selector: 'fs-tasks',
@@ -76,12 +77,6 @@ export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestr
   @ViewChild(FsListComponent)
   public list: FsListComponent;
 
-  @Input() public activeSavedFilterId: number;
-  @Input() public taskRouterLink: any[];
-  @Input() public assignedAccounts: Account[] = [];
-  @Input() public showSubjectObject = false;
-  @Input() public showCreate = false;
-  @Input() public subjectObjectName = 'Subject';
   @Input() public config: TasksConfig;
 
   public listConfig: FsListConfig;
@@ -112,7 +107,7 @@ export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestr
       injector: this._injector,
       data: {
         task,
-        config: this.config,
+        config: this.config.taskConfig,
       },
     })
       .afterClosed()
@@ -221,7 +216,7 @@ export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestr
       actions: [
         {
           label: 'Create',
-          show: () => this.showCreate,
+          show: () => this.config.showCreate,
           click: () => {
             this.openDialog({});
           },
@@ -254,7 +249,7 @@ export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestr
           taskTags: true,
         };
 
-        if(this.showSubjectObject) {
+        if(this.config.showSubjectObject) {
           query.subjectObjects = true;
         }
         
@@ -264,8 +259,8 @@ export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestr
             map((response: any) => {
               const data = response.tasks
                 .map((task) => {
-                  const taskRouterLink = this.taskRouterLink ? 
-                    [...this.taskRouterLink, task.id] : 
+                  const taskRouterLink = this.config.taskRouterLink ? 
+                    [...this.config.taskRouterLink, task.id] : 
                     null;
 
                   return {
