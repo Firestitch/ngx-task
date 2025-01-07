@@ -60,6 +60,7 @@ export class TaskDescriptionComponent implements OnInit {
     this.description = this.task.taskDescription?.description;
     this.previousDescription = this.description;
     this.htmlEditorConfig = {
+      padless: true,
       placeholder: this.config.descriptionPlaceholder,
       label: this.config.descriptionLabel,
       initOnClick: true,
