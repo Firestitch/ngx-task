@@ -35,7 +35,6 @@
     [config]="config"
     (descriptionCreated)="loadNewActivities()">
   </app-task-description>
-  <br>
   <mat-tab-group>
     <mat-tab label="Activity">
       <ng-template matTabContent>
@@ -44,7 +43,6 @@
           [config]="config"
           (commentCreated)="loadNewActivities()">
         </app-task-comment>
-        <br>
         <app-task-activity [task]="task"></app-task-activity>
       </ng-template>
     </mat-tab>
