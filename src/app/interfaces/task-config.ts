@@ -3,4 +3,5 @@ export interface TaskConfig {
   descriptionPlaceholder?: string;
   descriptionLabel?: string;
   showSubjectObject?: boolean;
+  subjectObjectName?: string;
 }

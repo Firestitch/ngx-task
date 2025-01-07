@@ -25,6 +25,7 @@ import { Subject } from 'rxjs';
 import { map, switchMap, takeUntil } from 'rxjs/operators';
 
 import { TaskAccountData, TaskData, TaskStatusData } from '../../../../data';
+import { FS_TASKS_CONFIG, FS_TASKS_DEFAULT_CONFIG } from '../../../../injectors';
 import { TaskApiService } from '../../../../interceptors/task-api.service';
 import { TasksConfig } from '../../../../interfaces';
 import { DataApiService } from '../../../../services';
@@ -88,9 +89,12 @@ export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestr
   private _taskData = inject(TaskData);
   private _taskStatusData = inject(TaskStatusData);
   private _taskAccountData = inject(TaskAccountData);
+  private _taskDefaultConfig = inject(FS_TASKS_DEFAULT_CONFIG, { optional: true });
+  private _taskConfig = inject(FS_TASKS_CONFIG, { optional: true });
   private _injector = inject(Injector);
 
   public ngOnInit(): void {
+    this._initConfig();
     this._initList();
     this._initDialog();
   }
@@ -135,6 +139,14 @@ export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestr
       .subscribe(() => {
         this.list.reload();
       });
+  }
+
+  private _initConfig(): void {
+    this.config = {
+      ...this._taskDefaultConfig,
+      ...this._taskConfig,
+      ...this.config,
+    };
   }
 
   private _initList(): void {

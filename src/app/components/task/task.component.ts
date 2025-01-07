@@ -331,6 +331,7 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
       descriptionPlaceholder: 'Add a description...',
       descriptionLabel: 'Description',
       showSubjectObject: false,
+      subjectObjectName: 'Subject',
       ...this._taskDefaultConfig,
       ...this._taskConfig,
       ...this.config,

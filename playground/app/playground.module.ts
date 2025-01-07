@@ -21,6 +21,8 @@ import {
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { FsTaskModule } from '../../src/app/modules/task.module';
+import { FsTasksModule } from '../../src/app/modules/tasks.module';
 
 import { AppComponent } from './app.component';
 import {
@@ -54,6 +56,12 @@ const routes: Routes = [
     FsTaskBottomToolbarDirective,
     FsTaskStatusManageComponent,
     FsTaskWorkflowManageComponent,
+    FsTasksModule.forRoot({
+      subjectObjectName: 'Subject',
+    }),
+    FsTaskModule.forRoot({
+      subjectObjectName: 'Subject',
+    }),
   ],
   declarations: [
     AppComponent,
