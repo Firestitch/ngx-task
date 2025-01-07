@@ -11,5 +11,6 @@ export { FsTaskWorkflowManageComponent } from './app/components/workflow/compone
 export { FsTaskBottomToolbarDirective } from './app/components/task/directives/task-bottom-toolbar.directive';
 export { FsTaskTopToolbarDirective } from './app/components/task/directives/task-top-toolbar.directive';
 export { Task, TaskConfig, TasksConfig } from './app/interfaces';
+export { FsTaskModule } from './app/modules/task.module';
 
 export { FS_TASK_CONFIG } from './app/injectors';

@@ -51,7 +51,6 @@ export class TaskDescriptionComponent implements OnInit {
   @Output() public descriptionCreated = new EventEmitter<void>();
 
   public description: string;
-  public descriptionPlaceholder: string;
   public previousDescription: string;
   public htmlEditorConfig: FsHtmlEditorConfig;
 
@@ -60,11 +59,10 @@ export class TaskDescriptionComponent implements OnInit {
   public ngOnInit(): void {
     this.description = this.task.taskDescription?.description;
     this.previousDescription = this.description;
-    this.descriptionPlaceholder = this.config.descriptionPlaceholder || 'Description';
     this.htmlEditorConfig = {
-      placeholder: this.descriptionPlaceholder,
+      placeholder: this.config.descriptionPlaceholder,
+      label: this.config.descriptionLabel,
       initOnClick: true,
-      label: 'Description', 
     };
   }
   

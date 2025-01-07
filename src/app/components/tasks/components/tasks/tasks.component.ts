@@ -78,6 +78,7 @@ export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestr
   public list: FsListComponent;
 
   @Input() public config: TasksConfig;
+  @Input() public assignedAccounts: { name: string, value: number }[];
 
   public listConfig: FsListConfig;
 
@@ -168,6 +169,7 @@ export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestr
           name: 'assignedAccountId',
           type: ItemType.AutoCompleteChips,
           label: 'Assigned',
+          default: this.assignedAccounts,
           values: (keyword) => {
             return this._taskAccountData
               .gets({ keyword })

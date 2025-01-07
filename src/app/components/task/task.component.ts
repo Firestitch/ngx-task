@@ -29,7 +29,7 @@ import { FsClipboardModule } from '@firestitch/clipboard';
 import { FsCommonModule } from '@firestitch/common';
 import { FsDatePickerModule } from '@firestitch/datepicker';
 import { FsDialogModule } from '@firestitch/dialog';
-import { FsHtmlEditorComponent, FsHtmlEditorConfig } from '@firestitch/html-editor';
+import { FsHtmlEditorComponent } from '@firestitch/html-editor';
 import { FsLabelModule } from '@firestitch/label';
 import { FsMenuModule } from '@firestitch/menu';
 import { FsMessage } from '@firestitch/message';
@@ -41,6 +41,7 @@ import { catchError, filter, map, switchMap, takeUntil, tap } from 'rxjs/operato
 
 import { TaskAccountData, TaskAuditData, TaskData, TaskStatusData } from '../../data';
 import { FS_TASK_CONFIG } from '../../injectors';
+import { FS_TASK_DEFAULT_CONFIG } from '../../injectors/task-default-config.injector';
 import { TaskApiService } from '../../interceptors';
 import { Task, TaskConfig } from '../../interfaces';
 import { DataApiService } from '../../services';
@@ -129,12 +130,12 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
 
   @Input() public config: TaskConfig = {};
 
-  public htmlEditorConfig: FsHtmlEditorConfig;
   public task: Task;
 
   private _destroy$ = new Subject<void>();
   private _message = inject(FsMessage);
   private _taskConfig = inject(FS_TASK_CONFIG, { optional: true });
+  private _taskDefaultConfig = inject(FS_TASK_DEFAULT_CONFIG, { optional: true });
   private _prompt = inject(FsPrompt);
   private _cdRef = inject(ChangeDetectorRef);
   private _taskData = inject(TaskData);
@@ -143,15 +144,8 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
   private _task: Task;
 
   public ngOnInit(): void {
-    this.config = {
-      commentPlaceholder: 'Add a comment...',
-      showSubjectObject: false,
-      ...this._taskConfig,
-      ...this.config,
-    };
-
+    this._initConfig();
     this._fetchData();
-    this._initHtmlEditor();
   }
    
   public loadAudits = (query) => {
@@ -331,10 +325,15 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
       });
   }
 
-  private _initHtmlEditor(): void {
-    this.htmlEditorConfig = {
-      label: 'Description',
-      initOnClick: true,
+  private _initConfig(): void {
+    this.config = {
+      commentPlaceholder: 'Add a comment...',
+      descriptionPlaceholder: 'Add a description...',
+      descriptionLabel: 'Description',
+      showSubjectObject: false,
+      ...this._taskDefaultConfig,
+      ...this._taskConfig,
+      ...this.config,
     };
   }
 
