@@ -4,12 +4,14 @@
   <ng-template
       fsActivityPreview
       [activityType]="'taskDueDate'"
+      [showPrevious]="true"
       let-data="data">
     {{ (data.value | taskDueDate) || 'None' }}
   </ng-template>
   <ng-template
       fsActivityPreview
       [activityType]="'taskPriority'"
+      [showPrevious]="true"
       let-data="data">
     @if (data?.value) {
       <app-priority-chip
@@ -23,6 +25,7 @@
   <ng-template
       fsActivityPreview
       [activityType]="'taskStatus'"
+      [showPrevious]="true"
       let-data="data">
     @if (data) {
       <app-task-status-chip [taskStatus]="data"></app-task-status-chip>
@@ -33,6 +36,7 @@
   <ng-template
       fsActivityPreview
       [activityType]="'taskType'"
+      [showPrevious]="true"
       let-data="data">
     @if (data) {
       <div class="fs-row.gap-xs">
@@ -46,6 +50,7 @@
   <ng-template
       fsActivityPreview
       [activityType]="'taskAssignedAccount'"
+      [showPrevious]="true"
       let-data="data">
     @if (data) {
       <div class="fs-row.gap-xs">

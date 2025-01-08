@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, inject, Injector, OnInit, ViewChild
 import { FormsModule } from '@angular/forms';
 
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 import { FsApi } from '@firestitch/api';
 import { FsChipModule } from '@firestitch/chip';
@@ -32,6 +32,7 @@ import { TaskTagComponent } from '../task-tag';
     FormsModule,
 
     MatButtonModule,
+    MatDialogModule,
     
     FsFormModule,
     FsListModule,

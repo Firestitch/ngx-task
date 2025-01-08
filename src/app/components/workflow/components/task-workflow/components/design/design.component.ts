@@ -138,12 +138,12 @@ export class DesignComponent implements OnInit, OnDestroy {
   }
 
   public updateConnection(diagramConnection: DiagramConnection): void {
-    diagramConnection.setTargetEndpoint({
+    diagramConnection.targetEndpoint = {
       shape: EndpointShape.Arrow,
-    });
+    };
 
     diagramConnection
-      .setClick(() => {
+      .click = () => {
         this._prompt.confirm({
           title: 'Delete Connection',
           template: 'Are you sure you want to delete this connection?',
@@ -162,7 +162,7 @@ export class DesignComponent implements OnInit, OnDestroy {
           .subscribe(() => {
             diagramConnection.disconnect();
           });
-      });
+      };
   }
 
   public connectionAdded(connectionAdded: ConnectionAdded): void {
