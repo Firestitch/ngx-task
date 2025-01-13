@@ -8,6 +8,6 @@ import { format, parseLocal } from '@firestitch/date';
 })
 export class TaskDueDatePipe implements PipeTransform {
   public transform(value: string): string {
-    return format(parseLocal(value), 'full-date');
+    return value ? format(parseLocal(value), 'full-date') : null;
   }
 }
