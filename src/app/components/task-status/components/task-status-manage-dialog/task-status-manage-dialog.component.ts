@@ -42,7 +42,7 @@ export class TaskStatusManageDialogComponent implements OnInit {
   private _dialogRef = inject(MatDialogRef<TaskStatusManageDialogComponent>);
 
   public ngOnInit(): void {
-    this._dialogRef.updateSize('400px');
+
   }
 
   public openTaskStatus(taskStatus?): void {

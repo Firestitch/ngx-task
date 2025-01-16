@@ -75,6 +75,14 @@ export class TaskStatusData<T = any> {
     );
   }
 
+  public default(data): Observable<any> {
+    return this._api.put(
+      ['statuses',data.id,'default'],
+      data,
+      { key: 'taskStatus' },
+    );
+  }
+
   public save(data: any): Observable<T> {
     return (data.id)
       ? this.put(data)

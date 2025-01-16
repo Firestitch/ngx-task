@@ -2,7 +2,9 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, Injector, Input, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 
 import { FsApi } from '@firestitch/api';
 import { FsChipModule } from '@firestitch/chip';
@@ -28,6 +30,9 @@ import { TaskStatusComponent } from '../task-status';
   imports: [
     FormsModule,
     CommonModule,
+
+    MatIconModule,
+    MatButtonModule,
 
     FsListModule,
     FsChipModule,
@@ -76,6 +81,27 @@ export class FsTaskStatusManageComponent extends FsBaseComponent implements OnIn
       ],
       rowActions: [
         {
+          icon: (taskStatus) => {
+            return taskStatus.default ? 'check_circle' : 'radio_button_unchecked';
+          },
+          menu: false,
+          click: (taskStatus) => {
+            this._taskStatusData
+              .default(taskStatus)
+              .subscribe(() => {
+                this.list.getData()
+                  .forEach((row) => {
+                    row = { 
+                      ...row, 
+                      default: row.id === taskStatus.id, 
+                    };
+
+                    this.list.updateData([row], (item) => row.id === item.id);
+                  });
+              });
+          },
+        },
+        {
           icon: 'delete',
           menu: false,
           click: (taskStatus) => {
@@ -101,6 +127,10 @@ export class FsTaskStatusManageComponent extends FsBaseComponent implements OnIn
         },
       },
     };
+  }
+
+  public defaultTaskStatus(taskStatus): void {
+   
   }
 
   public openTaskStatus(taskStatus?): void {
