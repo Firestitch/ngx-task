@@ -65,7 +65,7 @@ export class TaskCommentData<T = any> {
       [taskId,'comments', commentId,'files'],
       { file },
       {
-        key: '',
+        key: 'taskFile',
       },
     );
   }
