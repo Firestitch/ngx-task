@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
 
 import { FsApi } from '@firestitch/api';
 import {
@@ -18,7 +18,7 @@ import { Observable, of } from 'rxjs';
     FsGalleryModule,
   ],
 })
-export class CommentGalleryComponent implements OnInit {
+export class CommentGalleryComponent implements OnChanges {
 
   @Input() public taskComment;
 
@@ -28,7 +28,11 @@ export class CommentGalleryComponent implements OnInit {
     private _api: FsApi,
   ) { }
 
-  public ngOnInit(): void {
+  public ngOnChanges(): void {
+    this.initGallery();
+  }
+
+  public initGallery(): void {
     this.galleryConfig = {
       showChangeSize: false,
       showChangeView: false,
