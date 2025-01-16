@@ -1,6 +1,7 @@
 <fs-activities
     [apiPath]="[task.id, 'activities']"
-    [actions]="actions">
+    [actions]="actions"
+    [showDeleteAction]="showDeleteAction">
   <ng-template
       fsActivityPreview
       [activityType]="'taskDueDate'"

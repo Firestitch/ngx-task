@@ -14,9 +14,9 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 
 import { FsActivitiesComponent, FsActivityPreviewDirective } from '@firestitch/activity';
+import { Activity } from '@firestitch/activity/app/interfaces';
 import { FsDateModule } from '@firestitch/date';
 import { FsHtmlRendererModule } from '@firestitch/html-editor';
-
 
 import { filter } from 'rxjs';
 
@@ -59,7 +59,13 @@ export class ActivityComponent implements OnInit {
   @ViewChild(FsActivitiesComponent)
   public activities: FsActivitiesComponent; 
 
-  public actions;
+  public actions: {
+    label: string;
+    click: (activity: Activity) => void;
+    show: (activity: Activity) => boolean;
+  }[];
+
+  public showDeleteAction: (activity: Activity) => boolean;
 
   private _destroyRef = inject(DestroyRef);
   private _dialog = inject(MatDialog);
@@ -73,30 +79,32 @@ export class ActivityComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.actions = {
-      'taskComment': [
-        {
-          label: 'Edit',
-          click: (activity) => {
-            this._dialog.open(CommentComponent, {
-              injector: this._injector,
-              data: {
-                taskComment: activity.concreteActivityObject,
-              },
-            })
-              .afterClosed()
-              .pipe(
-                filter((taskComment) => !!taskComment),
-                takeUntilDestroyed(this._destroyRef),
-              )
-              .subscribe((taskComment) => {
-                activity.concreteActivityObject = taskComment;
-                this._cdRef.markForCheck();
-              });
-          },
+    this.showDeleteAction = () => true;
+
+    this.actions = [
+      {
+        label: 'Edit',
+        click: (activity) => {
+          this._dialog.open(CommentComponent, {
+            injector: this._injector,
+            data: {
+              taskComment: activity.concreteActivityObject,
+            },
+          })
+            .afterClosed()
+            .pipe(
+              filter((taskComment) => !!taskComment),
+              takeUntilDestroyed(this._destroyRef),
+            )
+            .subscribe((taskComment) => {
+              activity.concreteActivityObject = taskComment;
+              this.activities
+                .updateActivity(activity, (item) => item.id === activity.id);
+            });
         },
-      ],
-    };
+        show: (activity) => activity.activityType.type === 'taskComment',
+      },
+    ];
   }
 
 }

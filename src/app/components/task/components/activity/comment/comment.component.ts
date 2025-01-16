@@ -6,6 +6,7 @@ import {
   inject,
   OnDestroy,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
@@ -15,12 +16,12 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { FsDialogModule } from '@firestitch/dialog';
 import { FileProcessor, FsFile, FsFileModule } from '@firestitch/file';
-import { FsFormModule } from '@firestitch/form';
+import { FsFormDirective, FsFormModule } from '@firestitch/form';
 import { FsHtmlEditorConfig, FsHtmlEditorModule } from '@firestitch/html-editor';
+import { FsMessage } from '@firestitch/message';
 import { FsPrompt } from '@firestitch/prompt';
 
-import { merge, Subject } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { forkJoin, of, Subject, switchMap, tap } from 'rxjs';
 
 import { TaskCommentData } from '../../../../../data';
 import { TaskComment, TaskFile } from '../../../../../interfaces';
@@ -48,13 +49,19 @@ import { TaskComment, TaskFile } from '../../../../../interfaces';
 })
 export class CommentComponent implements OnDestroy, OnInit {
 
+  @ViewChild(FsFormDirective)
+  public form: FsFormDirective;
+
   public taskComment: TaskComment;
+  public fsFiles: FsFile[] = [];
   public htmlEditorConfig: FsHtmlEditorConfig = {
     placeholder: 'Comment',
   };
 
   private _destroy$ = new Subject<void>();
   private _taskCommentData = inject(TaskCommentData);
+  private _deletedTaskFiles: TaskFile[] = [];
+  private _message = inject(FsMessage);
   private _prompt = inject(FsPrompt);
   private _dialogRef = inject(MatDialogRef<CommentComponent>);
   private _cdRef = inject(ChangeDetectorRef);
@@ -74,46 +81,73 @@ export class CommentComponent implements OnDestroy, OnInit {
   }
 
   public selectFiles(fsFiles: FsFile[]): void {
-    merge(
-      ...fsFiles.map((fsFile) => {
-        const fileProcessor = new FileProcessor();
-
-        return fileProcessor.processFile(fsFile, {
-          orientate: true,
-          maxWidth: 2000,
-          maxHeight: 2000,
-        })
-          .pipe(
-            switchMap((file) => this._taskCommentData
-              .postCommentTaskFile(this.taskComment.taskId, this.taskComment.id, file.file)),
-          );
-      }))
-      .subscribe((taskFile) => {
-        this.taskComment.taskFiles.push(taskFile);
-        this._cdRef.markForCheck();
-      });
+    this.fsFiles = [
+      ...this.fsFiles,
+      ...fsFiles,
+    ];
   }
 
   public submit = () => {
     return this._taskCommentData
       .put(this.taskComment.taskId, this.taskComment)
       .pipe(
-        tap((taskComment) => {
-          this._dialogRef.close(taskComment);
+        switchMap(() => {
+          return this._deletedTaskFiles.length ? 
+            forkJoin(
+              this._deletedTaskFiles.map((taskFile) => this._taskCommentData
+                .deleteCommentTaskFile(
+                  this.taskComment.taskId,
+                  this.taskComment.id,
+                  taskFile.id,
+                ),
+              ),
+            ) :
+            of(null);
+        }),
+        switchMap(() => {
+          return this.fsFiles.length ? forkJoin(
+            ...this.fsFiles.map((fsFile) => {
+              const fileProcessor = new FileProcessor();
+    
+              return fileProcessor.processFile(fsFile, {
+                orientate: true,
+                maxWidth: 2000,
+                maxHeight: 2000,
+              })
+                .pipe(
+                  switchMap((file) => this._taskCommentData
+                    .postCommentTaskFile(this.taskComment.taskId, this.taskComment.id, file.file)),
+                );
+            }),
+          ) : 
+            of(null);
+        }),
+        tap(() => {
+          this._message.success();
+          this._dialogRef.close(this.taskComment);
         }),
       );
   };
 
-  public removeFile(taskFile: TaskFile): void {
+  public removeFile(fsFile: FsFile): void {
     this._prompt.confirm({
       title: 'Delete file',
       template: 'Are you sure you want to delete this file?',
     })
-      .pipe(
-        switchMap(() => this._taskCommentData
-          .deleteCommentTaskFile(this.taskComment.taskId, this.taskComment.id, taskFile.id)),
-      )
       .subscribe(() => {
+        this.fsFiles = this.fsFiles
+          .filter((item) => item !== fsFile);
+        this._cdRef.markForCheck();
+      });
+  }
+
+  public removeTaskFile(taskFile: TaskFile): void {
+    this._prompt.confirm({
+      title: 'Delete file',
+      template: 'Are you sure you want to delete this file?',
+    })
+      .subscribe(() => {
+        this._deletedTaskFiles.push(taskFile);
         this.taskComment.taskFiles = this.taskComment.taskFiles
           .filter((file) => file.id !== taskFile.id);
         this._cdRef.markForCheck();
