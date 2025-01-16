@@ -39,7 +39,9 @@ import { FsSkeletonModule } from '@firestitch/skeleton';
 import { of, Subject } from 'rxjs';
 import { catchError, filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 
-import { TaskAccountData, TaskAuditData, TaskData, TaskStatusData } from '../../data';
+import {
+  TaskAccountData, TaskAuditData, TaskCommentData, TaskData, TaskStatusData,
+} from '../../data';
 import { FS_TASK_CONFIG } from '../../injectors';
 import { FS_TASK_DEFAULT_CONFIG } from '../../injectors/task-default-config.injector';
 import { TaskApiService } from '../../interceptors';
@@ -108,6 +110,7 @@ import { FsTaskBottomToolbarDirective, FsTaskTopToolbarDirective } from './direc
     TaskAccountData,
     TaskAuditData,    
     TaskStatusData,
+    TaskCommentData,
   ],
 })
 export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestroy {

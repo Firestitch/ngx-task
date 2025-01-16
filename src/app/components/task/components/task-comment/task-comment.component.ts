@@ -15,14 +15,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 import { FsBadgeModule } from '@firestitch/badge';
-import { FsFile, FsFileModule } from '@firestitch/file';
+import { FileProcessor, FsFile, FsFileModule } from '@firestitch/file';
 import { FsFormModule } from '@firestitch/form';
 import { FsHtmlEditorConfig, FsHtmlEditorModule } from '@firestitch/html-editor';
 
-import { Subject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { of, Subject, zip } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 
-import { TaskData } from '../../../../data';
+import { TaskCommentData } from '../../../../data';
 import { Account, Task, TaskConfig } from '../../../../interfaces';
 
 
@@ -60,7 +60,7 @@ export class TaskCommentComponent implements OnDestroy, OnInit {
   public htmlEditorConfig: FsHtmlEditorConfig;
 
   private _destroy$ = new Subject<void>();
-  private _taskData = inject(TaskData);
+  private _taskCommentData = inject(TaskCommentData);
 
   public ngOnInit(): void {
     this.commentPlaceholder = this.commentPlaceholder || this.config.commentPlaceholder;
@@ -75,9 +75,17 @@ export class TaskCommentComponent implements OnDestroy, OnInit {
   }
 
   public submit = () => {
-    return this._taskData
-      .commentPost(this.task.id, { comment: this.comment }, this.files)
+    const fileProcessor = new FileProcessor();
+    const files$ = this.files.map((fsFile) => fileProcessor
+      .processFile(fsFile, {
+        orientate: true,
+        quality: 0.9,
+      }));
+    
+    return (files$.length ? zip(...files$) : of([]))
       .pipe(
+        switchMap((files) => this._taskCommentData
+          .post(this.task.id, { comment: this.comment }, files)),
         tap(() => {
           this.cancelComment();
           this.commentCreated.emit();
@@ -91,7 +99,7 @@ export class TaskCommentComponent implements OnDestroy, OnInit {
     this.commentEnabled = false;
   }
 
-  public selectFiles(files: FsFile[]) {
+  public selectFiles(files: FsFile[]) {    
     this.commentEnabled = true;
     this.files = [
       ...this.files,
