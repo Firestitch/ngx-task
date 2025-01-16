@@ -75,6 +75,14 @@ export class TaskTypeData<T = any> {
     );
   }
 
+  public default(data): Observable<any> {
+    return this._api.put(
+      ['types',data.id,'default'],
+      data,
+      { key: 'taskType' },
+    );
+  }
+
   public save(data: any): Observable<T> {
     return (data.id)
       ? this.put(data)

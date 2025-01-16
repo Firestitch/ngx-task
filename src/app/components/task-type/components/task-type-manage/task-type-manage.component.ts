@@ -95,6 +95,27 @@ export class FsTaskTypeManageComponent extends FsBaseComponent implements OnInit
       ],
       rowActions: [
         {
+          icon: (taskType) => {
+            return taskType.default ? 'check_circle' : 'radio_button_unchecked';
+          },
+          menu: false,
+          click: (taskType) => {
+            this._taskTypeData
+              .default(taskType)
+              .subscribe(() => {
+                this.list.getData()
+                  .forEach((row) => {
+                    row = { 
+                      ...row, 
+                      default: row.id === taskType.id, 
+                    };
+
+                    this.list.updateData([row], (item) => row.id === item.id);
+                  });
+              });
+          },
+        },
+        {
           icon: 'delete',
           menu: false,
           click: (data) => {
