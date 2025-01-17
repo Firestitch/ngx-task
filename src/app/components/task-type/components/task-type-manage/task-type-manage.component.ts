@@ -9,6 +9,7 @@ import { list } from '@firestitch/common';
 import { FsDialogModule } from '@firestitch/dialog';
 import { FsFormModule } from '@firestitch/form';
 import { FsListComponent, FsListConfig, FsListModule } from '@firestitch/list';
+import { FsMessage } from '@firestitch/message';
 import { FsSkeletonModule } from '@firestitch/skeleton';
 
 import { of } from 'rxjs';
@@ -43,10 +44,11 @@ export class TaskTypeManageComponent implements OnInit {
   public list: FsListComponent;
 
   public listConfig: FsListConfig;
-  
+
   private _taskTypeData: TaskTypeData;
   private _dialogRef = inject(MatDialogRef<TaskTypeManageComponent>);
   private _dialog = inject(MatDialog);
+  private _message = inject(FsMessage);
   private _data = inject<{ taskTypeData: TaskTypeData }>(MAT_DIALOG_DATA);
 
   constructor() {
@@ -90,7 +92,7 @@ export class TaskTypeManageComponent implements OnInit {
 
   public openTaskType(taskType): void {
     this._dialog
-      .open(TaskTypeComponent,{
+      .open(TaskTypeComponent, {
         data: {
           taskType,
           taskTypeData: this._taskTypeData,
@@ -123,6 +125,7 @@ export class TaskTypeManageComponent implements OnInit {
       offset: this.list.list.paging.offset,
     })
       .subscribe(() => {
+        this._message.success();
         this.list.reload();
       });
   }

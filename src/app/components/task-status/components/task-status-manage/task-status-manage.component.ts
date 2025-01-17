@@ -10,6 +10,7 @@ import { list } from '@firestitch/common';
 import { FsDialogModule } from '@firestitch/dialog';
 import { FsFormModule } from '@firestitch/form';
 import { FsListComponent, FsListConfig, FsListModule } from '@firestitch/list';
+import { FsMessage } from '@firestitch/message';
 
 import { of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -45,6 +46,7 @@ export class TaskStatusManageComponent implements OnInit {
 
   private _dialogRef = inject(MatDialogRef<TaskStatusManageComponent>);
   private _dialog = inject(MatDialog);
+  private _message = inject(FsMessage);
   private _data = inject<{ taskStatusData: TaskStatusData }>(MAT_DIALOG_DATA);
   private _taskStatusData: TaskStatusData;
 
@@ -92,7 +94,7 @@ export class TaskStatusManageComponent implements OnInit {
   }
 
   public openTaskStatus(taskStatus?): void {
-    this._dialog.open(TaskStatusComponent,{
+    this._dialog.open(TaskStatusComponent, {
       data: {
         taskStatus,
         taskStatusData: this._taskStatusData,
@@ -126,6 +128,7 @@ export class TaskStatusManageComponent implements OnInit {
         offset: this.list.list.paging.offset,
       })
       .subscribe(() => {
+        this._message.success();
         this.list.reload();
       });
   }

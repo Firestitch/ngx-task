@@ -10,6 +10,7 @@ import { list } from '@firestitch/common';
 import { FsDialogModule } from '@firestitch/dialog';
 import { FsFormModule } from '@firestitch/form';
 import { FsListComponent, FsListConfig, FsListModule } from '@firestitch/list';
+import { FsMessage } from '@firestitch/message';
 
 import { of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -25,11 +26,11 @@ import { TaskTagComponent } from '../task-tag';
   standalone: true,
   imports: [
     CommonModule,
-    
+
     FormsModule,
 
     MatButtonModule,
-    
+
     FsFormModule,
     FsListModule,
     FsDialogModule,
@@ -47,8 +48,9 @@ export class TaskTagManageComponent implements OnInit {
   private _dialogRef = inject(MatDialogRef<TaskTagManageComponent>);
   private _taskTagData: TaskTagData;
   private _dialog = inject(MatDialog);
+  private _message = inject(FsMessage);
   private _data = inject<{ taskTagData: TaskTagData }>(MAT_DIALOG_DATA);
-  
+
   constructor() {
     this._taskTagData = this._data.taskTagData;
     this._dialogRef.updateSize('400px');
@@ -90,7 +92,7 @@ export class TaskTagManageComponent implements OnInit {
   }
 
   public openTaskTag(taskTag?): void {
-    this._dialog.open(TaskTagComponent,{
+    this._dialog.open(TaskTagComponent, {
       data: {
         taskTag,
         taskTagData: this._taskTagData,
@@ -123,6 +125,7 @@ export class TaskTagManageComponent implements OnInit {
       offset: this.list.list.paging.offset,
     })
       .subscribe(() => {
+        this._message.success();
         this.list.reload();
       });
   }
