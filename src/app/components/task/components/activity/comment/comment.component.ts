@@ -105,21 +105,25 @@ export class CommentComponent implements OnDestroy, OnInit {
             of(null);
         }),
         switchMap(() => {
-          return this.fsFiles.length ? forkJoin(
-            ...this.fsFiles.map((fsFile) => {
-              const fileProcessor = new FileProcessor();
+          return this.fsFiles.length ? 
+            forkJoin(
+              ...this.fsFiles.map((fsFile) => {
+                const fileProcessor = new FileProcessor();
     
-              return fileProcessor.processFile(fsFile, {
-                orientate: true,
-                maxWidth: 2000,
-                maxHeight: 2000,
-              })
-                .pipe(
-                  switchMap((file) => this._taskCommentData
-                    .postCommentTaskFile(this.taskComment.taskId, this.taskComment.id, file.file)),
-                );
-            }),
-          ) : 
+                return fileProcessor.processFile(fsFile, {
+                  orientate: true,
+                  maxWidth: 2000,
+                  maxHeight: 2000,
+                })
+                  .pipe(
+                    switchMap((file) => this._taskCommentData
+                      .postCommentTaskFile(this.taskComment.taskId, this.taskComment.id, file.file)),
+                    tap((taskFile) => {
+                      this.taskComment.taskFiles.push(taskFile);
+                    }),
+                  );
+              }),
+            ) : 
             of(null);
         }),
         tap(() => {
