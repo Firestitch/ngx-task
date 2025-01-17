@@ -11,6 +11,7 @@ import { FsChipModule } from '@firestitch/chip';
 import { list } from '@firestitch/common';
 import { FsFormModule } from '@firestitch/form';
 import { FsListComponent, FsListConfig, FsListModule } from '@firestitch/list';
+import { FsMessage } from '@firestitch/message';
 
 import { map, tap } from 'rxjs/operators';
 
@@ -40,8 +41,8 @@ import { TaskStatusComponent } from '../task-status';
   ],
   providers: [
     { provide: FsApi, useClass: TaskApiService },
-    { 
-      provide: DataApiService, 
+    {
+      provide: DataApiService,
       useFactory: () => {
         return inject(DataApiService, { optional: true, skipSelf: true }) || new DataApiService();
       },
@@ -59,9 +60,10 @@ export class FsTaskStatusManageComponent extends FsBaseComponent implements OnIn
   public listConfig: FsListConfig;
 
   private _dialog = inject(MatDialog);
+  private _message = inject(FsMessage);
   private _taskStatusData = inject(TaskStatusData);
   private _injector = inject(Injector);
-  
+
   public ngOnInit(): void {
     this.listConfig = {
       status: false,
@@ -91,9 +93,9 @@ export class FsTaskStatusManageComponent extends FsBaseComponent implements OnIn
               .subscribe(() => {
                 this.list.getData()
                   .forEach((row) => {
-                    row = { 
-                      ...row, 
-                      default: row.id === taskStatus.id, 
+                    row = {
+                      ...row,
+                      default: row.id === taskStatus.id,
                     };
 
                     this.list.updateData([row], (item) => row.id === item.id);
@@ -130,7 +132,7 @@ export class FsTaskStatusManageComponent extends FsBaseComponent implements OnIn
   }
 
   public defaultTaskStatus(taskStatus): void {
-   
+
   }
 
   public openTaskStatus(taskStatus?): void {
@@ -156,6 +158,7 @@ export class FsTaskStatusManageComponent extends FsBaseComponent implements OnIn
         offset: this.list.list.paging.offset,
       })
       .subscribe(() => {
+        this._message.success();
         this.list.reload();
       });
   }

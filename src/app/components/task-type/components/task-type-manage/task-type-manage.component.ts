@@ -12,6 +12,7 @@ import { FsChipModule } from '@firestitch/chip';
 import { list } from '@firestitch/common';
 import { FsFormModule } from '@firestitch/form';
 import { FsListComponent, FsListConfig, FsListModule } from '@firestitch/list';
+import { FsMessage } from '@firestitch/message';
 import { FsSkeletonModule } from '@firestitch/skeleton';
 
 import { map, tap } from 'rxjs/operators';
@@ -43,8 +44,8 @@ import { TaskTypeComponent } from '../task-type';
   ],
   providers: [
     { provide: FsApi, useClass: TaskApiService },
-    { 
-      provide: DataApiService, 
+    {
+      provide: DataApiService,
       useFactory: () => {
         return inject(DataApiService, { optional: true, skipSelf: true }) || new DataApiService();
       },
@@ -61,11 +62,12 @@ export class FsTaskTypeManageComponent extends FsBaseComponent implements OnInit
   public showCreate = false;
 
   public listConfig: FsListConfig;
-  
+
   private _taskTypeData = inject(TaskTypeData);
   private _dialog = inject(MatDialog);
   private _injector = inject(Injector);
-  
+  private _message = inject(FsMessage);
+
   public ngOnInit(): void {
     this.listConfig = {
       paging: false,
@@ -105,9 +107,9 @@ export class FsTaskTypeManageComponent extends FsBaseComponent implements OnInit
               .subscribe(() => {
                 this.list.getData()
                   .forEach((row) => {
-                    row = { 
-                      ...row, 
-                      default: row.id === taskType.id, 
+                    row = {
+                      ...row,
+                      default: row.id === taskType.id,
                     };
 
                     this.list.updateData([row], (item) => row.id === item.id);
@@ -154,6 +156,7 @@ export class FsTaskTypeManageComponent extends FsBaseComponent implements OnInit
       offset: this.list.list.paging.offset,
     })
       .subscribe(() => {
+        this._message.success();
         this.list.reload();
       });
   }
