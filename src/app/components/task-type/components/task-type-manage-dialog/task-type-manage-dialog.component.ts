@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -32,7 +32,7 @@ import { FsTaskTypeManageComponent } from '../task-type-manage/task-type-manage.
     FsTaskTypeManageComponent,
   ],
 })
-export class TaskTypeManageDialogComponent implements OnInit {
+export class TaskTypeManageDialogComponent {
 
   @ViewChild(FsTaskTypeManageComponent)
   public taskTypeManage: FsTaskTypeManageComponent;
@@ -40,10 +40,6 @@ export class TaskTypeManageDialogComponent implements OnInit {
   public listConfig: FsListConfig;
   
   private _dialogRef = inject(MatDialogRef<FsTaskTypeManageComponent>);
-
-  public ngOnInit(): void {
-    this._dialogRef.updateSize('400px');
-  }
 
   public openTaskType(taskType): void {
     this.taskTypeManage.openTaskType(taskType);

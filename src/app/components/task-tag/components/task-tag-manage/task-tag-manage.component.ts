@@ -71,7 +71,6 @@ export class TaskTagManageComponent implements OnInit {
   private _message = inject(FsMessage);
 
   public ngOnInit(): void {
-    this._dialogRef.updateSize('400px');
     this.listConfig = {
       status: false,
       paging: false,
