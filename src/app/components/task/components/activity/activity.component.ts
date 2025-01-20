@@ -55,9 +55,9 @@ import { TaskDueDatePipe } from './pipes/task-due-date.pipe';
 export class ActivityComponent implements OnInit {
 
   @Input() public task: Task;
-  
+
   @ViewChild(FsActivitiesComponent)
-  public activities: FsActivitiesComponent; 
+  public activities: FsActivitiesComponent;
 
   public actions: {
     label: string;
@@ -65,13 +65,17 @@ export class ActivityComponent implements OnInit {
     show: (activity: Activity) => boolean;
   }[];
 
+  @Input()
   public showDeleteAction: (activity: Activity) => boolean;
+
+  @Input()
+  public showEditAction: (activity: Activity) => boolean;
 
   private _destroyRef = inject(DestroyRef);
   private _dialog = inject(MatDialog);
   private _cdRef = inject(ChangeDetectorRef);
   private _injector = inject(Injector);
-  
+
   public loadNewActivities(): void {
     if (this.activities) {
       this.activities.loadNew();
@@ -79,7 +83,13 @@ export class ActivityComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.showDeleteAction = () => true;
+    if (!this.showDeleteAction) {
+      this.showDeleteAction = () => true;
+    }
+
+    if (!this.showEditAction) {
+      this.showEditAction = () => true;
+    }
 
     this.actions = [
       {
@@ -102,7 +112,8 @@ export class ActivityComponent implements OnInit {
                 .updateActivity(activity, (item) => item.id === activity.id);
             });
         },
-        show: (activity) => activity.activityType.type === 'taskComment',
+        show: (activity) => this.showEditAction(activity)
+          && activity.activityType.type === 'taskComment',
       },
     ];
   }

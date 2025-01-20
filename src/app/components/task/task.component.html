@@ -43,7 +43,11 @@
           [config]="config"
           (commentCreated)="loadNewActivities()">
         </app-task-comment>
-        <app-task-activity [task]="task"></app-task-activity>
+        <app-task-activity
+          [task]="task"
+          [showDeleteAction]="showDeleteAction"
+          [showEditAction]="showEditAction">
+        </app-task-activity>
       </ng-template>
     </mat-tab>
     <mat-tab label="Audits">

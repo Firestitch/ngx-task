@@ -22,6 +22,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 
+import { Activity } from '@firestitch/activity/app/interfaces';
 import { FsApi } from '@firestitch/api';
 import { FsAuditsModule } from '@firestitch/audit';
 import { FsChipModule } from '@firestitch/chip';
@@ -99,8 +100,8 @@ import { FsTaskBottomToolbarDirective, FsTaskTopToolbarDirective } from './direc
     ActivityComponent,
   ],
   viewProviders: [
-    { 
-      provide: DataApiService, 
+    {
+      provide: DataApiService,
       useFactory: () => {
         return inject(DataApiService, { optional: true, skipSelf: true }) || new DataApiService();
       },
@@ -108,7 +109,7 @@ import { FsTaskBottomToolbarDirective, FsTaskTopToolbarDirective } from './direc
     { provide: FsApi, useClass: TaskApiService },
     TaskData,
     TaskAccountData,
-    TaskAuditData,    
+    TaskAuditData,
     TaskStatusData,
     TaskCommentData,
   ],
@@ -122,16 +123,22 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
   public taskBottomToolbar: TemplateRef<any>;
 
   @ViewChild(ActivityComponent)
-  public activity: ActivityComponent; 
+  public activity: ActivityComponent;
 
   @ViewChild(FsHtmlEditorComponent)
-  public htmlEditor: FsHtmlEditorComponent; 
+  public htmlEditor: FsHtmlEditorComponent;
 
   @Input('task') public set setTask(task: Task) {
     this._task = task;
   }
 
   @Input() public config: TaskConfig = {};
+
+  @Input()
+  public showDeleteAction: (activity: Activity) => boolean;
+
+  @Input()
+  public showEditAction: (activity: Activity) => boolean;
 
   public task: Task;
 
@@ -150,7 +157,7 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
     this._initConfig();
     this._fetchData();
   }
-   
+
   public loadAudits = (query) => {
     return this._taskAuditData
       .gets(this.task.id, query);
@@ -160,7 +167,7 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
     this._destroy$.next();
     this._destroy$.complete();
   }
-  
+
   public save$(data) {
     return this._taskData
       .save({
@@ -191,10 +198,10 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
         taskRelates: true,
         taskRelateObjects: true,
       })
-      .subscribe((task) =>{
-        this.task = { 
+      .subscribe((task) => {
+        this.task = {
           ...this.task,
-          ...task, 
+          ...task,
         };
         this._cdRef.markForCheck();
       });
@@ -275,7 +282,7 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
   public taskTagsChange(taskTags): void {
     this._taskData
       .taskTags(this.task.id, taskTags)
-      .subscribe(() =>{
+      .subscribe(() => {
         this._message.success();
       });
   }
@@ -292,7 +299,7 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
         switchMap(() => {
           return this._task?.id
             ? this._taskData
-              .get(this._task?.id,{
+              .get(this._task?.id, {
                 taskStatuses: true,
                 taskTypes: true,
                 taskDescriptions: true,
@@ -319,8 +326,8 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
         takeUntil(this._destroy$),
       )
       .subscribe((task) => {
-        this.task = { 
-          ...task, 
+        this.task = {
+          ...task,
           taskRelates: task.taskRelates || [],
         };
 
