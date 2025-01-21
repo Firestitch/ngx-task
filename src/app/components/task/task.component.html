@@ -42,7 +42,8 @@
           [(task)]="task"
           [config]="config"
           [taskWorkflowSteps]="taskWorkflowSteps"
-          (commentCreated)="loadNewActivities()">
+          (commentCreated)="loadNewActivities()"
+          (taskChange)="loadNewActivities()">
         </app-task-comment>
         <app-task-activity
           [task]="task"
