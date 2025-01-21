@@ -57,10 +57,14 @@ const routes: Routes = [
     FsTaskStatusManageComponent,
     FsTaskWorkflowManageComponent,
     FsTasksModule.forRoot({
-      subjectObjectName: 'Subject',
+      subjectObject: {
+        label: 'Subject',
+      },
     }),
     FsTaskModule.forRoot({
-      subjectObjectName: 'Subject',
+      subjectObject: {
+        label: 'Subject',
+      },
     }),
   ],
   declarations: [

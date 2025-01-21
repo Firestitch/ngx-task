@@ -23,6 +23,7 @@
           taskPrioritySelect: taskPrioritySelect,
           taskDueDate: taskDueDate,
           taskTagSelect: taskTagSelect,
+          taskSubjectObject: taskSubjectObject,
           task: task
         }">
       </ng-container>
@@ -111,13 +112,51 @@
   </app-task-tag-select>
 </ng-template>
 <ng-template #taskSubjectObject>
-  @if (task.subjectObject) {
-    <fs-label-field>
-      <fs-label>
-        {{ config.subjectObjectName }}
-      </fs-label>
-      {{ task.subjectObject?.name }}
-    </fs-label-field>
+  @if (config.subjectObject?.show) {
+    @if (config.subjectObject.select && config.subjectObject.change) {
+      <fs-autocomplete-chips
+          [fetch]="fetchSubjectObject"
+          [(ngModel)]="task.subjectObject"
+          (ngModelChange)="changeSubjectObject($event)"
+          [floatLabel]="'always'"
+          [label]="config.subjectObject?.label"
+          placeholder="None"
+          [padless]="true"
+          size="small"
+          [multiple]="false"
+          [initOnClick]="true"
+          name="subjectObject">
+        <ng-template
+            fsAutocompleteChipsTemplate
+            let-object="object">
+          {{ object.name }}
+        </ng-template>
+        <ng-template
+          fsAutocompleteChipSelectedSuffix
+          [icon]="'launch'"
+          (click)="selectedSuffixClick($event.data)">
+        </ng-template>
+      </fs-autocomplete-chips>
+    } @else {
+      <fs-label-field>
+        <fs-label>
+          {{ config.subjectObject?.label }}
+        </fs-label>
+        <div class="fs-row.gap-xs">
+          @if (task.subjectObject?.name) {
+            @if (config.subjectObject.click) {
+              <a (click)="selectedSuffixClick(task.subjectObject)">
+                {{ task.subjectObject?.name }}
+              </a>
+            } @else {
+              {{ task.subjectObject?.name }}
+            }
+          } @else {
+            None
+          }
+        </div>
+      </fs-label-field>
+    }
   }
 </ng-template>
 <ng-template #taskTypeSelect>
@@ -176,7 +215,7 @@
   <ng-container [ngTemplateOutlet]="taskPrioritySelect"></ng-container>
   <ng-container [ngTemplateOutlet]="taskDueDate"></ng-container>
   <ng-container [ngTemplateOutlet]="taskTagSelect"></ng-container>
-  @if (config.showSubjectObject) {
+  @if (config.subjectObject?.show) {
     <ng-container [ngTemplateOutlet]="taskSubjectObject"></ng-container>
   }
 </ng-template>

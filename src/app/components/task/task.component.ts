@@ -25,6 +25,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { Activity } from '@firestitch/activity/app/interfaces';
 import { FsApi } from '@firestitch/api';
 import { FsAuditsModule } from '@firestitch/audit';
+import { FsAutocompleteChipsModule } from '@firestitch/autocomplete-chips';
 import { FsChipModule } from '@firestitch/chip';
 import { FsClipboardModule } from '@firestitch/clipboard';
 import { FsCommonModule } from '@firestitch/common';
@@ -37,7 +38,7 @@ import { FsMessage } from '@firestitch/message';
 import { FsPrompt } from '@firestitch/prompt';
 import { FsSkeletonModule } from '@firestitch/skeleton';
 
-import { of, Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { catchError, filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import {
@@ -46,7 +47,7 @@ import {
 import { FS_TASK_CONFIG } from '../../injectors';
 import { FS_TASK_DEFAULT_CONFIG } from '../../injectors/task-default-config.injector';
 import { TaskApiService } from '../../interceptors';
-import { Task, TaskConfig, TaskWorkflowStep } from '../../interfaces';
+import { Object, Task, TaskConfig, TaskWorkflowStep } from '../../interfaces';
 import { DataApiService } from '../../services';
 import { FsBaseComponent } from '../base/base.component';
 import { PrioritySelectComponent } from '../task-priority';
@@ -87,6 +88,7 @@ import { FsTaskBottomToolbarDirective, FsTaskTopToolbarDirective } from './direc
     FsLabelModule,
     FsChipModule,
     FsAuditsModule,
+    FsAutocompleteChipsModule,
 
     TaskAccountSelectComponent,
     TaskCommentComponent,
@@ -174,6 +176,25 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
       .getTaskWorkflowSteps(this.task.id)
       .subscribe((taskWorkflowSteps) => {
         this.taskWorkflowSteps = taskWorkflowSteps;
+        this._cdRef.markForCheck();
+      });
+  }
+
+  public fetchSubjectObject = (keywords: string[]): Observable<Object[]> => {
+    return this.config.subjectObject.select(keywords);
+  };
+
+  public selectedSuffixClick(subjectObject): void {
+    this.config.subjectObject?.click(this.task, subjectObject);
+  }
+
+  public changeSubjectObject(object: Object) {
+    this.config.subjectObject.change(this.task, object)
+      .subscribe((task) => {
+        this.task = {
+          ...this.task,
+          ...task,
+        };
         this._cdRef.markForCheck();
       });
   }
@@ -317,6 +338,10 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
     });
   }
 
+  public selectSubjectObject(): void {
+    // this.config.subjectObject.select(this.task.subjectObject.name);
+  }
+
   private _fetchData(): void {
     of(null)
       .pipe(
@@ -332,7 +357,7 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
                 taskRelates: true,
                 taskRelateObjects: true,
                 taskTags: true,
-                subjectObjects: this.config.showSubjectObject ?? undefined,
+                subjectObjects: this.config.subjectObject?.show ?? undefined,
               })
             : this._taskData
               .save({
@@ -366,8 +391,10 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
       commentPlaceholder: 'Add a comment...',
       descriptionPlaceholder: 'Add a description...',
       descriptionLabel: 'Description',
-      showSubjectObject: false,
-      subjectObjectName: 'Subject',
+      subjectObject: {
+        show: false,
+        label: 'Subject',
+      },
       ...this._taskDefaultConfig,
       ...this._taskConfig,
       ...this.config,
