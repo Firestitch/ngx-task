@@ -14,4 +14,5 @@ export { Task, TaskConfig, TasksConfig } from './app/interfaces';
 export { FsTaskModule } from './app/modules/task.module';
 export { FsTasksModule } from './app/modules/tasks.module';
 
-export { FS_TASK_CONFIG } from './app/injectors';
+export { FS_TASKS_CONFIG, FS_TASK_CONFIG } from './app/injectors';
+
