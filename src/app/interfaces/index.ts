@@ -4,5 +4,7 @@ export * from './task-comment';
 export * from './task-config';
 export * from './task-file';
 export * from './task-relate';
+export * from './task-type';
+export * from './task-workflow';
 export * from './task';
 export * from './tasks-config';

@@ -9,9 +9,11 @@ import {
 import { FormsModule } from '@angular/forms';
 
 import { MatButtonModule } from '@angular/material/button';
+import { MatOptionModule } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 import { FsColorPickerModule, randomColor } from '@firestitch/colorpicker';
 import { FsDialogModule } from '@firestitch/dialog';
@@ -22,7 +24,8 @@ import { FsSkeletonModule } from '@firestitch/skeleton';
 
 import { tap } from 'rxjs/operators';
 
-import { TaskTypeData } from '../../../../data';
+import { TaskTypeData, TaskWorkflowData } from '../../../../data';
+import { TaskType, TaskWorkflow } from '../../../../interfaces';
 
 
 @Component({
@@ -38,7 +41,9 @@ import { TaskTypeData } from '../../../../data';
     MatInputModule,
     MatButtonModule,
     MatFormFieldModule,
-
+    MatSelectModule,
+    MatOptionModule,
+    
     FsDialogModule,
     FsColorPickerModule,
     FsIconPickerModule,
@@ -48,12 +53,14 @@ import { TaskTypeData } from '../../../../data';
 })
 export class TaskTypeComponent implements OnInit {
 
-  public taskType;
+  public taskType: TaskType;
+  public taskWorkflows: TaskWorkflow[] = [];
 
   private _taskTypeData = inject(TaskTypeData);
   private _dialogRef = inject(MatDialogRef<TaskTypeComponent>);
   private _message = inject(FsMessage);
   private _cdRef = inject(ChangeDetectorRef);   
+  private _taskWorkflowData = inject(TaskWorkflowData);
   private _data = inject<{ 
     taskType: any, 
   }>(MAT_DIALOG_DATA);
@@ -72,6 +79,12 @@ export class TaskTypeComponent implements OnInit {
         color: randomColor(),
       };
     }
+
+    this._taskWorkflowData.gets()
+      .subscribe((taskWorkflows) => {
+        this.taskWorkflows = taskWorkflows;
+        this._cdRef.markForCheck();
+      });
   }
 
   public save = () => {

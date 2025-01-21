@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, Injector, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy, Component, inject, Injector, Input, OnInit, ViewChild,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -129,10 +131,6 @@ export class FsTaskStatusManageComponent extends FsBaseComponent implements OnIn
         },
       },
     };
-  }
-
-  public defaultTaskStatus(taskStatus): void {
-
   }
 
   public openTaskStatus(taskStatus?): void {
