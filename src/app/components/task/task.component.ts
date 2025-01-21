@@ -284,9 +284,13 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
   }
 
   public taskTypeChange(taskType?): void {
-    this.save({
+    this.save$({
       taskTypeId: taskType?.id,
-    });
+    })
+      .pipe(
+        tap(() => this.loadTaskWorkflowSteps()),
+      )
+      .subscribe();
   }
 
   public taskStatusChange(taskStatus?): void {

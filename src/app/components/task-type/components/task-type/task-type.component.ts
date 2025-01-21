@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   inject,
+  Injector,
   OnInit,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -61,6 +62,7 @@ export class TaskTypeComponent implements OnInit {
   private _cdRef = inject(ChangeDetectorRef);   
   private _taskWorkflowData = inject(TaskWorkflowData);
   private _dialog = inject(MatDialog);
+  private _injector = inject(Injector);
   private _data = inject<{ 
     taskType: any, 
   }>(MAT_DIALOG_DATA);
@@ -88,7 +90,9 @@ export class TaskTypeComponent implements OnInit {
   };
   
   public manageTaskWorkflows() {
-    this._dialog.open(TaskWorkflowManageDialogComponent);
+    this._dialog.open(TaskWorkflowManageDialogComponent,{
+      injector: this._injector,
+    });
   }
 
   public save = () => {
