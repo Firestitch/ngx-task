@@ -338,10 +338,6 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
     });
   }
 
-  public selectSubjectObject(): void {
-    // this.config.subjectObject.select(this.task.subjectObject.name);
-  }
-
   private _fetchData(): void {
     of(null)
       .pipe(

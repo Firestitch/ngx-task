@@ -72,8 +72,8 @@
     </ng-template>
   </fs-list-column>
   <fs-list-column
-      [title]="config.subjectObjectName"
-      [show]="config.showSubjectObject">
+      [title]="config.subjectObject?.label"
+      [show]="config.subjectObject?.show">
     <ng-template
         fs-list-cell
         let-row="row">

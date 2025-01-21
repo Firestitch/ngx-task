@@ -89,8 +89,8 @@ export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestr
   private _taskData = inject(TaskData);
   private _taskStatusData = inject(TaskStatusData);
   private _taskAccountData = inject(TaskAccountData);
-  private _taskDefaultConfig = inject(FS_TASKS_DEFAULT_CONFIG, { optional: true });
-  private _taskConfig = inject(FS_TASKS_CONFIG, { optional: true });
+  private _tasksDefaultConfig = inject(FS_TASKS_DEFAULT_CONFIG, { optional: true });
+  private _tasksConfig = inject(FS_TASKS_CONFIG, { optional: true });
   private _injector = inject(Injector);
 
   public ngOnInit(): void {
@@ -143,8 +143,8 @@ export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestr
 
   private _initConfig(): void {
     this.config = {
-      ...this._taskDefaultConfig,
-      ...this._taskConfig,
+      ...this._tasksDefaultConfig,
+      ...this._tasksConfig,
       ...this.config,
     };
   }
@@ -263,7 +263,7 @@ export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestr
           taskTags: true,
         };
 
-        if(this.config.showSubjectObject) {
+        if(this.config.subjectObject?.show) {
           query.subjectObjects = true;
         }
         
