@@ -69,7 +69,7 @@ export class TaskTypeComponent implements OnInit {
     if (this._data.taskType.id) {
       this._taskTypeData
         .get(this._data.taskType.id, {
-          taskWorkflow: true,
+          taskWorkflows: true,
         })
         .subscribe((taskType) => {
           this.taskType = taskType;
