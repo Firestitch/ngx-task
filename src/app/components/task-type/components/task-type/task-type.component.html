@@ -44,7 +44,8 @@
           </mat-form-field>
           <fs-autocomplete-chips
               [fetch]="fetchTaskWorkflows"
-              [(ngModel)]="taskType.taskWorkflowId"
+              [(ngModel)]="taskType.taskWorkflow"
+              (ngModelChange)="taskType.taskWorkflowId = $event?.id"
               [floatLabel]="'always'"
               label="Workflow"
               placeholder="None"
