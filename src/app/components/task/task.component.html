@@ -39,11 +39,11 @@
     <mat-tab label="Activity">
       <ng-template matTabContent>
         <app-task-comment
-          [(task)]="task"
+          [task]="task"
           [config]="config"
           [taskWorkflowSteps]="taskWorkflowSteps"
           (commentCreated)="loadNewActivities()"
-          (taskChange)="loadNewActivities()">
+          (taskChange)="commentTaskChange($event)">
         </app-task-comment>
         <app-task-activity
           [task]="task"

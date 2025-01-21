@@ -201,6 +201,12 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
     this.activity.loadNewActivities();
   }
 
+  public commentTaskChange(task: Task): void {
+    this.task = task;
+    this.loadNewActivities();
+    this.loadTaskWorkflowSteps();
+  }
+
   public loadRelated(): void {
     this.loadNewActivities();
     this._taskData
