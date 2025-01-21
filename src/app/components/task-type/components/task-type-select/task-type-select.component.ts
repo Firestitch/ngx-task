@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  Injector,
   OnDestroy,
   OnInit,
 } from '@angular/core';
@@ -59,10 +60,12 @@ export class TaskTypeSelectComponent implements ControlValueAccessor, OnDestroy,
   private _dialog = inject(MatDialog);
   private _dataApiService = inject(DataApiService);
   private _taskTypeData = inject(TaskTypeData);
+  private _injector = inject(Injector);
   
   public openManage(): void {
     this._dialog.open(TaskTypeManageDialogComponent,{
       autoFocus: false,
+      injector: this._injector,
       data: {
         dataApiService: this._dataApiService,
       },

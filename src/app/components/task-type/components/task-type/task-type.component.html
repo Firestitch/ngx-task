@@ -42,23 +42,26 @@
               name="color"
               fsFormRequired>
           </mat-form-field>
-          <mat-form-field>
-            <mat-label>
-              Workflow
-            </mat-label>
-            <mat-select
-                [(ngModel)]="taskType.taskWorkflowId"
-                name="taskWorkflowId">
-              <mat-option [value]="null">
-                None
-              </mat-option>
-              @for (taskWorkflow of taskWorkflows; track taskWorkflow.id) {
-                <mat-option [value]="taskWorkflow.id">
-                  {{ taskWorkflow.name }}
-                </mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
+          <fs-autocomplete-chips
+              [fetch]="fetchTaskWorkflows"
+              [(ngModel)]="taskType.taskWorkflowId"
+              [floatLabel]="'always'"
+              label="Workflow"
+              placeholder="None"
+              size="small"
+              [multiple]="false"
+              name="taskWorkflow">
+            <ng-template
+                fsAutocompleteChipsTemplate
+                let-object="object">
+              {{ object.name }}
+            </ng-template>
+            <ng-template
+                fsAutocompleteChipsStatic
+                (click)="manageTaskWorkflows()">
+              Manage
+            </ng-template>
+          </fs-autocomplete-chips>
         </div>
       </mat-dialog-content>
       <mat-dialog-actions>

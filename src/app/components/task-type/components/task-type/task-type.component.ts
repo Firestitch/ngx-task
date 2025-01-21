@@ -9,12 +9,11 @@ import {
 import { FormsModule } from '@angular/forms';
 
 import { MatButtonModule } from '@angular/material/button';
-import { MatOptionModule } from '@angular/material/core';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
 
+import { FsAutocompleteChipsModule } from '@firestitch/autocomplete-chips';
 import { FsColorPickerModule, randomColor } from '@firestitch/colorpicker';
 import { FsDialogModule } from '@firestitch/dialog';
 import { FsFormModule } from '@firestitch/form';
@@ -26,6 +25,7 @@ import { tap } from 'rxjs/operators';
 
 import { TaskTypeData, TaskWorkflowData } from '../../../../data';
 import { TaskType, TaskWorkflow } from '../../../../interfaces';
+import { TaskWorkflowManageDialogComponent } from '../../../workflow/components/task-workflow-manage-dialog/task-workflow-manage-dialog.component';
 
 
 @Component({
@@ -41,9 +41,8 @@ import { TaskType, TaskWorkflow } from '../../../../interfaces';
     MatInputModule,
     MatButtonModule,
     MatFormFieldModule,
-    MatSelectModule,
-    MatOptionModule,
-    
+
+    FsAutocompleteChipsModule,
     FsDialogModule,
     FsColorPickerModule,
     FsIconPickerModule,
@@ -61,6 +60,7 @@ export class TaskTypeComponent implements OnInit {
   private _message = inject(FsMessage);
   private _cdRef = inject(ChangeDetectorRef);   
   private _taskWorkflowData = inject(TaskWorkflowData);
+  private _dialog = inject(MatDialog);
   private _data = inject<{ 
     taskType: any, 
   }>(MAT_DIALOG_DATA);
@@ -68,7 +68,9 @@ export class TaskTypeComponent implements OnInit {
   public ngOnInit(): void {
     if (this._data.taskType.id) {
       this._taskTypeData
-        .get(this._data.taskType.id)
+        .get(this._data.taskType.id, {
+          taskWorkflow: true,
+        })
         .subscribe((taskType) => {
           this.taskType = taskType;
           this._cdRef.markForCheck();
@@ -79,12 +81,14 @@ export class TaskTypeComponent implements OnInit {
         color: randomColor(),
       };
     }
+  }
 
-    this._taskWorkflowData.gets()
-      .subscribe((taskWorkflows) => {
-        this.taskWorkflows = taskWorkflows;
-        this._cdRef.markForCheck();
-      });
+  public fetchTaskWorkflows = (keyword: string) => {
+    return this._taskWorkflowData.gets(keyword);
+  };
+  
+  public manageTaskWorkflows() {
+    this._dialog.open(TaskWorkflowManageDialogComponent);
   }
 
   public save = () => {
