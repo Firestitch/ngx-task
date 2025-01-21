@@ -49,6 +49,9 @@
             <mat-select
                 [(ngModel)]="taskType.taskWorkflowId"
                 name="taskWorkflowId">
+              <mat-option [value]="null">
+                None
+              </mat-option>
               @for (taskWorkflow of taskWorkflows; track taskWorkflow.id) {
                 <mat-option [value]="taskWorkflow.id">
                   {{ taskWorkflow.name }}

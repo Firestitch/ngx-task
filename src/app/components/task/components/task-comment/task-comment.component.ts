@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   inject,
@@ -16,14 +17,13 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { FsBadgeModule } from '@firestitch/badge';
 import { FileProcessor, FsFile, FsFileModule } from '@firestitch/file';
-import { FsFormModule } from '@firestitch/form';
 import { FsHtmlEditorConfig, FsHtmlEditorModule } from '@firestitch/html-editor';
 
 import { of, Subject, zip } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { finalize, switchMap, tap } from 'rxjs/operators';
 
-import { TaskCommentData } from '../../../../data';
-import { Account, Task, TaskConfig } from '../../../../interfaces';
+import { TaskCommentData, TaskData } from '../../../../data';
+import { Account, Task, TaskConfig, TaskWorkflowStep } from '../../../../interfaces';
 
 
 @Component({
@@ -41,7 +41,6 @@ import { Account, Task, TaskConfig } from '../../../../interfaces';
 
     FsFileModule,
     FsBadgeModule,
-    FsFormModule,
 
     FsHtmlEditorModule,
   ],
@@ -50,31 +49,43 @@ export class TaskCommentComponent implements OnDestroy, OnInit {
 
   @Input() public task: Task;
   @Input() public config: TaskConfig;
+  @Input() public taskWorkflowSteps: TaskWorkflowStep[] = [];
   @Input() public commentPlaceholder: string;
 
   @Output() public commentCreated = new EventEmitter<void>();
+  @Output() public taskChange = new EventEmitter<Task>();
 
   public comment: string;
   public files: FsFile[] = [];
   public commentEnabled = false;
   public htmlEditorConfig: FsHtmlEditorConfig;
+  public submitting = false;
 
   private _destroy$ = new Subject<void>();
   private _taskCommentData = inject(TaskCommentData);
+  private _taskData = inject(TaskData);
+  private _cdRef = inject(ChangeDetectorRef);
 
   public ngOnInit(): void {
     this.commentPlaceholder = this.commentPlaceholder || this.config.commentPlaceholder;
     this.htmlEditorConfig = {
       padless: true,
       placeholder: this.commentPlaceholder,
+      autofocus: true,
     };
   }
 
   public get account(): Account {
     return null;
   }
+  
+  public submit() {
+    this.submit$()
+      .subscribe();
+  }
 
-  public submit = () => {
+  public submit$() {
+    this.submitting = true;
     const fileProcessor = new FileProcessor();
     const files$ = this.files.map((fsFile) => fileProcessor
       .processFile(fsFile, {
@@ -90,10 +101,40 @@ export class TaskCommentComponent implements OnDestroy, OnInit {
           this.cancelComment();
           this.commentCreated.emit();
         }),
+        finalize(() => {
+          this.submitting = false;
+          this._cdRef.markForCheck();
+        }),
       );
-  };
+  }
+
+  public taskWorkflowStepClick(taskWorkflowStep: TaskWorkflowStep) {
+    if(this.comment || this.files.length) {
+      this.submit$()
+        .pipe(
+          switchMap(() => this.saveTaskStatus$(taskWorkflowStep)),
+        )
+        .subscribe();
+    } else {
+      this.saveTaskStatus$(taskWorkflowStep)
+        .subscribe();
+    }
+  }
+
+  public saveTaskStatus$(taskWorkflowStep: TaskWorkflowStep) {
+    return this._taskData.save({ 
+      id: this.task.id,
+      taskStatusId: taskWorkflowStep.taskStatusId, 
+    })
+      .pipe(
+        tap((task) => {
+          this.taskChange.emit(task);
+        }),
+      );
+  }
 
   public cancelComment() {
+    this.submitting = false;
     this.comment = '';
     this.files = [];
     this.commentEnabled = false;

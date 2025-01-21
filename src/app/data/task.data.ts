@@ -102,6 +102,17 @@ export class TaskData<T = any> {
     );
   }
 
+  public getTaskWorkflowSteps(taskId: number, config: RequestConfig = {}): Observable<T> {
+    return this._api.get(
+      [taskId, 'workflowsteps'],
+      {},
+      {
+        key: 'taskWorkflowSteps',
+        ...config,
+      },
+    );
+  }
+
   public save(data: any): Observable<T> {
     return (data.id)
       ? this.put(data)

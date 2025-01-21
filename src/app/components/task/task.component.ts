@@ -46,7 +46,7 @@ import {
 import { FS_TASK_CONFIG } from '../../injectors';
 import { FS_TASK_DEFAULT_CONFIG } from '../../injectors/task-default-config.injector';
 import { TaskApiService } from '../../interceptors';
-import { Task, TaskConfig } from '../../interfaces';
+import { Task, TaskConfig, TaskWorkflowStep } from '../../interfaces';
 import { DataApiService } from '../../services';
 import { FsBaseComponent } from '../base/base.component';
 import { PrioritySelectComponent } from '../task-priority';
@@ -141,6 +141,7 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
   public showEditAction: (activity: Activity) => boolean;
 
   public task: Task;
+  public taskWorkflowSteps: TaskWorkflowStep[] = [];
 
   private _destroy$ = new Subject<void>();
   private _message = inject(FsMessage);
@@ -166,6 +167,15 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
   public ngOnDestroy(): void {
     this._destroy$.next();
     this._destroy$.complete();
+  }
+
+  public loadTaskWorkflowSteps(): void {
+    this._taskData
+      .getTaskWorkflowSteps(this.task.id)
+      .subscribe((taskWorkflowSteps) => {
+        this.taskWorkflowSteps = taskWorkflowSteps;
+        this._cdRef.markForCheck();
+      });
   }
 
   public save$(data) {
@@ -274,9 +284,13 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
   }
 
   public taskStatusChange(taskStatus?): void {
-    this.save({
+    this.save$({
       taskStatusId: taskStatus?.id || null,
-    });
+    })
+      .pipe(
+        tap(() => this.loadTaskWorkflowSteps()),
+      )
+      .subscribe();
   }
 
   public taskTagsChange(taskTags): void {
@@ -323,14 +337,16 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
                 }),
               );
         }),
+        tap((task) => {
+          this.task = {
+            ...task,
+            taskRelates: task.taskRelates || [],
+          };
+        }),
+        tap(() => this.loadTaskWorkflowSteps()),
         takeUntil(this._destroy$),
       )
-      .subscribe((task) => {
-        this.task = {
-          ...task,
-          taskRelates: task.taskRelates || [],
-        };
-
+      .subscribe(() => {
         this._cdRef.markForCheck();
       });
   }
