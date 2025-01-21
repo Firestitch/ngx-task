@@ -2,10 +2,12 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   inject,
   Injector,
   OnDestroy,
   OnInit,
+  Output,
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -52,6 +54,8 @@ import { TaskTypeManageDialogComponent } from '../task-type-manage-dialog';
 })
 export class TaskTypeSelectComponent implements ControlValueAccessor, OnDestroy, OnInit {
 
+  @Output() public taskTypeManageClosed = new EventEmitter<void>();
+
   public taskType;
   public taskTypes = [];
   public onChange: (value) => void;
@@ -61,7 +65,7 @@ export class TaskTypeSelectComponent implements ControlValueAccessor, OnDestroy,
   private _dataApiService = inject(DataApiService);
   private _taskTypeData = inject(TaskTypeData);
   private _injector = inject(Injector);
-  
+
   public openManage(): void {
     this._dialog.open(TaskTypeManageDialogComponent,{
       autoFocus: false,
@@ -76,6 +80,7 @@ export class TaskTypeSelectComponent implements ControlValueAccessor, OnDestroy,
       )
       .subscribe(() => {
         this.loadTaskTypes();
+        this.taskTypeManageClosed.emit();
       });
   }
   

@@ -123,6 +123,7 @@
 <ng-template #taskTypeSelect>
   <app-task-type-select
     [(ngModel)]="task.taskType"
+    (taskTypeManageClosed)="loadTaskWorkflowSteps()"
     (ngModelChange)="taskTypeChange($event)"
     name="taskType">
   </app-task-type-select>
