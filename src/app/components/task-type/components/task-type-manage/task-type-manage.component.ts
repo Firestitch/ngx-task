@@ -18,7 +18,7 @@ import { FsSkeletonModule } from '@firestitch/skeleton';
 import { map, tap } from 'rxjs/operators';
 
 
-import { TaskTypeData } from '../../../../data';
+import { TaskTypeData, TaskWorkflowData } from '../../../../data';
 import { TaskApiService } from '../../../../interceptors';
 import { DataApiService } from '../../../../services';
 import { FsBaseComponent } from '../../../base/base.component';
@@ -51,6 +51,7 @@ import { TaskTypeComponent } from '../task-type';
       },
     },
     TaskTypeData,
+    TaskWorkflowData,
   ],
 })
 export class FsTaskTypeManageComponent extends FsBaseComponent implements OnInit {
