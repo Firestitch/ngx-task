@@ -128,7 +128,10 @@ export class TaskCommentComponent implements OnDestroy, OnInit {
     })
       .pipe(
         tap((task) => {
-          this.taskChange.emit(task);
+          this.taskChange.emit({
+            ...this.task,
+            ...task,
+          });
         }),
       );
   }
