@@ -14,16 +14,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
+import { guid } from '@firestitch/common';
 import { FsDialogModule } from '@firestitch/dialog';
 import { FileProcessor, FsFile, FsFileModule } from '@firestitch/file';
 import { FsFormDirective, FsFormModule } from '@firestitch/form';
-import { FsHtmlEditorConfig, FsHtmlEditorModule } from '@firestitch/html-editor';
+import { FsHtmlEditorConfig, FsHtmlEditorModule, MentionPlugin } from '@firestitch/html-editor';
 import { FsMessage } from '@firestitch/message';
 import { FsPrompt } from '@firestitch/prompt';
 
 import { forkJoin, of, Subject, switchMap, tap } from 'rxjs';
 
-import { TaskCommentData } from '../../../../../data';
+import { TaskAccountData, TaskCommentData } from '../../../../../data';
 import { TaskComment, TaskFile } from '../../../../../interfaces';
 
 
@@ -54,12 +55,11 @@ export class CommentComponent implements OnDestroy, OnInit {
 
   public taskComment: TaskComment;
   public fsFiles: FsFile[] = [];
-  public htmlEditorConfig: FsHtmlEditorConfig = {
-    placeholder: 'Comment',
-  };
+  public htmlEditorConfig: FsHtmlEditorConfig;
 
   private _destroy$ = new Subject<void>();
   private _taskCommentData = inject(TaskCommentData);
+  private _taskAccountData = inject(TaskAccountData);
   private _deletedTaskFiles: TaskFile[] = [];
   private _message = inject(FsMessage);
   private _prompt = inject(FsPrompt);
@@ -70,14 +70,8 @@ export class CommentComponent implements OnDestroy, OnInit {
   }>(MAT_DIALOG_DATA);
 
   public ngOnInit(): void {
-    this._taskCommentData
-      .get(this._data.taskComment.taskId, this._data.taskComment.id, {
-        taskFiles: true,
-      })
-      .subscribe((taskComment) => {
-        this.taskComment = taskComment;
-        this._cdRef.markForCheck();
-      });
+    this._initHtmlEditorConfig();
+    this._initTaskComment();
   }
 
   public selectFiles(fsFiles: FsFile[]): void {
@@ -161,5 +155,78 @@ export class CommentComponent implements OnDestroy, OnInit {
   public ngOnDestroy(): void {
     this._destroy$.next();
     this._destroy$.complete();
+  }
+
+  public createElement(attributes, text): string {
+    const el = document.createElement('span');
+    Object.keys(attributes)
+      .forEach((name) => {
+        el.setAttribute(name, attributes[name]);
+      });
+
+    el.innerHTML = text;
+    const containerEl = document.createElement('div');
+    containerEl.append(el);
+
+    return containerEl.innerHTML;
+  }
+
+  private _initTaskComment(): void {
+    this._taskCommentData
+      .get(this._data.taskComment.taskId, this._data.taskComment.id, {
+        taskFiles: true,
+      })
+      .subscribe((taskComment) => {
+        this.taskComment = taskComment;
+        this._cdRef.markForCheck();
+      });
+  }
+
+  private _initHtmlEditorConfig(): void {
+    this.htmlEditorConfig = {
+      placeholder: 'Comment',
+      plugins: [
+        new MentionPlugin({
+          trigger: '@',
+          name: 'accountMention',
+          menuItemTemplate: (account) => {
+            const text = `<img src="${account.avatar.tiny}"> ${account.name}`;
+            const attributes = {
+              class: 'mention-account-menu-item',
+            };
+
+            return this.createElement(attributes, text);
+          },
+          selectedTemplate: (account) => {
+            const text = `@${account.name}`;
+            const attributes = {
+              'data-mention': 'account',
+              'data-account-id': account.id,
+              'data-ref': guid('xxxxxxxx'),
+            };
+
+            return this.createElement(attributes, text);
+          },
+          fetch: (keyword) => {
+            return this._taskAccountData
+              .gets({
+                keyword,
+                avatars: true,
+              });
+          },
+        }),
+      ],  
+    };
+  }
+  
+  private _htmlEscape(s) {
+    return s.replace(/[&<>'"]/g,
+      (tag: string) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '\'': '&#39;',
+        '"': '&quot;',
+      }[tag]));
   }
 }
