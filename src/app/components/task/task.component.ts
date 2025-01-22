@@ -224,7 +224,8 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
       );
   }
 
-  public descriptionCreated(): void {
+  public descriptionCreated(taskDescription): void {
+    this.task.taskDescriptionId = taskDescription?.id;
     this.saved.emit(this.task);
     this.loadNewActivities();
   }

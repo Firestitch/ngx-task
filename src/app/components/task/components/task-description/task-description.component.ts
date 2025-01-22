@@ -33,7 +33,7 @@ import { Task, TaskConfig } from '../../../../interfaces';
   imports: [
     CommonModule,
     FormsModule,
-    
+
     MatButtonModule,
 
     FsFormModule,
@@ -48,14 +48,14 @@ export class TaskDescriptionComponent implements OnInit {
   @Input() public task: Task;
   @Input() public config: TaskConfig;
 
-  @Output() public descriptionCreated = new EventEmitter<void>();
+  @Output() public descriptionCreated = new EventEmitter<any>();
 
   public description: string;
   public previousDescription: string;
   public htmlEditorConfig: FsHtmlEditorConfig;
 
   private _taskData = inject(TaskData);
-  
+
   public ngOnInit(): void {
     this.description = this.task.taskDescription?.description;
     this.previousDescription = this.description;
@@ -66,7 +66,7 @@ export class TaskDescriptionComponent implements OnInit {
       initOnClick: true,
     };
   }
-  
+
   public cancel(): void {
     this.description = this.previousDescription;
     this.htmlEditor.uninitialize();
@@ -76,10 +76,10 @@ export class TaskDescriptionComponent implements OnInit {
     return this._taskData
       .describe(this.task.id, { description: this.description })
       .pipe(
-        tap(() => {
+        tap((response) => {
           this.previousDescription = this.description;
           this.htmlEditor.uninitialize();
-          this.descriptionCreated.emit();
+          this.descriptionCreated.emit(response);
         }),
       );
   };

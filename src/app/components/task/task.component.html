@@ -34,7 +34,7 @@
   <app-task-description
     [task]="task"
     [config]="config"
-    (descriptionCreated)="descriptionCreated()">
+    (descriptionCreated)="descriptionCreated($event)">
   </app-task-description>
   <mat-tab-group>
     <mat-tab label="Activity">
