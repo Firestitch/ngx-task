@@ -4,10 +4,12 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChild,
+  EventEmitter,
   inject,
   Input,
   OnDestroy,
   OnInit,
+  Output,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
@@ -142,6 +144,9 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
   @Input()
   public showEditAction: (activity: Activity) => boolean;
 
+  @Output()
+  public saved = new EventEmitter<Task>();
+
   public task: Task;
   public taskWorkflowSteps: TaskWorkflowStep[] = [];
 
@@ -213,6 +218,7 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
           };
           this._cdRef.markForCheck();
           this.loadNewActivities();
+          this.saved.emit(this.task);
           this._message.success('Saved Changes');
         }),
       );
