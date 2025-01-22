@@ -3,15 +3,16 @@
   align-items: center;
 
   img {
-    height: 30px;
+    height: 25px;
     border-radius: 50%;
     margin-right: 5px;
   }
 }
 
 [data-mention] {
-  background-color: #c2c2c2;
-  border-radius: 4px;
-  padding: 2px 3px;
+  background-color: #d4d4d4;
+  border-radius: 20px;
+  padding: 2px 8px;
   cursor: pointer;
+  line-height: normal;
 }

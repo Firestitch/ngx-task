@@ -1,7 +1,5 @@
-:host {
-  ::ng-deep {
-    @import '../../../../styles/mention';
-  }
+::ng-deep {
+  @import '../../../../styles/mention';
 }
 
 fs-html-editor {
