@@ -1,3 +1,9 @@
+:host {
+  ::ng-deep {
+    @import '../../../../styles/mention';
+  }
+}
+
 app-comment-gallery {
   margin-top: 10px;
   display: block;

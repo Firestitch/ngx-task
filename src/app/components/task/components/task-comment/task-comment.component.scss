@@ -1,3 +1,9 @@
+:host {
+  ::ng-deep {
+    @import '../../../../styles/mention';
+  }
+}
+
 fs-html-editor {
   ::ng-deep {
     .field-bottom-margin .field-message {

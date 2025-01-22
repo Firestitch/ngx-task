@@ -22,8 +22,9 @@ import { FsHtmlEditorConfig, FsHtmlEditorModule } from '@firestitch/html-editor'
 import { of, Subject, zip } from 'rxjs';
 import { finalize, switchMap, tap } from 'rxjs/operators';
 
-import { TaskCommentData, TaskData } from '../../../../data';
+import { TaskAccountData, TaskCommentData, TaskData } from '../../../../data';
 import { Account, Task, TaskConfig, TaskWorkflowStep } from '../../../../interfaces';
+import { HtmlEditorService } from '../../services/html-editor.service';
 
 
 @Component({
@@ -65,14 +66,12 @@ export class TaskCommentComponent implements OnDestroy, OnInit {
   private _taskCommentData = inject(TaskCommentData);
   private _taskData = inject(TaskData);
   private _cdRef = inject(ChangeDetectorRef);
+  private _taskAccountData = inject(TaskAccountData);
+  private _htmlEditorService = inject(HtmlEditorService);
 
   public ngOnInit(): void {
     this.commentPlaceholder = this.commentPlaceholder || this.config.commentPlaceholder;
-    this.htmlEditorConfig = {
-      padless: true,
-      placeholder: this.commentPlaceholder,
-      autofocus: true,
-    };
+    this._initHtmlEditor();
   }
 
   public get account(): Account {
@@ -154,5 +153,16 @@ export class TaskCommentComponent implements OnDestroy, OnInit {
   public ngOnDestroy(): void {
     this._destroy$.next();
     this._destroy$.complete();
+  }
+
+  private _initHtmlEditor() {
+    this.htmlEditorConfig = {
+      padless: true,
+      placeholder: this.commentPlaceholder,
+      autofocus: true,
+      plugins: [
+        this._htmlEditorService.getAccountMentionPlugin(this._taskAccountData),
+      ],
+    };
   }
 }
