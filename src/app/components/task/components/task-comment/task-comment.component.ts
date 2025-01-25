@@ -160,6 +160,8 @@ export class TaskCommentComponent implements OnDestroy, OnInit {
       padless: true,
       placeholder: this.commentPlaceholder,
       autofocus: true,
+      image: this._htmlEditorService
+        .getImageUploadConfig(this.task.id, this._taskData),
       plugins: [
         this._htmlEditorService.getAccountMentionPlugin(this._taskAccountData),
       ],

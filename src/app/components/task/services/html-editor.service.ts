@@ -3,12 +3,23 @@ import { Injectable } from '@angular/core';
 import { guid } from '@firestitch/common';
 import { MentionPlugin } from '@firestitch/html-editor';
 
-import { TaskAccountData } from '../../../data';
+import { TaskAccountData, TaskData } from '../../../data';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HtmlEditorService {
+
+  public getImageUploadConfig(taskId, taskData: TaskData) {
+    return {
+      quality: 0.8,
+      width: 1200,
+      height: 1200,
+      upload: (file) => {
+        return taskData.postImage(taskId, file);
+      },
+    };
+  }
 
   public getAccountMentionPlugin(taskAccountData: TaskAccountData): MentionPlugin {
     return new MentionPlugin({

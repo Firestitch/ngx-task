@@ -23,7 +23,7 @@ import { FsPrompt } from '@firestitch/prompt';
 
 import { forkJoin, of, Subject, switchMap, tap } from 'rxjs';
 
-import { TaskAccountData, TaskCommentData } from '../../../../../data';
+import { TaskAccountData, TaskCommentData, TaskData } from '../../../../../data';
 import { TaskComment, TaskFile } from '../../../../../interfaces';
 import { HtmlEditorService } from '../../../services/html-editor.service';
 
@@ -66,6 +66,7 @@ export class CommentComponent implements OnDestroy, OnInit {
   private _dialogRef = inject(MatDialogRef<CommentComponent>);
   private _cdRef = inject(ChangeDetectorRef);
   private _htmlEditorService = inject(HtmlEditorService);
+  private _taskData = inject(TaskData);
   private _data = inject<{
     taskComment: TaskComment,
   }>(MAT_DIALOG_DATA);
@@ -175,6 +176,8 @@ export class CommentComponent implements OnDestroy, OnInit {
       plugins: [
         this._htmlEditorService.getAccountMentionPlugin(this._taskAccountData),
       ],
+      image: this._htmlEditorService
+        .getImageUploadConfig(this._data.taskComment.taskId, this._taskData),
     };
   }
 }

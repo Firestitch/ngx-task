@@ -12,7 +12,7 @@
       <ng-container [ngTemplateOutlet]="filesTmpl"></ng-container>
     </ng-template>
   </fs-html-editor>
-  <div class="fs-row.gap-xs buttons">
+  <div class="fs-row.gap-xs.wrap buttons">
     <button
         mat-flat-button
         [disabled]="submitting"
@@ -21,9 +21,13 @@
         color="primary">
       Comment
     </button>
-    <ng-container [ngTemplateOutlet]="taskWorkflowStepsTmpl"></ng-container>
+    <ng-container
+      [ngTemplateOutlet]="taskWorkflowStepsTmpl"
+      [ngTemplateOutletContext]="{ submitting }">
+    </ng-container>
     <button
         (click)="cancelComment()"
+        [disabled]="submitting"
         mat-stroked-button
         type="button">
       Cancel
@@ -74,12 +78,15 @@
     </ng-template>
   </fs-file-previews>
 </ng-template>
-<ng-template #taskWorkflowStepsTmpl>
+<ng-template
+    #taskWorkflowStepsTmpl
+    let-submitting>
   @for (taskWorkflowStep of taskWorkflowSteps; track taskWorkflowStep.id) {
     <button
         (click)="taskWorkflowStepClick(taskWorkflowStep)"
         mat-stroked-button
-        type="button">
+        type="button"
+        [disabled]="submitting">
       <span [style.color]="taskWorkflowStep.taskStatus.color">
         {{ taskWorkflowStep.taskStatus.name }}
       </span>

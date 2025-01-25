@@ -91,6 +91,17 @@ export class TaskData<T = any> {
     );
   }
 
+  public postImage(taskId, file: File, config: RequestConfig = {}): Observable<T> {
+    return this._api.post(
+      [taskId,'images'],
+      { file },
+      {
+        key: 'url',
+        ...config,
+      },
+    );
+  }
+
   public watchers(taskId, data: any, config: RequestConfig = {}): Observable<T> {
     return this._api.post(
       [taskId,'watchers'],
