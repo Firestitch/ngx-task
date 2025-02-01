@@ -157,6 +157,7 @@ export class TaskCommentComponent implements OnDestroy, OnInit {
 
   private _initHtmlEditor() {
     this.htmlEditorConfig = {
+      ...this.config.commentHtmlEditorConfig,
       padless: true,
       placeholder: this.commentPlaceholder,
       autofocus: true,

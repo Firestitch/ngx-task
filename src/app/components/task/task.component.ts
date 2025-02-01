@@ -62,6 +62,7 @@ import { TaskAccountSelectComponent } from './components/task-account';
 import { TaskCommentComponent } from './components/task-comment';
 import { TaskDescriptionComponent } from './components/task-description';
 import { FsTaskBottomToolbarDirective, FsTaskTopToolbarDirective } from './directives';
+import { HtmlEditorService } from './services/html-editor.service';
 
 
 @Component({
@@ -116,6 +117,7 @@ import { FsTaskBottomToolbarDirective, FsTaskTopToolbarDirective } from './direc
     TaskAuditData,
     TaskStatusData,
     TaskCommentData,
+    HtmlEditorService,
   ],
 })
 export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestroy {
@@ -395,6 +397,12 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
   }
 
   private _initConfig(): void {
+    const htmlEditorConfig = {
+      ...this._taskDefaultConfig?.htmlEditorConfig,
+      ...this._taskConfig?.htmlEditorConfig,
+      ...this.config?.htmlEditorConfig,
+    };
+
     this.config = {
       commentPlaceholder: 'Add a comment...',
       descriptionPlaceholder: 'Add a description...',
@@ -406,6 +414,18 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
       ...this._taskDefaultConfig,
       ...this._taskConfig,
       ...this.config,
+      commentHtmlEditorConfig: {
+        ...htmlEditorConfig,
+        ...this._taskDefaultConfig?.commentHtmlEditorConfig,
+        ...this._taskConfig?.commentHtmlEditorConfig,
+        ...this.config?.commentHtmlEditorConfig,
+      },
+      descriptionHtmlEditorConfig: {
+        ...htmlEditorConfig,
+        ...this._taskDefaultConfig?.descriptionHtmlEditorConfig,
+        ...this._taskConfig?.descriptionHtmlEditorConfig,
+        ...this.config?.descriptionHtmlEditorConfig,
+      },
     };
   }
 

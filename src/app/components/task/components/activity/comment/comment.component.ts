@@ -24,7 +24,7 @@ import { FsPrompt } from '@firestitch/prompt';
 import { forkJoin, of, Subject, switchMap, tap } from 'rxjs';
 
 import { TaskAccountData, TaskCommentData, TaskData } from '../../../../../data';
-import { TaskComment, TaskFile } from '../../../../../interfaces';
+import { TaskComment, TaskConfig, TaskFile } from '../../../../../interfaces';
 import { HtmlEditorService } from '../../../services/html-editor.service';
 
 
@@ -69,6 +69,7 @@ export class CommentComponent implements OnDestroy, OnInit {
   private _taskData = inject(TaskData);
   private _data = inject<{
     taskComment: TaskComment,
+    config: TaskConfig,
   }>(MAT_DIALOG_DATA);
 
   public ngOnInit(): void {
@@ -172,6 +173,7 @@ export class CommentComponent implements OnDestroy, OnInit {
 
   private _initHtmlEditorConfig(): void {
     this.htmlEditorConfig = {
+      ...this._data.config.commentHtmlEditorConfig,
       placeholder: 'Comment',
       plugins: [
         this._htmlEditorService.getAccountMentionPlugin(this._taskAccountData),

@@ -5,9 +5,7 @@ import { MentionPlugin } from '@firestitch/html-editor';
 
 import { TaskAccountData, TaskData } from '../../../data';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class HtmlEditorService {
 
   public getImageUploadConfig(taskId, taskData: TaskData) {

@@ -22,7 +22,7 @@ import { filter } from 'rxjs';
 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { Task } from '../../../../interfaces';
+import { Task, TaskConfig } from '../../../../interfaces';
 import { PriorityChipComponent } from '../../../task-priority';
 import { TaskStatusChipComponent } from '../../../task-status';
 import { TaskTypeChipComponent } from '../../../task-type';
@@ -55,6 +55,7 @@ import { TaskDueDatePipe } from './pipes/task-due-date.pipe';
 export class ActivityComponent implements OnInit {
 
   @Input() public task: Task;
+  @Input() public config: TaskConfig;
 
   @ViewChild(FsActivitiesComponent)
   public activities: FsActivitiesComponent;
@@ -98,6 +99,7 @@ export class ActivityComponent implements OnInit {
           this._dialog.open(CommentComponent, {
             injector: this._injector,
             data: {
+              config: this.config,
               taskComment: activity.concreteActivityObject,
             },
           })
