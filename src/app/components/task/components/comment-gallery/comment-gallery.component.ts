@@ -60,6 +60,7 @@ export class CommentGalleryComponent implements OnChanges {
               preview: taskFile.file.preview?.small,
               url,
               data: taskFile,
+              guid: String(taskFile.id),
             };
 
             return item;

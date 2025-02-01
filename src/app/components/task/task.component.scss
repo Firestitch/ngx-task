@@ -26,6 +26,18 @@
     .mat-mdc-dialog-content {
       max-height: none;
     }
+
+    .mat-mdc-tab-body-wrapper {
+      overflow: visible !important;
+  
+      .mat-mdc-tab-body.mat-mdc-tab-body-active {
+        overflow: visible !important;
+  
+        .mat-mdc-tab-body-content {
+          overflow: visible !important;
+        }
+      }
+    }
   }
 }
 
