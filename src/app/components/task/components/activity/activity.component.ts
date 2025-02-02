@@ -1,6 +1,5 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   DestroyRef,
   inject,
@@ -14,7 +13,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 
 import { FsActivitiesComponent, FsActivityPreviewDirective } from '@firestitch/activity';
-import { Activity } from '@firestitch/activity/app/interfaces';
+import { Activity, ActivityConfig } from '@firestitch/activity/app/interfaces';
 import { FsDateModule } from '@firestitch/date';
 import { FsHtmlRendererModule } from '@firestitch/html-editor';
 
@@ -60,21 +59,19 @@ export class ActivityComponent implements OnInit {
   @ViewChild(FsActivitiesComponent)
   public activities: FsActivitiesComponent;
 
-  public actions: {
-    label: string;
-    click: (activity: Activity) => void;
-    show: (activity: Activity) => boolean;
-  }[];
-
   @Input()
   public showDeleteAction: (activity: Activity) => boolean;
 
   @Input()
   public showEditAction: (activity: Activity) => boolean;
 
+  @Input()
+  public activityClick: (activity: Activity) => void;
+
+  public activityConfig: ActivityConfig;
+
   private _destroyRef = inject(DestroyRef);
   private _dialog = inject(MatDialog);
-  private _cdRef = inject(ChangeDetectorRef);
   private _injector = inject(Injector);
 
   public loadNewActivities(): void {
@@ -84,40 +81,37 @@ export class ActivityComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    if (!this.showDeleteAction) {
-      this.showDeleteAction = () => true;
-    }
-
-    if (!this.showEditAction) {
-      this.showEditAction = () => true;
-    }
-
-    this.actions = [
-      {
-        label: 'Edit',
-        click: (activity) => {
-          this._dialog.open(CommentComponent, {
-            injector: this._injector,
-            data: {
-              config: this.config,
-              taskComment: activity.concreteActivityObject,
-            },
-          })
-            .afterClosed()
-            .pipe(
-              filter((taskComment) => !!taskComment),
-              takeUntilDestroyed(this._destroyRef),
-            )
-            .subscribe((taskComment) => {
-              activity.concreteActivityObject = taskComment;
-              this.activities
-                .updateActivity(activity, (item) => item.id === activity.id);
-            });
+    this.activityConfig = {
+      apiPath: [this.task.id, 'activities'],
+      actions: [
+        {
+          label: 'Edit',
+          click: (activity) => {
+            this._dialog.open(CommentComponent, {
+              injector: this._injector,
+              data: {
+                config: this.config,
+                taskComment: activity.concreteActivityObject,
+              },
+            })
+              .afterClosed()
+              .pipe(
+                filter((taskComment) => !!taskComment),
+                takeUntilDestroyed(this._destroyRef),
+              )
+              .subscribe((taskComment) => {
+                activity.concreteActivityObject = taskComment;
+                this.activities
+                  .updateActivity(activity, (item) => item.id === activity.id);
+              });
+          },
+          show: (activity) => this.showEditAction(activity)
+            && activity.activityType.type === 'taskComment',
         },
-        show: (activity) => this.showEditAction(activity)
-          && activity.activityType.type === 'taskComment',
-      },
-    ];
+      ],
+      showDeleteAction: this.showDeleteAction ? this.showDeleteAction : () => true,
+      activityClick: this.activityClick,
+    };
   }
 
 }
