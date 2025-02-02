@@ -60,12 +60,6 @@ export class ActivityComponent implements OnInit {
   public activities: FsActivitiesComponent;
 
   @Input()
-  public showDeleteAction: (activity: Activity) => boolean;
-
-  @Input()
-  public showEditAction: (activity: Activity) => boolean;
-
-  @Input()
   public activityClick: (activity: Activity) => void;
 
   public activityConfig: ActivityConfig;
@@ -81,6 +75,9 @@ export class ActivityComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    const showDeleteAction = this.config.activity?.showDeleteAction || (() => true);
+    const showEditAction = this.config.activity?.showEditAction || (() => true);
+
     this.activityConfig = {
       apiPath: [this.task.id, 'activities'],
       actions: [
@@ -105,11 +102,11 @@ export class ActivityComponent implements OnInit {
                   .updateActivity(activity, (item) => item.id === activity.id);
               });
           },
-          show: (activity) => this.showEditAction(activity)
+          show: (activity) => showEditAction(activity)
             && activity.activityType.type === 'taskComment',
         },
       ],
-      showDeleteAction: this.showDeleteAction ? this.showDeleteAction : () => true,
+      showDeleteAction,
       activityClick: this.activityClick,
     };
   }
