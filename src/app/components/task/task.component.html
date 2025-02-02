@@ -49,8 +49,8 @@
         <app-task-activity
           [task]="task"
           [config]="config"
-          [showDeleteAction]="showDeleteAction"
-          [showEditAction]="showEditAction">
+          [showDeleteAction]="config.activity?.showDeleteAction"
+          [showEditAction]="config.activity?.showEditAction">
         </app-task-activity>
       </ng-template>
     </mat-tab>

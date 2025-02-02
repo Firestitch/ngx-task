@@ -1,3 +1,4 @@
+import { Activity } from '@firestitch/activity/app/interfaces';
 import { FsHtmlEditorConfig } from '@firestitch/html-editor';
 
 import { Observable } from 'rxjs';
@@ -6,9 +7,16 @@ import { Object } from './object';
 import { Task } from './task';
 
 export interface TaskConfig {
-  commentPlaceholder?: string;
-  descriptionPlaceholder?: string;
-  descriptionLabel?: string;
+  comment?: {
+    placeholder?: string;
+    label?: string;
+    htmlEditorConfig?: FsHtmlEditorConfig;
+  };
+  description?: {
+    placeholder?: string;
+    label?: string;
+    htmlEditorConfig?: FsHtmlEditorConfig;
+  };
   subjectObject?: {
     show?: boolean;
     label?: string;
@@ -16,7 +24,8 @@ export interface TaskConfig {
     change?: (task: Task, object: Object) => Observable<Task>;
     click?: (task: Task, object: Object) => void;
   },
-  htmlEditorConfig?: FsHtmlEditorConfig;
-  commentHtmlEditorConfig?: FsHtmlEditorConfig;
-  descriptionHtmlEditorConfig?: FsHtmlEditorConfig;
+  activity?: {
+    showDeleteAction?: (activity: Activity) => boolean;
+    showEditAction?: (activity: Activity) => boolean;
+  }
 }

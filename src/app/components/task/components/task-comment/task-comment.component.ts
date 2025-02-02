@@ -70,7 +70,7 @@ export class TaskCommentComponent implements OnDestroy, OnInit {
   private _htmlEditorService = inject(HtmlEditorService);
 
   public ngOnInit(): void {
-    this.commentPlaceholder = this.commentPlaceholder || this.config.commentPlaceholder;
+    this.commentPlaceholder = this.commentPlaceholder || this.config.comment.placeholder;
     this._initHtmlEditor();
   }
 
@@ -157,7 +157,7 @@ export class TaskCommentComponent implements OnDestroy, OnInit {
 
   private _initHtmlEditor() {
     this.htmlEditorConfig = {
-      ...this.config.commentHtmlEditorConfig,
+      ...this.config.comment.htmlEditorConfig,
       padless: true,
       placeholder: this.commentPlaceholder,
       autofocus: true,

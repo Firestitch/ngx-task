@@ -173,8 +173,8 @@ export class CommentComponent implements OnDestroy, OnInit {
 
   private _initHtmlEditorConfig(): void {
     this.htmlEditorConfig = {
-      ...this._data.config.commentHtmlEditorConfig,
-      placeholder: 'Comment',
+      ...this._data.config.comment.htmlEditorConfig,
+      placeholder: this._data.config.comment.placeholder,
       plugins: [
         this._htmlEditorService.getAccountMentionPlugin(this._taskAccountData),
       ],

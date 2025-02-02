@@ -24,7 +24,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 
-import { Activity } from '@firestitch/activity/app/interfaces';
 import { FsApi } from '@firestitch/api';
 import { FsAuditsModule } from '@firestitch/audit';
 import { FsAutocompleteChipsModule } from '@firestitch/autocomplete-chips';
@@ -43,6 +42,8 @@ import { FsSkeletonModule } from '@firestitch/skeleton';
 import { Observable, of, Subject } from 'rxjs';
 import { catchError, filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 
+import { merge } from 'lodash-es';
+
 import {
   TaskAccountData, TaskAuditData, TaskCommentData, TaskData, TaskStatusData,
 } from '../../data';
@@ -56,6 +57,7 @@ import { PrioritySelectComponent } from '../task-priority';
 import { TaskStatusSelectComponent } from '../task-status';
 import { TaskTagSelectComponent } from '../task-tag';
 import { TaskTypeSelectComponent } from '../task-type';
+
 
 import { ActivityComponent } from './components/activity';
 import { TaskAccountSelectComponent } from './components/task-account';
@@ -139,12 +141,6 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
   }
 
   @Input() public config: TaskConfig = {};
-
-  @Input()
-  public showDeleteAction: (activity: Activity) => boolean;
-
-  @Input()
-  public showEditAction: (activity: Activity) => boolean;
 
   @Output()
   public saved = new EventEmitter<Task>();
@@ -397,36 +393,22 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
   }
 
   private _initConfig(): void {
-    const htmlEditorConfig = {
-      ...this._taskDefaultConfig?.htmlEditorConfig,
-      ...this._taskConfig?.htmlEditorConfig,
-      ...this.config?.htmlEditorConfig,
-    };
-
-    this.config = {
-      commentPlaceholder: 'Add a comment...',
-      descriptionPlaceholder: 'Add a description...',
-      descriptionLabel: 'Description',
+    const defaultConfig = {
+      comment: {
+        placeholder: 'Add a comment...',
+        label: 'Comment',
+      },
+      description: {
+        placeholder: 'Add a description...',
+        label: 'Description',
+      },
       subjectObject: {
         show: false,
         label: 'Subject',
       },
-      ...this._taskDefaultConfig,
-      ...this._taskConfig,
-      ...this.config,
-      commentHtmlEditorConfig: {
-        ...htmlEditorConfig,
-        ...this._taskDefaultConfig?.commentHtmlEditorConfig,
-        ...this._taskConfig?.commentHtmlEditorConfig,
-        ...this.config?.commentHtmlEditorConfig,
-      },
-      descriptionHtmlEditorConfig: {
-        ...htmlEditorConfig,
-        ...this._taskDefaultConfig?.descriptionHtmlEditorConfig,
-        ...this._taskConfig?.descriptionHtmlEditorConfig,
-        ...this.config?.descriptionHtmlEditorConfig,
-      },
     };
+
+    this.config = merge(defaultConfig, this._taskDefaultConfig, this._taskConfig, this.config);
   }
 
 }
