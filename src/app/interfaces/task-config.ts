@@ -1,4 +1,4 @@
-import { Activity } from '@firestitch/activity/app/interfaces';
+import { ActivityConfig } from '@firestitch/activity';
 import { FsHtmlEditorConfig } from '@firestitch/html-editor';
 
 import { Observable } from 'rxjs';
@@ -24,8 +24,5 @@ export interface TaskConfig {
     change?: (task: Task, object: Object) => Observable<Task>;
     click?: (task: Task, object: Object) => void;
   },
-  activity?: {
-    showDeleteAction?: (activity: Activity) => boolean;
-    showEditAction?: (activity: Activity) => boolean;
-  }
+  activity?: ActivityConfig;
 }
