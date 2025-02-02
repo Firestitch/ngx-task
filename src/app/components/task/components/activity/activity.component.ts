@@ -13,7 +13,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 
 import { FsActivitiesComponent, FsActivityPreviewDirective } from '@firestitch/activity';
-import { Activity, ActivityConfig } from '@firestitch/activity/app/interfaces';
+import { ActivityConfig } from '@firestitch/activity/app/interfaces';
 import { FsDateModule } from '@firestitch/date';
 import { FsHtmlRendererModule } from '@firestitch/html-editor';
 
@@ -59,9 +59,6 @@ export class ActivityComponent implements OnInit {
   @ViewChild(FsActivitiesComponent)
   public activities: FsActivitiesComponent;
 
-  @Input()
-  public activityClick: (activity: Activity) => void;
-
   public activityConfig: ActivityConfig;
 
   private _destroyRef = inject(DestroyRef);
@@ -75,10 +72,11 @@ export class ActivityComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    const showDeleteAction = this.config.activity?.showDeleteAction || (() => true);
-    const showEditAction = this.config.activity?.showEditAction || (() => true);
+    const showDeleteAction = this.config.activity?.showDeleteAction || (() => false);
+    const showEditAction = this.config.activity?.showEditAction || (() => false);
 
     this.activityConfig = {
+      ...this.config.activity,
       apiPath: [this.task.id, 'activities'],
       actions: [
         {
@@ -107,7 +105,6 @@ export class ActivityComponent implements OnInit {
         },
       ],
       showDeleteAction,
-      activityClick: this.activityClick,
     };
   }
 
