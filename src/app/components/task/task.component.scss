@@ -58,24 +58,6 @@ mat-tab-group {
   }
 }
 
-.due-date {
-  width: 180px;
-
-  &:not(.mat-focused):not(:hover) {
-    ::ng-deep {
-      .mat-form-field-outline-start,
-      .mat-form-field-outline-end,
-      .mat-form-field-outline-gap {
-        border-color: transparent;
-      }
-
-      .fs-clear-wrapper {
-        display: none;
-      } 
-    }
-  }
-}
-
 .description:not(.initialized) {
   margin: 0 10px;
 }
