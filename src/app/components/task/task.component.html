@@ -182,7 +182,7 @@
       placeholder="Name"
       [(ngModel)]="task.name"
       [fsAutoSelect]="task.name === 'Untitled'"
-      (fsModelChange)="save({ name: $event })"
+      (blur)="save({ name: task.name })"
       name="name">
   </mat-form-field>
 </ng-template>
