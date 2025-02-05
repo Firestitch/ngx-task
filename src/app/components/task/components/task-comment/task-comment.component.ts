@@ -17,7 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { FsBadgeModule } from '@firestitch/badge';
 import { FileProcessor, FsFile, FsFileModule } from '@firestitch/file';
-import { FsHtmlEditorConfig, FsHtmlEditorModule } from '@firestitch/html-editor';
+import { ChecklistPlugin, FsHtmlEditorConfig, FsHtmlEditorModule } from '@firestitch/html-editor';
 
 import { of, Subject, zip } from 'rxjs';
 import { finalize, switchMap, tap } from 'rxjs/operators';
@@ -164,7 +164,9 @@ export class TaskCommentComponent implements OnDestroy, OnInit {
       image: this._htmlEditorService
         .getImageUploadConfig(this.task.id, this._taskData),
       plugins: [
+        ...this.config.description.htmlEditorConfig.plugins,
         this._htmlEditorService.getAccountMentionPlugin(this._taskAccountData),
+        new ChecklistPlugin(),
       ],
     };
   }

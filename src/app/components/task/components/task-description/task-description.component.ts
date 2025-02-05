@@ -15,6 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 
 import { FsFormModule } from '@firestitch/form';
 import {
+  ChecklistPlugin,
   FsHtmlEditorComponent, FsHtmlEditorConfig, FsHtmlEditorModule,
 } from '@firestitch/html-editor';
 
@@ -69,6 +70,10 @@ export class TaskDescriptionComponent implements OnInit {
       initOnClick: true,
       image: this._htmlEditorService
         .getImageUploadConfig(this.task.id, this._taskData),
+      plugins: [
+        ...this.config.description.htmlEditorConfig.plugins,
+        new ChecklistPlugin(),
+      ],
     };
   }
 
