@@ -77,6 +77,8 @@ export class HtmlEditorService {
     taskId: number, 
     taskData: TaskData,
   ): FsHtmlEditorConfig {
+    config = config || {};
+
     return {
       ...config,
       image: this
