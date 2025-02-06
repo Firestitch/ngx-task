@@ -65,7 +65,7 @@ export class HtmlEditorService {
       image: this
         .getImageUploadConfig(taskId, taskData),
       plugins: [
-        ...config.plugins,
+        ...(config.plugins || []),
         this.getAccountMentionPlugin(taskAccountData),
         new ChecklistPlugin(),
       ],
@@ -84,7 +84,7 @@ export class HtmlEditorService {
       image: this
         .getImageUploadConfig(taskId, taskData),
       plugins: [
-        ...config.plugins,
+        ...(config.plugins || []),
         new ChecklistPlugin(),
       ],
     };
