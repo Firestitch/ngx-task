@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 
 import { guid } from '@firestitch/common';
-import { MentionPlugin } from '@firestitch/html-editor';
+import { ChecklistPlugin, FsHtmlEditorConfig, MentionPlugin } from '@firestitch/html-editor';
 
 import { TaskAccountData, TaskData } from '../../../data';
+
 
 @Injectable()
 export class HtmlEditorService {
@@ -50,7 +51,43 @@ export class HtmlEditorService {
       },
     });
   }
-  
+
+  public getCommentConfig(
+    config: FsHtmlEditorConfig, 
+    taskId: number,
+    taskAccountData: TaskAccountData,
+    taskData: TaskData,
+  ): FsHtmlEditorConfig {
+    config = config || {};
+
+    return {
+      ...config,
+      image: this
+        .getImageUploadConfig(taskId, taskData),
+      plugins: [
+        ...config.plugins,
+        this.getAccountMentionPlugin(taskAccountData),
+        new ChecklistPlugin(),
+      ],
+    };
+  }
+
+  public getDescriptionConfig(
+    config: FsHtmlEditorConfig, 
+    taskId: number, 
+    taskData: TaskData,
+  ): FsHtmlEditorConfig {
+    return {
+      ...config,
+      image: this
+        .getImageUploadConfig(taskId, taskData),
+      plugins: [
+        ...config.plugins,
+        new ChecklistPlugin(),
+      ],
+    };
+  }
+
   public createElement(attributes, text): string {
     const el = document.createElement('span');
     Object.keys(attributes)

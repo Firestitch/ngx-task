@@ -173,13 +173,14 @@ export class CommentComponent implements OnDestroy, OnInit {
 
   private _initHtmlEditorConfig(): void {
     this.htmlEditorConfig = {
-      ...this._data.config.comment.htmlEditorConfig,
+      ...this._htmlEditorService
+        .getCommentConfig(
+          this._data.config.comment.htmlEditorConfig, 
+          this._data.taskComment.taskId,
+          this._taskAccountData, 
+          this._taskData,
+        ),
       placeholder: this._data.config.comment.placeholder,
-      plugins: [
-        this._htmlEditorService.getAccountMentionPlugin(this._taskAccountData),
-      ],
-      image: this._htmlEditorService
-        .getImageUploadConfig(this._data.taskComment.taskId, this._taskData),
     };
   }
 }
