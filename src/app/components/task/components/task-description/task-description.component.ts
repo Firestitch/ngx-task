@@ -60,6 +60,7 @@ export class TaskDescriptionComponent implements OnInit {
   private _cdRef = inject(ChangeDetectorRef);
 
   public ngOnInit(): void {
+    this.description = this.task.taskDescription?.description;
     this.htmlEditorConfig = {
       ...this._htmlEditorService
         .getDescriptionConfig(
@@ -71,14 +72,12 @@ export class TaskDescriptionComponent implements OnInit {
       placeholder: this.config.description.placeholder,
       label: this.config.description.label,
       initOnClick: true,
-      initClick: () => {
-        this.description = this.task.taskDescription?.description;
-        this._cdRef.markForCheck();
-      },
     };
   }
 
   public cancel(): void {
+    this.description = this.task.taskDescription?.description;
+    this._cdRef.markForCheck();
     this.htmlEditor.uninitialize();
   }
 
@@ -86,9 +85,10 @@ export class TaskDescriptionComponent implements OnInit {
     return this._taskData
       .describe(this.task.id, { description: this.description })
       .pipe(
-        tap((response) => {
-          this.htmlEditor.uninitialize();
-          this.descriptionCreated.emit(response);
+        tap((taskDescription) => {
+          this.task.taskDescription = taskDescription;
+          this.cancel();
+          this.descriptionCreated.emit(taskDescription);
         }),
       );
   };
