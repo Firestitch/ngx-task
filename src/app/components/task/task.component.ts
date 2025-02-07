@@ -49,7 +49,7 @@ import {
 import { FS_TASK_CONFIG } from '../../injectors';
 import { FS_TASK_DEFAULT_CONFIG } from '../../injectors/task-default-config.injector';
 import { TaskApiService } from '../../interceptors';
-import { Object, Task, TaskConfig, TaskWorkflowStep } from '../../interfaces';
+import { Object, Task, TaskConfig } from '../../interfaces';
 import { DataApiService } from '../../services';
 import { FsBaseComponent } from '../base/base.component';
 import { PrioritySelectComponent } from '../task-priority';
@@ -131,6 +131,9 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
   @ViewChild(TaskCommentComponent)
   public commentComponent: TaskCommentComponent;
 
+  @ViewChild(TaskDescriptionComponent)
+  public descriptionComponent: TaskDescriptionComponent;
+
   @ViewChild(ActivityComponent)
   public activity: ActivityComponent;
 
@@ -143,8 +146,6 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
 
   @Output()
   public saved = new EventEmitter<Task>();
-
-  public taskWorkflowSteps: TaskWorkflowStep[] = [];
 
   private _destroy$ = new Subject<void>();
   private _message = inject(FsMessage);
@@ -172,6 +173,10 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
 
   public loadTaskWorkflowSteps(): void {
     this.commentComponent.loadTaskWorkflowSteps();
+  }
+
+  public cancelDescription(): void {
+    this.descriptionComponent.cancel();
   }
 
   public fetchSubjectObject = (keywords: string[]): Observable<Object[]> => {

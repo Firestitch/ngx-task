@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   inject,
@@ -52,15 +53,13 @@ export class TaskDescriptionComponent implements OnInit {
   @Output() public descriptionCreated = new EventEmitter<any>();
 
   public description: string;
-  public previousDescription: string;
   public htmlEditorConfig: FsHtmlEditorConfig;
 
   private _htmlEditorService = inject(HtmlEditorService);
   private _taskData = inject(TaskData);
+  private _cdRef = inject(ChangeDetectorRef);
 
   public ngOnInit(): void {
-    this.description = this.task.taskDescription?.description;
-    this.previousDescription = this.description;
     this.htmlEditorConfig = {
       ...this._htmlEditorService
         .getDescriptionConfig(
@@ -72,11 +71,14 @@ export class TaskDescriptionComponent implements OnInit {
       placeholder: this.config.description.placeholder,
       label: this.config.description.label,
       initOnClick: true,
+      initClick: () => {
+        this.description = this.task.taskDescription?.description;
+        this._cdRef.markForCheck();
+      },
     };
   }
 
   public cancel(): void {
-    this.description = this.previousDescription;
     this.htmlEditor.uninitialize();
   }
 
@@ -85,7 +87,6 @@ export class TaskDescriptionComponent implements OnInit {
       .describe(this.task.id, { description: this.description })
       .pipe(
         tap((response) => {
-          this.previousDescription = this.description;
           this.htmlEditor.uninitialize();
           this.descriptionCreated.emit(response);
         }),
