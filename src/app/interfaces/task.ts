@@ -17,7 +17,6 @@ export interface Task {
   taskTypeId?: number;
   taskDescriptionId?: number;
   taskDescription?: any;
-  taskRelates?: any[];
   taskTags?: any[];
   watchers?: any[];
   subjectObjectId?: number;

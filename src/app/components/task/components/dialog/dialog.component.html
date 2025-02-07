@@ -1,6 +1,6 @@
 <fs-dialog [mode]="'stretch'">
   <mat-dialog-content>
-    @if (task) {
+    <ng-container *fsSkeleton="task">
       <fs-task
           [task]="task"
           [config]="config">
@@ -17,6 +17,6 @@
           </a>
         </ng-template>
       </fs-task>
-    }
+    </ng-container>
   </mat-dialog-content>
 </fs-dialog>

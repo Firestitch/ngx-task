@@ -37,10 +37,9 @@ import { FsLabelModule } from '@firestitch/label';
 import { FsMenuModule } from '@firestitch/menu';
 import { FsMessage } from '@firestitch/message';
 import { FsPrompt } from '@firestitch/prompt';
-import { FsSkeletonModule } from '@firestitch/skeleton';
 
 import { Observable, of, Subject } from 'rxjs';
-import { catchError, filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
 
 import { merge } from 'lodash-es';
 
@@ -89,7 +88,6 @@ import { HtmlEditorService } from './services/html-editor.service';
     FsDatePickerModule,
     FsMenuModule,
     FsClipboardModule,
-    FsSkeletonModule,
     FsLabelModule,
     FsChipModule,
     FsAuditsModule,
@@ -130,22 +128,22 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
   @ContentChild(FsTaskBottomToolbarDirective, { read: TemplateRef })
   public taskBottomToolbar: TemplateRef<any>;
 
+  @ViewChild(TaskCommentComponent)
+  public commentComponent: TaskCommentComponent;
+
   @ViewChild(ActivityComponent)
   public activity: ActivityComponent;
 
   @ViewChild(FsHtmlEditorComponent)
   public htmlEditor: FsHtmlEditorComponent;
 
-  @Input('task') public set setTask(task: Task) {
-    this._task = task;
-  }
+  @Input() public task: Task;
 
   @Input() public config: TaskConfig = {};
 
   @Output()
   public saved = new EventEmitter<Task>();
 
-  public task: Task;
   public taskWorkflowSteps: TaskWorkflowStep[] = [];
 
   private _destroy$ = new Subject<void>();
@@ -157,11 +155,9 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
   private _taskData = inject(TaskData);
   private _taskAccountData = inject(TaskAccountData);
   private _taskAuditData = inject(TaskAuditData);
-  private _task: Task;
 
   public ngOnInit(): void {
     this._initConfig();
-    this._fetchData();
   }
 
   public loadAudits = (query) => {
@@ -175,12 +171,7 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
   }
 
   public loadTaskWorkflowSteps(): void {
-    this._taskData
-      .getTaskWorkflowSteps(this.task.id)
-      .subscribe((taskWorkflowSteps) => {
-        this.taskWorkflowSteps = taskWorkflowSteps;
-        this._cdRef.markForCheck();
-      });
+    this.commentComponent.loadTaskWorkflowSteps();
   }
 
   public fetchSubjectObject = (keywords: string[]): Observable<Object[]> => {
@@ -235,7 +226,6 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
   public commentTaskChange(task: Task): void {
     this.task = task;
     this.loadNewActivities();
-    this.loadTaskWorkflowSteps();
   }
 
   public loadRelated(): void {
@@ -346,50 +336,6 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
     this.save({
       assignedAccountId: account?.id || null,
     });
-  }
-
-  private _fetchData(): void {
-    of(null)
-      .pipe(
-        switchMap(() => {
-          return this._task?.id
-            ? this._taskData
-              .get(this._task?.id, {
-                taskStatuses: true,
-                taskTypes: true,
-                taskDescriptions: true,
-                assignedAccounts: true,
-                assignedAccountAvatars: true,
-                taskRelates: true,
-                taskRelateObjects: true,
-                taskTags: true,
-                subjectObjects: this.config.subjectObject?.show ?? undefined,
-              })
-            : this._taskData
-              .save({
-                ...this._task,
-              })
-              .pipe(
-                map((response) => {
-                  return {
-                    ...this.task,
-                    ...response,
-                  };
-                }),
-              );
-        }),
-        tap((task) => {
-          this.task = {
-            ...task,
-            taskRelates: task.taskRelates || [],
-          };
-        }),
-        tap(() => this.loadTaskWorkflowSteps()),
-        takeUntil(this._destroy$),
-      )
-      .subscribe(() => {
-        this._cdRef.markForCheck();
-      });
   }
 
   private _initConfig(): void {

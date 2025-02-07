@@ -50,7 +50,6 @@ export class TaskCommentComponent implements OnDestroy, OnInit {
 
   @Input() public task: Task;
   @Input() public config: TaskConfig;
-  @Input() public taskWorkflowSteps: TaskWorkflowStep[] = [];
   @Input() public commentPlaceholder: string;
 
   @Output() public commentCreated = new EventEmitter<void>();
@@ -61,6 +60,7 @@ export class TaskCommentComponent implements OnDestroy, OnInit {
   public commentEnabled = false;
   public htmlEditorConfig: FsHtmlEditorConfig;
   public submitting = false;
+  public taskWorkflowSteps: TaskWorkflowStep[] = [];
 
   private _destroy$ = new Subject<void>();
   private _taskCommentData = inject(TaskCommentData);
@@ -71,11 +71,21 @@ export class TaskCommentComponent implements OnDestroy, OnInit {
 
   public ngOnInit(): void {
     this.commentPlaceholder = this.commentPlaceholder || this.config.comment.placeholder;
+    this.loadTaskWorkflowSteps();
     this._initHtmlEditor();
   }
 
   public get account(): Account {
     return null;
+  }
+
+  public loadTaskWorkflowSteps(): void {
+    this._taskData
+      .getTaskWorkflowSteps(this.task.id)
+      .subscribe((taskWorkflowSteps) => {
+        this.taskWorkflowSteps = taskWorkflowSteps;
+        this._cdRef.markForCheck();
+      });
   }
   
   public submit() {
@@ -126,6 +136,9 @@ export class TaskCommentComponent implements OnDestroy, OnInit {
       taskStatusId: taskWorkflowStep.taskStatusId, 
     })
       .pipe(
+        tap(() => {
+          this.loadTaskWorkflowSteps();
+        }),
         tap((task) => {
           this.taskChange.emit({
             ...this.task,

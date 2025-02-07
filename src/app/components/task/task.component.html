@@ -1,4 +1,4 @@
-<ng-container *fsSkeletonForm="task">
+@if (task) {
   <div class="fs-row top-toolbar">
     @if (taskTopToolbar) {
       <ng-container
@@ -42,7 +42,6 @@
         <app-task-comment
           [task]="task"
           [config]="config"
-          [taskWorkflowSteps]="taskWorkflowSteps"
           (commentCreated)="loadNewActivities()"
           (taskChange)="commentTaskChange($event)">
         </app-task-comment>
@@ -61,7 +60,7 @@
       </ng-template>
     </mat-tab>
   </mat-tab-group>
-</ng-container>
+}
 <ng-template #taskSelect>
   <app-task-status-select
     [padless]="true"
