@@ -79,7 +79,7 @@ export class FsTaskDialogComponent implements OnInit {
         switchMap(() => {
           return task.id
             ? this._taskData
-              .get(this.task.id, {
+              .get(task.id, {
                 taskStatuses: true,
                 taskTypes: true,
                 taskDescriptions: true,
@@ -90,12 +90,12 @@ export class FsTaskDialogComponent implements OnInit {
               })
             : this._taskData
               .save({
-                ...this.task,
+                ...task,
               })
               .pipe(
                 map((response) => {
                   return {
-                    ...this.task,
+                    ...task,
                     ...response,
                   };
                 }),
