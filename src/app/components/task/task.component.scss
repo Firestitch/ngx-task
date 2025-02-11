@@ -8,7 +8,10 @@
   .task-number {
     white-space: nowrap;
     margin-right: 10px;
-    color: inherit;
+    
+    a {
+      color: inherit;
+    }
   }
 
   .task-name {
