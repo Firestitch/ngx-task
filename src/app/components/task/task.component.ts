@@ -28,7 +28,7 @@ import { FsApi } from '@firestitch/api';
 import { FsAuditsModule } from '@firestitch/audit';
 import { FsAutocompleteChipsModule } from '@firestitch/autocomplete-chips';
 import { FsChipModule } from '@firestitch/chip';
-import { FsClipboardModule } from '@firestitch/clipboard';
+import { FsClipboard, FsClipboardModule } from '@firestitch/clipboard';
 import { FsCommonModule } from '@firestitch/common';
 import { FsDatePickerModule } from '@firestitch/datepicker';
 import { FsDialogModule } from '@firestitch/dialog';
@@ -156,6 +156,7 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
   private _taskData = inject(TaskData);
   private _taskAccountData = inject(TaskAccountData);
   private _taskAuditData = inject(TaskAuditData);
+  private _clipboard = inject(FsClipboard);
 
   public ngOnInit(): void {
     this._initConfig();
@@ -248,6 +249,15 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
         };
         this._cdRef.markForCheck();
       });
+  }
+
+  public copyIdentifier(): void {
+    const identifier = this.config.identifier?.copy ? 
+      this.config.identifier.copy(this.task) : 
+      this.task.identifier;
+    
+    this._clipboard.copy(identifier);
+    this._message.success('Copied to clipboard');
   }
 
   public openWatcher(): void {

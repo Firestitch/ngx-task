@@ -25,6 +25,9 @@ export interface TaskConfig {
     click?: (task: Task, object: Object) => void;
   },
   activity?: TaskActivityConfig;
+  identifier?: {  
+    copy?: (task: Task) => string;
+  };
 }
 
 export interface TaskActivityConfig extends ActivityConfig {
