@@ -81,14 +81,16 @@
       fsActivityPreview
       [activityType]="'taskDescription'"
       let-data="data">
-    <a (click)="data.showDescription = !data.showDescription">
-      {{ data.showDescription ? 'Hide' : 'Show' }} description
-    </a>
     <div>
-      @if (data.showDescription) {
-        <br>
-        <fs-html-renderer [html]="data.description"></fs-html-renderer>
-      }
+      <a (click)="data.showDescription = !data.showDescription">
+        {{ data.showDescription ? 'Hide' : 'Show' }} description
+      </a>
+      <div>
+        @if (data.showDescription) {
+          <br>
+          <fs-html-renderer [html]="data.description"></fs-html-renderer>
+        }
+      </div>
     </div>
   </ng-template>
 </fs-activities>
