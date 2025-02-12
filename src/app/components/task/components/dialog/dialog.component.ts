@@ -15,6 +15,7 @@ import {
 } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
+import { FsApi } from '@firestitch/api';
 import { FsDialogModule } from '@firestitch/dialog';
 import { FsSkeletonModule } from '@firestitch/skeleton';
 
@@ -22,7 +23,9 @@ import { map, of, switchMap, tap } from 'rxjs';
 
 import { TaskData } from '../../../../data';
 import { FS_TASK_CONFIG } from '../../../../injectors';
+import { TaskApiService } from '../../../../interceptors';
 import { Task, TaskConfig } from '../../../../interfaces';
+import { DataApiService } from '../../../../services';
 import { FsTaskTopToolbarDirective } from '../../directives';
 import { FsTaskComponent } from '../../task.component';
 
@@ -32,6 +35,16 @@ import { FsTaskComponent } from '../../task.component';
   styleUrls: ['./dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
+  providers: [
+    { provide: FsApi, useClass: TaskApiService },
+    {
+      provide: DataApiService,
+      useFactory: () => {
+        return inject(DataApiService, { optional: true, skipSelf: true }) || new DataApiService();
+      },
+    },
+    TaskData,
+  ],
   imports: [
     CommonModule,
 
