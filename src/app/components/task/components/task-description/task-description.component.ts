@@ -21,7 +21,7 @@ import {
 
 import { tap } from 'rxjs/operators';
 
-import { TaskData } from '../../../../data';
+import { TaskAccountData, TaskData } from '../../../../data';
 import { Task, TaskConfig } from '../../../../interfaces';
 import { HtmlEditorService } from '../../services/html-editor.service';
 
@@ -57,6 +57,7 @@ export class TaskDescriptionComponent implements OnInit {
 
   private _htmlEditorService = inject(HtmlEditorService);
   private _taskData = inject(TaskData);
+  private _taskAccountData = inject(TaskAccountData);
   private _cdRef = inject(ChangeDetectorRef);
 
   public ngOnInit(): void {
@@ -67,6 +68,7 @@ export class TaskDescriptionComponent implements OnInit {
           this.config.description.htmlEditorConfig, 
           this.task.id, 
           this._taskData,
+          this._taskAccountData,
         ),
       padless: true,
       placeholder: this.config.description.placeholder,

@@ -1,40 +1,44 @@
-<ng-container *ngIf="commentEnabled">
-  <fs-html-editor
-      class="comment"
-      [required]="files.length === 0"
-      [(ngModel)]="comment"
-      [config]="htmlEditorConfig"
-      name="description">
-    <ng-template
-        fsHtmlEditorContainer
-        let-template="template">
-      <ng-container [ngTemplateOutlet]="template"></ng-container>
-      <ng-container [ngTemplateOutlet]="filesTmpl"></ng-container>
-    </ng-template>
-  </fs-html-editor>
-  <div class="fs-row.gap-xs.wrap buttons">
-    <button
-        mat-flat-button
-        [disabled]="submitting"
-        (click)="submit()"
-        type="button"
-        color="primary">
-      Comment
-    </button>
-    <ng-container
-      [ngTemplateOutlet]="taskWorkflowStepsTmpl"
-      [ngTemplateOutletContext]="{ submitting }">
-    </ng-container>
-    <button
-        (click)="cancelComment()"
-        [disabled]="submitting"
-        mat-stroked-button
-        type="button">
-      Cancel
-    </button>
-    <ng-container [ngTemplateOutlet]="fileTmpl"></ng-container>
-  </div>
-</ng-container>
+<div [hidden]="!commentEnabled">
+  <form
+      fsForm
+      [submit]="submit"
+      [dirtySubmitButton]="false">
+    <fs-html-editor
+        class="comment"
+        [required]="files.length === 0"
+        [(ngModel)]="comment"
+        [config]="htmlEditorConfig"
+        name="description">
+      <ng-template
+          fsHtmlEditorContainer
+          let-template="template">
+        <ng-container [ngTemplateOutlet]="template"></ng-container>
+        <ng-container [ngTemplateOutlet]="filesTmpl"></ng-container>
+      </ng-template>
+    </fs-html-editor>
+    <div class="fs-row.gap-xs.wrap buttons">
+      <button
+          mat-flat-button
+          [disabled]="submitting"
+          type="submit"
+          color="primary">
+        Comment
+      </button>
+      <ng-container
+        [ngTemplateOutlet]="taskWorkflowStepsTmpl"
+        [ngTemplateOutletContext]="{ submitting }">
+      </ng-container>
+      <button
+          (click)="cancelComment()"
+          [disabled]="submitting"
+          mat-stroked-button
+          type="button">
+        Cancel
+      </button>
+      <ng-container [ngTemplateOutlet]="fileTmpl"></ng-container>
+    </div>
+  </form>
+</div>
 <ng-container *ngIf="!commentEnabled">
   <div class="comment-placeholder">
     <div class="fs-row.gap-xs">

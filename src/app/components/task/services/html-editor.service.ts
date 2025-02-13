@@ -76,6 +76,7 @@ export class HtmlEditorService {
     config: FsHtmlEditorConfig, 
     taskId: number, 
     taskData: TaskData,
+    taskAccountData: TaskAccountData,
   ): FsHtmlEditorConfig {
     config = config || {};
 
@@ -85,6 +86,7 @@ export class HtmlEditorService {
         .getImageUploadConfig(taskId, taskData),
       plugins: [
         ...(config.plugins || []),
+        this.getAccountMentionPlugin(taskAccountData),
         new ChecklistPlugin(),
       ],
     };

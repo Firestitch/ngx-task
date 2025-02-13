@@ -17,6 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { FsBadgeModule } from '@firestitch/badge';
 import { FileProcessor, FsFile, FsFileModule } from '@firestitch/file';
+import { FsFormModule } from '@firestitch/form';
 import { FsHtmlEditorConfig, FsHtmlEditorModule } from '@firestitch/html-editor';
 
 import { of, Subject, zip } from 'rxjs';
@@ -42,6 +43,7 @@ import { HtmlEditorService } from '../../services/html-editor.service';
 
     FsFileModule,
     FsBadgeModule,
+    FsFormModule,
 
     FsHtmlEditorModule,
   ],
@@ -88,10 +90,9 @@ export class TaskCommentComponent implements OnDestroy, OnInit {
       });
   }
   
-  public submit() {
-    this.submit$()
-      .subscribe();
-  }
+  public submit = () => {
+    return this.submit$();
+  };
 
   public submit$() {
     this.submitting = true;
