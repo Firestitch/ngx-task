@@ -11,9 +11,6 @@ export class HtmlEditorService {
 
   public getImageUploadConfig(taskId, taskData: TaskData) {
     return {
-      quality: 0.95,
-      width: 1600,
-      height: 1200,
       upload: (file) => {
         return taskData.postImage(taskId, file);
       },
