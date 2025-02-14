@@ -1,4 +1,4 @@
-<div [hidden]="!commentEnabled">
+@if (commentEnabled) {
   <form
       fsForm
       [submit]="submit"
@@ -8,7 +8,7 @@
         [required]="files.length === 0"
         [(ngModel)]="comment"
         [config]="htmlEditorConfig"
-        name="description">
+        name="comment">
       <ng-template
           fsHtmlEditorContainer
           let-template="template">
@@ -38,8 +38,7 @@
       <ng-container [ngTemplateOutlet]="fileTmpl"></ng-container>
     </div>
   </form>
-</div>
-<ng-container *ngIf="!commentEnabled">
+} @else {
   <div class="comment-placeholder">
     <div class="fs-row.gap-xs">
       @if (account?.avatar) {
@@ -56,7 +55,7 @@
       </div>
     </div>
   </div>
-</ng-container>
+}
 <ng-template #fileTmpl>
   <fs-file
       [multiple]="true"
