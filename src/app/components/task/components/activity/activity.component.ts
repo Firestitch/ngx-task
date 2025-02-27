@@ -9,7 +9,6 @@ import {
   ViewChild,
 } from '@angular/core';
 
-
 import { MatDialog } from '@angular/material/dialog';
 
 import { FsActivitiesComponent, FsActivityPreviewDirective } from '@firestitch/activity';
@@ -55,6 +54,7 @@ export class ActivityComponent implements OnInit {
 
   @Input() public task: Task;
   @Input() public config: TaskConfig;
+  @Input() public activityQuery: any;
 
   @ViewChild(FsActivitiesComponent)
   public activities: FsActivitiesComponent;
@@ -65,9 +65,15 @@ export class ActivityComponent implements OnInit {
   private _dialog = inject(MatDialog);
   private _injector = inject(Injector);
 
-  public loadNewActivities(): void {
+  public loadMoreActivities(): void {
     if (this.activities) {
-      this.activities.loadNew();
+      this.activities.loadMore();
+    }
+  }
+
+  public loadActivities(): void {
+    if (this.activities) {
+      this.activities.load();
     }
   }
 
@@ -77,6 +83,7 @@ export class ActivityComponent implements OnInit {
 
     this.activityConfig = {
       ...this.config.activity,
+      autoLoad: false,
       apiPath: [this.task.id, 'activities'],
       actions: [
         {

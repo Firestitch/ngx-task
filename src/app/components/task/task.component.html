@@ -37,12 +37,16 @@
     (descriptionCreated)="descriptionCreated($event)">
   </app-task-description>
   <mat-tab-group>
-    <mat-tab label="Activity">
+    <mat-tab>
+      <ng-template matTabLabel>
+        Activity
+        <fs-filter [config]="activityFilterConfig"></fs-filter>
+      </ng-template>
       <ng-template matTabContent>
         <app-task-comment
           [task]="task"
           [config]="config"
-          (commentCreated)="loadNewActivities()"
+          (commentCreated)="loadMoreActivities()"
           (taskChange)="commentTaskChange($event)">
         </app-task-comment>
         <app-task-activity

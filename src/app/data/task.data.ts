@@ -91,6 +91,17 @@ export class TaskData<T = any> {
     );
   }
 
+  public activityTypes(data: any, config: RequestConfig = {}): Observable<T> {
+    return this._api.get(
+      ['activitytypes'],
+      data,
+      {
+        key: 'activityTypes',
+        ...config,
+      },
+    );
+  }
+
   public postImage(taskId, file: File, config: RequestConfig = {}): Observable<T> {
     return this._api.post(
       [taskId,'images'],

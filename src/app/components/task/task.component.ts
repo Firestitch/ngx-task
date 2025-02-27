@@ -32,6 +32,7 @@ import { FsClipboard, FsClipboardModule } from '@firestitch/clipboard';
 import { FsCommonModule } from '@firestitch/common';
 import { FsDatePickerModule } from '@firestitch/datepicker';
 import { FsDialogModule } from '@firestitch/dialog';
+import { FilterConfig, FsFilterModule, ItemType } from '@firestitch/filter';
 import { FsHtmlEditorComponent } from '@firestitch/html-editor';
 import { FsLabelModule } from '@firestitch/label';
 import { FsMenuModule } from '@firestitch/menu';
@@ -92,6 +93,7 @@ import { HtmlEditorService } from './services/html-editor.service';
     FsChipModule,
     FsAuditsModule,
     FsAutocompleteChipsModule,
+    FsFilterModule,
 
     TaskAccountSelectComponent,
     TaskCommentComponent,
@@ -146,6 +148,8 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
 
   @Output()
   public saved = new EventEmitter<Task>();
+
+  public activityFilterConfig: FilterConfig;
 
   private _destroy$ = new Subject<void>();
   private _message = inject(FsMessage);
@@ -212,7 +216,7 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
             ...task,
           };
           this._cdRef.markForCheck();
-          this.loadNewActivities();
+          this.loadMoreActivities();
           this.saved.emit(this.task);
           this._message.success('Saved Changes');
         }),
@@ -223,20 +227,20 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
     this.task.taskDescriptionId = taskDescription?.id;
     this.task.taskDescription = taskDescription;
     this.saved.emit(this.task);
-    this.loadNewActivities();
+    this.loadMoreActivities();
   }
 
-  public loadNewActivities(): void {
-    this.activity.loadNewActivities();
+  public loadMoreActivities(): void {
+    this.activity.loadMoreActivities();
   }
 
   public commentTaskChange(task: Task): void {
     this.task = task;
-    this.loadNewActivities();
+    this.loadMoreActivities();
   }
 
   public loadRelated(): void {
-    this.loadNewActivities();
+    this.loadMoreActivities();
     this._taskData
       .get(this.task.id, {
         taskRelates: true,
@@ -355,6 +359,37 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
   }
 
   private _initConfig(): void {
+    this.activityFilterConfig = {
+      persist: {
+        name: 'taskActivities',
+      },
+      init: (query) => {
+        this.activity.activities.setQuery(query);
+        this.activity.loadActivities();
+      },
+      change: (query) => {
+        this.activity.activities.setQuery(query);
+        this.activity.loadActivities();
+      },
+      chips: false,
+      queryParam: false,
+      items: [
+        {
+          type: ItemType.AutoCompleteChips,
+          name: 'activityTypeId',
+          label: 'Activity type',
+          values: (keyword) => this._taskData.activityTypes({ keyword })
+            .pipe(
+              map((activityTypes) => activityTypes
+                .map((activityType) => ({
+                  name: activityType.name,
+                  value: activityType.id,
+                }))),
+            ),
+        },
+      ],
+    };
+
     const defaultConfig = {
       comment: {
         placeholder: 'Add a comment...',

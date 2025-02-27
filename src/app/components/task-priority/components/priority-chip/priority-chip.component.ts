@@ -1,13 +1,13 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
-import { index } from '@firestitch/common';
 import { FsBadgeModule } from '@firestitch/badge';
 import { FsChipModule } from '@firestitch/chip';
+import { index } from '@firestitch/common';
 
 import { TaskPriorities } from '../../../../consts';
 

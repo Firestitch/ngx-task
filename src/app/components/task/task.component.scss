@@ -25,9 +25,12 @@
 }
 
 mat-tab-group {
-  margin-top: 15px;
-}
+  margin-top: 15px; 
 
+  fs-filter {
+    margin: 0;
+  }
+}
 
 :host {
   ::ng-deep {
