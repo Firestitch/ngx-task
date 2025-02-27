@@ -66,15 +66,11 @@ export class ActivityComponent implements OnInit {
   private _injector = inject(Injector);
 
   public loadMoreActivities(): void {
-    if (this.activities) {
-      this.activities.loadMore();
-    }
+    this.activities?.loadMore();
   }
 
   public loadActivities(): void {
-    if (this.activities) {
-      this.activities.load();
-    }
+    this.activities?.load();
   }
 
   public ngOnInit(): void {
@@ -83,7 +79,6 @@ export class ActivityComponent implements OnInit {
 
     this.activityConfig = {
       ...this.config.activity,
-      autoLoad: false,
       apiPath: [this.task.id, 'activities'],
       actions: [
         {

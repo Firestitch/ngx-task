@@ -150,6 +150,7 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
   public saved = new EventEmitter<Task>();
 
   public activityFilterConfig: FilterConfig;
+  public activityQuery: any;
 
   private _destroy$ = new Subject<void>();
   private _message = inject(FsMessage);
@@ -364,8 +365,7 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
         name: 'taskActivities',
       },
       init: (query) => {
-        this.activity.activities.setQuery(query);
-        this.activity.loadActivities();
+        this.activityQuery = query;
       },
       change: (query) => {
         this.activity.activities.setQuery(query);
