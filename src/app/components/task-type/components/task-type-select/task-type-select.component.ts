@@ -5,6 +5,7 @@ import {
   EventEmitter,
   inject,
   Injector,
+  Input,
   OnDestroy,
   OnInit,
   Output,
@@ -53,6 +54,8 @@ import { TaskTypeManageDialogComponent } from '../task-type-manage-dialog';
   ],
 })
 export class TaskTypeSelectComponent implements ControlValueAccessor, OnDestroy, OnInit {
+
+  @Input() public disabled = false;
 
   @Output() public taskTypeManageClosed = new EventEmitter<void>();
 

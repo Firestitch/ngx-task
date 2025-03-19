@@ -43,6 +43,7 @@ import { TaskStatusManageDialogComponent } from '../task-status-manage-dialog';
 export class TaskStatusSelectComponent implements ControlValueAccessor, OnDestroy {
 
   @Input() public padless = false;
+  @Input() public disabled = false;
 
   public taskStatus;
   public onChange: (value) => void;

@@ -69,6 +69,7 @@
 <ng-template #taskSelect>
   <app-task-status-select
     [padless]="true"
+    [disabled]="config.status.disabled"
     [(ngModel)]="task.taskStatus"
     (ngModelChange)="taskStatusChange($event)"
     name="status">
@@ -77,6 +78,7 @@
 <ng-template #taskAccountSelect>
   <app-task-account-select
     [padless]="true"
+    [disabled]="config.assignedAccount.disabled"
     [(ngModel)]="task.assignedAccount"
     (ngModelChange)="assignedAccountChange($event)"
     name="account">
@@ -85,6 +87,7 @@
 <ng-template #taskPrioritySelect>
   <app-priority-select
     [padless]="true"
+    [disabled]="config.priority.disabled"
     [(ngModel)]="task.priority"
     (ngModelChange)="save({ priority: $event || null })"
     name="priority">
@@ -100,6 +103,7 @@
     <input
       matInput
       placeholder="None"
+      [disabled]="config.dueDate.disabled"
       fsDatePicker
       [(ngModel)]="task.dueDate"
       (ngModelChange)="save({ dueDate: $event })"
@@ -109,6 +113,7 @@
 <ng-template #taskTagSelect>
   <app-task-tag-select
     [padless]="true"
+    [disabled]="config.tags.disabled"
     [(ngModel)]="task.taskTags"
     (ngModelChange)="taskTagsChange($event)"
     name="tag">
@@ -165,6 +170,7 @@
 <ng-template #taskTypeSelect>
   <app-task-type-select
     [(ngModel)]="task.taskType"
+    [disabled]="config.taskType.disabled"
     (taskTypeManageClosed)="loadTaskWorkflowSteps()"
     (ngModelChange)="taskTypeChange($event)"
     name="taskType">
@@ -184,6 +190,7 @@
     <input
       matInput
       placeholder="Name"
+      [disabled]="config.name.disabled"
       [(ngModel)]="task.name"
       [fsAutoSelect]="task.name === 'Untitled'"
       (blur)="save({ name: task.name })"
@@ -191,20 +198,22 @@
   </mat-form-field>
 </ng-template>
 <ng-template #taskMenu>
-  <a
-      mat-icon-button
-      [fsMenuTriggerFor]="menu">
-    <mat-icon>
-      more_vert
-    </mat-icon>
-  </a>
-  <fs-menu #menu>
-    <ng-template
-        fs-menu-item
-        (click)="openWatcher()">
-      Watchers
-    </ng-template>
-  </fs-menu>
+  @if (!config.watchers.disabled) {
+    <a
+        mat-icon-button
+        [fsMenuTriggerFor]="menu">
+      <mat-icon>
+        more_vert
+      </mat-icon>
+    </a>
+    <fs-menu #menu>
+      <ng-template
+          fs-menu-item
+          (click)="openWatcher()">
+        Watchers
+      </ng-template>
+    </fs-menu>
+  }
 </ng-template>
 <ng-template #taskTopToolbarImplicit>
   <ng-container [ngTemplateOutlet]="taskTypeSelect"></ng-container>

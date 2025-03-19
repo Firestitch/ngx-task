@@ -71,6 +71,7 @@ export class TaskDescriptionComponent implements OnInit {
           this._taskAccountData,
         ),
       padless: true,
+      disabled: this.config.description.disabled,
       placeholder: this.config.description.placeholder,
       label: this.config.description.label,
       initOnClick: true,

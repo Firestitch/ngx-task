@@ -1,98 +1,100 @@
-@if (commentEnabled) {
-  <form
-      fsForm
-      [submit]="submit"
-      [dirtySubmitButton]="false">
-    <fs-html-editor
-        class="comment"
-        [required]="files.length === 0"
-        [(ngModel)]="comment"
-        [config]="htmlEditorConfig"
-        name="comment">
-      <ng-template
-          fsHtmlEditorContainer
-          let-template="template">
-        <ng-container [ngTemplateOutlet]="template"></ng-container>
-        <ng-container [ngTemplateOutlet]="filesTmpl"></ng-container>
-      </ng-template>
-    </fs-html-editor>
-    <div class="fs-row.gap-xs.wrap buttons">
-      <button
-          mat-flat-button
-          [disabled]="submitting"
-          type="submit"
-          color="primary">
-        Comment
-      </button>
-      <ng-container
-        [ngTemplateOutlet]="taskWorkflowStepsTmpl"
-        [ngTemplateOutletContext]="{ submitting }">
-      </ng-container>
-      <button
-          (click)="cancelComment()"
-          [disabled]="submitting"
-          mat-stroked-button
-          type="button">
-        Cancel
-      </button>
-      <ng-container [ngTemplateOutlet]="fileTmpl"></ng-container>
-    </div>
-  </form>
-} @else {
-  <div class="comment-placeholder">
-    <div class="fs-row.gap-xs">
-      @if (account?.avatar) {
-        <fs-badge [image]="account.avatar.small"></fs-badge>
-      }
-      <div class="fs-row.gap-xs buttons">
-        <a
-            (click)="commentEnabled = true"
-            class="comment-placeholder-text">
-          {{ commentPlaceholder }}
-        </a>
+@if (!config.comment.disabled) {
+  @if (commentEnabled) {
+    <form
+        fsForm
+        [submit]="submit"
+        [dirtySubmitButton]="false">
+      <fs-html-editor
+          class="comment"
+          [required]="files.length === 0"
+          [(ngModel)]="comment"
+          [config]="htmlEditorConfig"
+          name="comment">
+        <ng-template
+            fsHtmlEditorContainer
+            let-template="template">
+          <ng-container [ngTemplateOutlet]="template"></ng-container>
+          <ng-container [ngTemplateOutlet]="filesTmpl"></ng-container>
+        </ng-template>
+      </fs-html-editor>
+      <div class="fs-row.gap-xs.wrap buttons">
+        <button
+            mat-flat-button
+            [disabled]="submitting"
+            type="submit"
+            color="primary">
+          Comment
+        </button>
+        <ng-container
+          [ngTemplateOutlet]="taskWorkflowStepsTmpl"
+          [ngTemplateOutletContext]="{ submitting }">
+        </ng-container>
+        <button
+            (click)="cancelComment()"
+            [disabled]="submitting"
+            mat-stroked-button
+            type="button">
+          Cancel
+        </button>
         <ng-container [ngTemplateOutlet]="fileTmpl"></ng-container>
-        <ng-container [ngTemplateOutlet]="taskWorkflowStepsTmpl"></ng-container>
+      </div>
+    </form>
+  } @else {
+    <div class="comment-placeholder">
+      <div class="fs-row.gap-xs">
+        @if (account?.avatar) {
+          <fs-badge [image]="account.avatar.small"></fs-badge>
+        }
+        <div class="fs-row.gap-xs buttons">
+          <a
+              (click)="commentEnabled = true"
+              class="comment-placeholder-text">
+            {{ commentPlaceholder }}
+          </a>
+          <ng-container [ngTemplateOutlet]="fileTmpl"></ng-container>
+          <ng-container [ngTemplateOutlet]="taskWorkflowStepsTmpl"></ng-container>
+        </div>
       </div>
     </div>
-  </div>
-}
-<ng-template #fileTmpl>
-  <fs-file
-      [multiple]="true"
-      [orientate]="false"
-      (select)="selectFiles($event)">
-    <a mat-icon-button>
-      <mat-icon>
-        attach_file
-      </mat-icon>
-    </a>
-  </fs-file>
-</ng-template>
-<ng-template #filesTmpl>
-  <fs-file-previews [files]="files">
-    <ng-template
-        fs-file-preview-action
-        placement="top-right"
-        action="remove"
-        tooltip="Remove">
-      <mat-icon>
-        close
-      </mat-icon>
-    </ng-template>
-  </fs-file-previews>
-</ng-template>
-<ng-template
-    #taskWorkflowStepsTmpl
-    let-submitting>
-  @for (taskWorkflowStep of taskWorkflowSteps; track taskWorkflowStep.id) {
-    <button
-        (click)="taskWorkflowStepClick(taskWorkflowStep)"
-        mat-stroked-button
-        type="button"
-        [disabled]="submitting">
-      <span [style.color]="taskWorkflowStep.taskStatus.color">
-        {{ taskWorkflowStep.taskStatus.name }}
-      </span>
-    </button>
   }
-</ng-template>
+  <ng-template #fileTmpl>
+    <fs-file
+        [multiple]="true"
+        [orientate]="false"
+        (select)="selectFiles($event)">
+      <a mat-icon-button>
+        <mat-icon>
+          attach_file
+        </mat-icon>
+      </a>
+    </fs-file>
+  </ng-template>
+  <ng-template #filesTmpl>
+    <fs-file-previews [files]="files">
+      <ng-template
+          fs-file-preview-action
+          placement="top-right"
+          action="remove"
+          tooltip="Remove">
+        <mat-icon>
+          close
+        </mat-icon>
+      </ng-template>
+    </fs-file-previews>
+  </ng-template>
+  <ng-template
+      #taskWorkflowStepsTmpl
+      let-submitting>
+    @for (taskWorkflowStep of taskWorkflowSteps; track taskWorkflowStep.id) {
+      <button
+          (click)="taskWorkflowStepClick(taskWorkflowStep)"
+          mat-stroked-button
+          type="button"
+          [disabled]="submitting">
+        <span [style.color]="taskWorkflowStep.taskStatus.color">
+          {{ taskWorkflowStep.taskStatus.name }}
+        </span>
+      </button>
+    }
+  </ng-template>
+}

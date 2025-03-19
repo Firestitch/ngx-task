@@ -390,14 +390,42 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
       ],
     };
 
+    const disabled = this.config.disabled;
+
     const defaultConfig = {
+      status: {
+        disabled,
+      },
+      assignedAccount: {
+        disabled,
+      },
+      dueDate: {
+        disabled,
+      },
+      priority: {
+        disabled,
+      },
+      tags: {
+        disabled,
+      },
+      taskType: {
+        disabled,
+      },
+      watchers: {
+        disabled,
+      },
+      name: {
+        disabled,
+      },
       comment: {
         placeholder: 'Add a comment...',
         label: 'Comment',
+        disabled,
       },
       description: {
         placeholder: 'Add a description...',
         label: 'Description',
+        disabled,
       },
       subjectObject: {
         show: false,

@@ -36,6 +36,7 @@ import { TaskAccountData } from '../../../../data';
 export class TaskAccountSelectComponent implements ControlValueAccessor, OnDestroy {
 
   @Input() public padless = false;
+  @Input() public disabled = false;
 
   public account;
   public onChange: (value) => void;

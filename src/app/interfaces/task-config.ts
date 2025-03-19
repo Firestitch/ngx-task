@@ -7,15 +7,41 @@ import { Object } from './object';
 import { Task } from './task';
 
 export interface TaskConfig {
+  status?: {
+    disabled?: boolean,
+  },
+  assignedAccount?: {
+    disabled?: boolean,
+  },
+  tags?: {
+    disabled?: boolean,
+  },
+  dueDate?: {
+    disabled?: boolean,
+  },
+  priority?: {
+    disabled?: boolean,
+  },
+  taskType?: {
+    disabled?: boolean,
+  },
+  name?: {
+    disabled?: boolean,
+  },
+  watchers?: {
+    disabled?: boolean,
+  },
   comment?: {
     placeholder?: string;
     label?: string;
     htmlEditorConfig?: FsHtmlEditorConfig;
+    disabled?: boolean
   };
   description?: {
     placeholder?: string;
     label?: string;
     htmlEditorConfig?: FsHtmlEditorConfig;
+    disabled?: boolean
   };
   subjectObject?: {
     show?: boolean;
@@ -27,7 +53,8 @@ export interface TaskConfig {
   activity?: TaskActivityConfig;
   identifier?: {  
     copy?: (task: Task) => string;
-  };
+  },
+  disabled?: boolean
 }
 
 export interface TaskActivityConfig extends ActivityConfig {

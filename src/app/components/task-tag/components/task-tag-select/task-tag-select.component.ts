@@ -46,6 +46,7 @@ import { TaskTagManageComponent } from '../task-tag-manage';
 export class TaskTagSelectComponent implements ControlValueAccessor, OnDestroy {
 
   @Input() public padless = false;
+  @Input() public disabled = false;
 
   public taskTags = [];
   public onChange: (value) => void;

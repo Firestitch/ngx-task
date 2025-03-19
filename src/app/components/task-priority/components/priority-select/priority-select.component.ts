@@ -34,6 +34,7 @@ import { TaskPriorities } from '../../../../consts';
 export class PrioritySelectComponent implements ControlValueAccessor {
 
   @Input() public padless = false;
+  @Input() public disabled = false;
 
   public taskPriorities;
   public taskPriority;
