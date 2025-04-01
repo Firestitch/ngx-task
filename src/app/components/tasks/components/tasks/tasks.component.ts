@@ -21,8 +21,8 @@ import { FsDialog } from '@firestitch/dialog';
 import { ItemType } from '@firestitch/filter';
 import { FsListComponent, FsListConfig, FsListModule } from '@firestitch/list';
 
-import { Subject } from 'rxjs';
-import { map, switchMap, takeUntil } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
+import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { TaskAccountData, TaskData, TaskStatusData } from '../../../../data';
 import { FS_TASKS_CONFIG, FS_TASKS_DEFAULT_CONFIG } from '../../../../injectors';
@@ -108,7 +108,12 @@ export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestr
   }
 
   public openDialog(task: any): void {
-    this._dialog.open(FsTaskDialogComponent, {
+    this.openDialog$(task)
+      .subscribe();
+  }
+
+  public openDialog$(task: any): Observable<void> {
+    return this._dialog.open(FsTaskDialogComponent, {
       injector: this._injector,
       data: {
         task,
@@ -117,11 +122,9 @@ export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestr
     })
       .afterClosed()
       .pipe(
+        tap(() => this.list.reload()),
         takeUntil(this._destroy$),
-      )
-      .subscribe(() => {
-        this.reload();
-      });
+      );
   }
 
   public openObject(task): void {
@@ -230,9 +233,12 @@ export class FsTasksComponent extends FsBaseComponent implements OnInit, OnDestr
       actions: [
         {
           label: 'Create',
-          show: () => this.config.showCreate,
+          show: () => this.config.create?.show,
           click: () => {
-            this.openDialog({});
+            (this.config.create.data || (() => of({})))()
+              .subscribe((data) => {
+                this.openDialog(data);
+              });
           },
         },
       ],
