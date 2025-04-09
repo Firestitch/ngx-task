@@ -117,7 +117,7 @@ export class DesignComponent implements OnInit, OnDestroy {
 
   public objectsAdded(diagramObjectDirectives: FsDiagramObjectDirective[]): void {
     diagramObjectDirectives.forEach((diagramObjectDirective) => {
-      diagramObjectDirective.data.sourceTaskWorkflowPaths
+      (diagramObjectDirective.data?.sourceTaskWorkflowPaths || [])
         .forEach((sourceTaskWorkflowPath) => {
           const sourceWorkflowStep = Object.values(this.workflowSteps)
             .find((workflowStep: any) => workflowStep.id === sourceTaskWorkflowPath.sourceTaskWorkflowStepId);
