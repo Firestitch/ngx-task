@@ -43,7 +43,10 @@
               [y1]="workflowStep.y1"
               [scale]="zoomPan.scale"
               (dragStop)="workflowStepDragStop($event, workflowStep.taskStatusId)">
-            <app-task-status-chip [taskStatus]="taskStatuses[workflowStep.taskStatusId]"></app-task-status-chip>
+            <app-task-status-chip
+              [taskStatus]="taskStatuses[workflowStep.taskStatusId]"
+              [matTooltip]="taskStatuses[workflowStep.taskStatusId].name">
+            </app-task-status-chip>
             <div
               fsDiagramSource
               placement="north">
