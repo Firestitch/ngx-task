@@ -1,5 +1,3 @@
-
-
 import { RequestMethod } from '@firestitch/api';
 
 import { Observable } from 'rxjs';
