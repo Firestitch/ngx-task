@@ -83,7 +83,10 @@ export class TaskTagManageComponent implements OnInit {
           menu: false,
           click: (data) => {
             return this._taskTagData
-              .delete(data);
+              .delete(data)
+              .pipe(
+                tap(() => this._message.success()),
+              );
           },
           remove: {
             title: 'Confirm',
