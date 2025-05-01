@@ -13,6 +13,7 @@ import { FsFileModule } from '@firestitch/file';
 import { FsFilterModule } from '@firestitch/filter';
 import { FsHtmlEditorModule } from '@firestitch/html-editor';
 import { FsMessageModule } from '@firestitch/message';
+import { FsTabsModule } from '@firestitch/tabs';
 import {
   FsTaskBottomToolbarDirective, FsTaskComponent,
   FsTasksComponent, FsTaskStatusManageComponent,
@@ -56,6 +57,7 @@ const routes: Routes = [
     FsTaskBottomToolbarDirective,
     FsTaskStatusManageComponent,
     FsTaskWorkflowManageComponent,
+    FsTabsModule.forRoot(),
     FsTasksModule.forRoot({
       subjectObject: {
         label: 'Subject',

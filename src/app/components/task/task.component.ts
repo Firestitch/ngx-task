@@ -38,6 +38,7 @@ import { FsLabelModule } from '@firestitch/label';
 import { FsMenuModule } from '@firestitch/menu';
 import { FsMessage } from '@firestitch/message';
 import { FsPrompt } from '@firestitch/prompt';
+import { FsTabsModule } from '@firestitch/tabs';
 
 import { Observable, of, Subject } from 'rxjs';
 import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
@@ -94,6 +95,7 @@ import { HtmlEditorService } from './services/html-editor.service';
     FsAuditsModule,
     FsAutocompleteChipsModule,
     FsFilterModule,
+    FsTabsModule,
 
     TaskAccountSelectComponent,
     TaskCommentComponent,
@@ -149,6 +151,7 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
   @Output()
   public saved = new EventEmitter<Task>();
 
+  public tab = 'activity';
   public activityFilterConfig: FilterConfig;
   public activityQuery: any;
 

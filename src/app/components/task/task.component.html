@@ -36,11 +36,18 @@
     [config]="config"
     (descriptionCreated)="descriptionCreated($event)">
   </app-task-description>
-  <mat-tab-group>
-    <mat-tab>
+  <mat-tab-group
+      fsTabs
+      [(selected)]="tab">
+    <mat-tab name="activity">
       <ng-template matTabLabel>
         Activity
-        <fs-filter [config]="activityFilterConfig"></fs-filter>
+        <div class="filter-container">
+          @if (tab === 'audits') {
+            <div class="cover"></div>
+          }
+          <fs-filter [config]="activityFilterConfig"></fs-filter>
+        </div>
       </ng-template>
       <ng-template matTabContent>
         <app-task-comment
@@ -56,7 +63,9 @@
         </app-task-activity>
       </ng-template>
     </mat-tab>
-    <mat-tab label="Audits">
+    <mat-tab
+        label="Audits"
+        name="audits">
       <ng-template matTabContent>
         <fs-audits
           [loadAudits]="loadAudits"
