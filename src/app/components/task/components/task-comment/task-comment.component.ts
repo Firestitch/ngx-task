@@ -94,6 +94,11 @@ export class TaskCommentComponent implements OnDestroy, OnInit {
     return this.submit$();
   };
 
+  public removeFile(event: { file: FsFile }) {
+    this.files = this.files
+      .filter((f) => f !== event.file);
+  }
+
   public submit$() {
     this.submitting = true;
     const fileProcessor = new FileProcessor();
@@ -120,11 +125,6 @@ export class TaskCommentComponent implements OnDestroy, OnInit {
 
   public taskWorkflowStepClick(taskWorkflowStep: TaskWorkflowStep) {
     if(this.comment || this.files.length) {
-      this.submit$()
-        .pipe(
-          switchMap(() => this.saveTaskStatus$(taskWorkflowStep)),
-        )
-        .subscribe();
     } else {
       this.saveTaskStatus$(taskWorkflowStep)
         .subscribe();
