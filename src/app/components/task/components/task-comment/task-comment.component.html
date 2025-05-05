@@ -73,14 +73,12 @@
     @for (file of files; track file) {
       <fs-file-preview [file]="file">
         <ng-template
-            fs-file-preview-action
-            placement="top-right"
-            action="remove"
-            tooltip="Remove"
-            (click)="removeFile($event)">
-          <mat-icon>
-            close
-          </mat-icon>
+          fs-file-preview-action
+          placement="top-right"
+          action="remove"
+          icon="close"
+          tooltip="Remove"
+          (click)="removeFile($event)">
         </ng-template>
       </fs-file-preview>
     }
