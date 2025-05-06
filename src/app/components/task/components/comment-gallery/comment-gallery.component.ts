@@ -1,11 +1,13 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input, OnChanges, ViewChild } from '@angular/core';
 
 import { FsApi } from '@firestitch/api';
 import {
+  FsGalleryComponent,
   FsGalleryConfig, FsGalleryItem, FsGalleryModule,
 } from '@firestitch/gallery';
+import { FsPrompt } from '@firestitch/prompt';
 
-import { Observable, of } from 'rxjs';
+import { Observable, of, switchMap } from 'rxjs';
 
 
 @Component({
@@ -22,11 +24,13 @@ export class CommentGalleryComponent implements OnChanges {
 
   @Input() public taskComment;
 
+  @ViewChild(FsGalleryComponent) 
+  public gallery: FsGalleryComponent;
+
   public galleryConfig: FsGalleryConfig;
-  
-  constructor(
-    private _api: FsApi,
-  ) { }
+
+  private _prompt = inject(FsPrompt);
+  private _api = inject(FsApi);
 
   public ngOnChanges(): void {
     this.initGallery();
@@ -47,6 +51,25 @@ export class CommentGalleryComponent implements OnChanges {
           label: 'Download',
           icon: 'download',
           download: true,
+        },
+        {
+          tooltip: 'Remove',
+          label: 'Remove',
+          icon: 'clear',
+          click: (item: FsGalleryItem) => {
+            this._prompt.confirm({
+              title: 'Remove file',
+              template: 'Are you sure you want to remove this file?',
+            })
+              .pipe(
+                switchMap(() => {
+                  return this._api.delete([this.taskComment.taskId,'files',item.data.id]);
+                }),
+              )
+              .subscribe(() => {
+                this.gallery.reload();
+              });
+          },
         },
       ],
       fetch: (): Observable<FsGalleryItem[]> => {
