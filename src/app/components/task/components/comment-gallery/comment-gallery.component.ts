@@ -67,6 +67,9 @@ export class CommentGalleryComponent implements OnChanges {
                 }),
               )
               .subscribe(() => {
+                this.taskComment.taskFiles = this.taskComment.taskFiles
+                  .filter((taskFile) => taskFile.id !== item.data.id);
+                  
                 this.gallery.reload();
               });
           },

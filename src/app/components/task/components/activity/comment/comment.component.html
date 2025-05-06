@@ -22,28 +22,24 @@
             @for (taskFile of taskComment.taskFiles; track taskFile) {
               <fs-file-preview [url]="taskFile.file.preview.small">
                 <ng-template
-                    fs-file-preview-action
-                    fs-file-preview-action
-                    placement="top-right"
-                    (click)="removeTaskFile(taskFile)"
-                    tooltip="Remove">
-                  <mat-icon>
-                    close
-                  </mat-icon>
+                  fs-file-preview-action
+                  fs-file-preview-action
+                  placement="top-right"
+                  [icon]="'close'"
+                  (click)="removeTaskFile(taskFile)"
+                  tooltip="Remove">
                 </ng-template>
               </fs-file-preview>
             }
             @for (fsFile of fsFiles; track fsFile) {
               <fs-file-preview [file]="fsFile">
                 <ng-template
-                    fs-file-preview-action
-                    fs-file-preview-action
-                    placement="top-right"
-                    (click)="removeFile(fsFile)"
-                    tooltip="Remove">
-                  <mat-icon>
-                    close
-                  </mat-icon>
+                  fs-file-preview-action
+                  fs-file-preview-action
+                  placement="top-right"
+                  [icon]="'close'"
+                  (click)="removeFile(fsFile)"
+                  tooltip="Remove">
                 </ng-template>
               </fs-file-preview>
             }
