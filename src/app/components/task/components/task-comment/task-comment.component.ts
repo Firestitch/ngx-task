@@ -125,6 +125,11 @@ export class TaskCommentComponent implements OnDestroy, OnInit {
 
   public taskWorkflowStepClick(taskWorkflowStep: TaskWorkflowStep) {
     if(this.comment || this.files.length) {
+      this.submit$()
+        .pipe(
+          switchMap(() => this.saveTaskStatus$(taskWorkflowStep)),
+        )
+        .subscribe();
     } else {
       this.saveTaskStatus$(taskWorkflowStep)
         .subscribe();
