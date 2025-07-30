@@ -20,6 +20,6 @@ import { FsChipModule } from '@firestitch/chip';
 export class TaskStatusChipComponent {
 
   @Input() public taskStatus;
-  @Input() public size = 'small';
+  @Input() public size: 'small' | 'tiny' | 'micro' | 'large' = 'tiny';
 
 }

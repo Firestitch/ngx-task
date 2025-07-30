@@ -11,8 +11,7 @@ import {
 
 import { MatDialog } from '@angular/material/dialog';
 
-import { FsActivitiesComponent, FsActivityPreviewDirective } from '@firestitch/activity';
-import { ActivityConfig } from '@firestitch/activity/app/interfaces';
+import { ActivityConfig, FsActivitiesComponent, FsActivityPreviewDirective } from '@firestitch/activity';
 import { FsDateModule } from '@firestitch/date';
 import { FsHtmlRendererModule } from '@firestitch/html-editor';
 

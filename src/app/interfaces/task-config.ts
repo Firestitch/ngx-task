@@ -1,4 +1,4 @@
-import { Activity, ActivityConfig } from '@firestitch/activity/app/interfaces';
+import { Activity, ActivityConfig } from '@firestitch/activity';
 import { FsHtmlEditorConfig } from '@firestitch/html-editor';
 
 import { Observable } from 'rxjs';

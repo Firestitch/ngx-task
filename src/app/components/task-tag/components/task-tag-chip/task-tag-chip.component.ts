@@ -23,6 +23,6 @@ import { FsChipModule } from '@firestitch/chip';
 export class FsTaskTagChipComponent {
 
   @Input() public taskTag;
-  @Input() public size = 'tiny';
+  @Input() public size: 'small' | 'tiny' | 'micro' | 'large' = 'tiny';
 
 }
