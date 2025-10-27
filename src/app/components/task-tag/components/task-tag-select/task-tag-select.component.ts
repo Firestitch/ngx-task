@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -37,11 +37,9 @@ import { TaskTagManageComponent } from '../task-tag-manage';
   ],
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
-
-    FsAutocompleteChipsModule,
-  ],
+    FsAutocompleteChipsModule
+],
 })
 export class TaskTagSelectComponent implements ControlValueAccessor, OnDestroy {
 

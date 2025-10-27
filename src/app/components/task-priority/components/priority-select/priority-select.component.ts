@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -25,11 +25,9 @@ import { TaskPriorities } from '../../../../consts';
   }],
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
-
-    FsAutocompleteChipsModule,
-  ],
+    FsAutocompleteChipsModule
+],
 })
 export class PrioritySelectComponent implements ControlValueAccessor {
 

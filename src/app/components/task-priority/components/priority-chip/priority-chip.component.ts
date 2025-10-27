@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -19,11 +19,9 @@ import { TaskPriorities } from '../../../../consts';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    CommonModule,
-
     FsChipModule,
-    FsBadgeModule,
-  ],
+    FsBadgeModule
+],
 })
 export class PriorityChipComponent {
 

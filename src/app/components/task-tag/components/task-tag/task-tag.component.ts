@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -30,19 +30,16 @@ import { TaskTagData } from '../../../../data';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
-    
     MatDialogModule,
     MatInputModule,
     MatButtonModule,
     MatFormFieldModule,
-
     FsDialogModule,
     FsFormModule,
     FsSkeletonModule,
-    FsColorPickerModule,
-  ],
+    FsColorPickerModule
+],
 })
 export class TaskTagComponent implements OnInit {
 

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -15,10 +15,8 @@ import { FsChipModule } from '@firestitch/chip';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    CommonModule,
-    
-    FsChipModule,
-  ],
+    FsChipModule
+],
 })
 export class FsTaskTagChipComponent {
 

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -33,14 +33,11 @@ import { HtmlEditorService } from '../../services/html-editor.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
-
     MatButtonModule,
-
     FsFormModule,
-    FsHtmlEditorModule,
-  ],
+    FsHtmlEditorModule
+],
 })
 export class TaskDescriptionComponent implements OnInit {
 

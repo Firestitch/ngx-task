@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -34,19 +34,15 @@ import { HtmlEditorService } from '../../../services/html-editor.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
-
     MatButtonModule,
     MatIconModule,
     MatDialogModule,
-
     FsFormModule,
     FsDialogModule,
     FsFileModule,
-
-    FsHtmlEditorModule,
-  ],
+    FsHtmlEditorModule
+],
 })
 export class CommentComponent implements OnDestroy, OnInit {
 

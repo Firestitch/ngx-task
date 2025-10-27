@@ -1,4 +1,5 @@
-import { CommonModule } from '@angular/common';
+
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -35,17 +36,14 @@ import { HtmlEditorService } from '../../services/html-editor.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
-
     MatButtonModule,
     MatIconModule,
-
     FsFileModule,
     FsBadgeModule,
     FsFormModule,
-
     FsHtmlEditorModule,
+    NgTemplateOutlet,
   ],
 })
 export class TaskCommentComponent implements OnDestroy, OnInit {

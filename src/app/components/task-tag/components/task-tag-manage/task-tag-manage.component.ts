@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { ChangeDetectionStrategy, Component, inject, Injector, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
@@ -28,19 +28,15 @@ import { TaskTagComponent } from '../task-tag';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    CommonModule,
-
     FormsModule,
-
     MatButtonModule,
     MatDialogModule,
-
     FsFormModule,
     FsListModule,
     FsDialogModule,
     FsChipModule,
-    FsListModule,
-  ],
+    FsListModule
+],
   providers: [
     { provide: FsApi, useClass: TaskApiService },
     {

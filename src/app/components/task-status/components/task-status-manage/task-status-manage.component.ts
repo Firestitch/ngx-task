@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
   ChangeDetectionStrategy, Component, inject, Injector, Input, OnInit, ViewChild,
 } from '@angular/core';
@@ -32,15 +32,12 @@ import { TaskStatusComponent } from '../task-status';
   standalone: true,
   imports: [
     FormsModule,
-    CommonModule,
-
     MatIconModule,
     MatButtonModule,
-
     FsListModule,
     FsChipModule,
-    FsFormModule,
-  ],
+    FsFormModule
+],
   providers: [
     { provide: FsApi, useClass: TaskApiService },
     {

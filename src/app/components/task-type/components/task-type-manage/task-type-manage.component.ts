@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
   ChangeDetectionStrategy, Component, inject, Injector, Input, OnInit, ViewChild,
 } from '@angular/core';
@@ -32,16 +32,13 @@ import { TaskTypeComponent } from '../task-type';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
-
     MatIconModule,
-
     FsChipModule,
     FsSkeletonModule,
     FsListModule,
-    FsFormModule,
-  ],
+    FsFormModule
+],
   providers: [
     { provide: FsApi, useClass: TaskApiService },
     {

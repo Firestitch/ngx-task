@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
   ChangeDetectionStrategy, Component, inject,
   Injector,
@@ -27,11 +27,9 @@ import { TaskWorkflowComponent } from '../task-workflow';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
-
-    FsListModule,
-  ],
+    FsListModule
+],
   providers: [
     { provide: FsApi, useClass: TaskApiService },
     { 

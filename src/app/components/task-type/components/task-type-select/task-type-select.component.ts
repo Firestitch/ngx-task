@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -42,16 +42,12 @@ import { TaskTypeManageDialogComponent } from '../task-type-manage-dialog';
   ],
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
-
     MatIconModule,
     MatButtonModule,
-
     FsMenuModule,
-
-    TaskTypeChipComponent,
-  ],
+    TaskTypeChipComponent
+],
 })
 export class TaskTypeSelectComponent implements ControlValueAccessor, OnDestroy, OnInit {
 

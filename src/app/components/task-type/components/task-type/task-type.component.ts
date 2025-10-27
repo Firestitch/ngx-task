@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -35,21 +35,18 @@ import { TaskWorkflowManageDialogComponent } from '../../../workflow/components/
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
-
     MatDialogModule,
     MatInputModule,
     MatButtonModule,
     MatFormFieldModule,
-
     FsAutocompleteChipsModule,
     FsDialogModule,
     FsColorPickerModule,
     FsIconPickerModule,
     FsSkeletonModule,
-    FsFormModule,
-  ],
+    FsFormModule
+],
 })
 export class TaskTypeComponent implements OnInit {
 

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { ChangeDetectionStrategy, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
@@ -21,16 +21,12 @@ import { FsTaskStatusManageComponent } from '../task-status-manage';
   standalone: true,
   imports: [
     FormsModule,
-    CommonModule,
-
     MatButtonModule,
     MatDialogModule,
-
     FsFormModule,
     FsDialogModule,
-
-    FsTaskStatusManageComponent,
-  ],
+    FsTaskStatusManageComponent
+],
 })
 export class TaskStatusManageDialogComponent implements OnInit {
 

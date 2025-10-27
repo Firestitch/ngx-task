@@ -1,16 +1,16 @@
-<ng-container *ngIf="showLabel">
+@if (showLabel) {
   <fs-chip
-      [backgroundColor]="TaskPriorityColors[priority]"
-      [size]="'small'"
-      [icon]="TaskPriorityIcons[priority]">
+    [backgroundColor]="TaskPriorityColors[priority]"
+    [size]="'small'"
+    [icon]="TaskPriorityIcons[priority]">
     {{ TaskPriorityNames[priority] }}
   </fs-chip>
-</ng-container>
-<ng-container *ngIf="!showLabel">
+}
+@if (!showLabel) {
   <fs-badge
     [size]="17"
     [iconColor]="'#fff'"
     [color]="TaskPriorityColors[priority]"
     [icon]="TaskPriorityIcons[priority]">
   </fs-badge>
-</ng-container>
+}

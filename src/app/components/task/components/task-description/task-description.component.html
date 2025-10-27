@@ -1,26 +1,26 @@
 <form
-    fsForm
-    [submit]="submit">
+  fsForm
+  [submit]="submit">
   <fs-html-editor
     class="description"
     [(ngModel)]="description"
     [config]="htmlEditorConfig"
     name="description">
   </fs-html-editor>
-  <ng-container *ngIf="htmlEditor.initialized">
+  @if (htmlEditor.initialized) {
     <div class="fs-row.gap-xs buttons">
       <button
-          mat-flat-button
-          type="submit"
-          color="primary">
+        mat-flat-button
+        type="submit"
+        color="primary">
         Save
       </button>
       <button
-          (click)="cancel()"
-          mat-stroked-button
-          type="button">
+        (click)="cancel()"
+        mat-stroked-button
+        type="button">
         Cancel
       </button>
     </div>
-  </ng-container>
+  }
 </form>

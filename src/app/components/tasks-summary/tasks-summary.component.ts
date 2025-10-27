@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -37,16 +37,12 @@ import { FsTaskDialogComponent } from '../task/components/dialog';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    CommonModule,
-
     MatIconModule,
-    
     FsListModule,
     FsHtmlRendererModule,
     FsActivityObjectTypeComponent,
-
-    TaskStatusChipComponent,
-  ],
+    TaskStatusChipComponent
+],
   providers: [
     TaskData,
     DataApiService,
