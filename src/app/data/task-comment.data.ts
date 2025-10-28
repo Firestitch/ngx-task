@@ -1,5 +1,5 @@
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import { FsApi } from '@firestitch/api';
 import { FsFile } from '@firestitch/file';
@@ -10,10 +10,8 @@ import { mapTo, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class TaskCommentData<T = any> {
+  private _api = inject(FsApi);
 
-  constructor(
-    private _api: FsApi,
-  ) {}
 
 
   public get(taskId, commentId, query): Observable<T> {
