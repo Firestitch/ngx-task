@@ -83,6 +83,7 @@
     "@firestitch/prompt": "^18.0.12",
     "@firestitch/radiogroup": "^18.0.5",
     "@firestitch/scroll-picker": "^18.0.0",
+    "@firestitch/skeleton": "^18.0.0",
     "@firestitch/selectbutton": "^18.0.8",
     "@firestitch/selection": "^18.0.6",
     "@firestitch/scroll": "^18.0.0",
