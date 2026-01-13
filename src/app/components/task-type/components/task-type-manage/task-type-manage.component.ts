@@ -37,8 +37,8 @@ import { TaskTypeComponent } from '../task-type';
     FsChipModule,
     FsSkeletonModule,
     FsListModule,
-    FsFormModule
-],
+    FsFormModule,
+  ],
   providers: [
     { provide: FsApi, useClass: TaskApiService },
     {
@@ -95,27 +95,6 @@ export class FsTaskTypeManageComponent extends FsBaseComponent implements OnInit
       ],
       rowActions: [
         {
-          icon: (taskType) => {
-            return taskType.default ? 'check_circle' : 'radio_button_unchecked';
-          },
-          menu: false,
-          click: (taskType) => {
-            this._taskTypeData
-              .default(taskType)
-              .subscribe(() => {
-                this.list.getData()
-                  .forEach((row) => {
-                    row = {
-                      ...row,
-                      default: row.id === taskType.id,
-                    };
-
-                    this.list.updateData([row], (item) => row.id === item.id);
-                  });
-              });
-          },
-        },
-        {
           icon: 'delete',
           menu: false,
           click: (data) => {
@@ -145,6 +124,22 @@ export class FsTaskTypeManageComponent extends FsBaseComponent implements OnInit
         tap(() => this.list.reload()),
       )
       .subscribe();
+  }
+
+  public setDefault(taskType): void {
+    this._taskTypeData
+      .default(taskType)
+      .subscribe(() => {
+        this.list.getData()
+          .forEach((row) => {
+            row = {
+              ...row,
+              default: row.id === taskType.id,
+            };
+
+            this.list.updateData([row], (item) => row.id === item.id);
+          });
+      });
   }
 
   private _saveOrder(data): void {
