@@ -2,17 +2,17 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { of } from 'rxjs';
 
-import { TasksConfig } from '../../../../src/public_api';
 import { FsTasksComponent } from '../../../../src/app/components/tasks/components/tasks/tasks.component';
+import { TasksConfig } from '../../../../src/public_api';
 
 
 @Component({
-    selector: 'app-tasks',
-    templateUrl: './tasks.component.html',
-    styleUrls: ['./tasks.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [FsTasksComponent],
+  selector: 'app-tasks',
+  templateUrl: './tasks.component.html',
+  styleUrls: ['./tasks.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [FsTasksComponent],
 })
 export class TasksComponent {
 

@@ -1,9 +1,10 @@
 
 import {
-  ChangeDetectionStrategy, Component, inject, Injector, Input, OnInit, ViewChild,
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, Injector, Input, OnInit, ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -33,6 +34,7 @@ import { TaskTypeComponent } from '../task-type';
   standalone: true,
   imports: [
     FormsModule,
+    MatButtonModule,
     MatIconModule,
     FsChipModule,
     FsSkeletonModule,
@@ -65,6 +67,7 @@ export class FsTaskTypeManageComponent extends FsBaseComponent implements OnInit
   private _dialog = inject(MatDialog);
   private _injector = inject(Injector);
   private _message = inject(FsMessage);
+  private _cd = inject(ChangeDetectorRef);
 
   public ngOnInit(): void {
     this.listConfig = {

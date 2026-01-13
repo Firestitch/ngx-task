@@ -27,9 +27,13 @@
     <ng-template
         fs-list-cell
         let-row="row">
-      <mat-icon (click)="setDefault(row)">
-        {{ row.default ? 'check_circle' : 'radio_button_unchecked' }}
-      </mat-icon>
+      <button
+          mat-icon-button
+          (click)="setDefault(row)">
+        <mat-icon>
+          {{ row.default ? 'check_circle' : 'radio_button_unchecked' }}
+        </mat-icon>
+      </button>
     </ng-template>
   </fs-list-column>
 </fs-list>

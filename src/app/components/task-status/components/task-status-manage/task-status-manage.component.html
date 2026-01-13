@@ -12,4 +12,19 @@
       </a>
     </ng-template>
   </fs-list-column>
+  <fs-list-column
+      [width]="'1%'"
+      [align]="'right'">
+    <ng-template
+        fs-list-cell
+        let-row="row">
+      <button
+          mat-icon-button
+          (click)="setDefault(row)">
+        <mat-icon>
+          {{ row.default ? 'check_circle' : 'radio_button_unchecked' }}
+        </mat-icon>
+      </button>
+    </ng-template>
+  </fs-list-column>
 </fs-list>

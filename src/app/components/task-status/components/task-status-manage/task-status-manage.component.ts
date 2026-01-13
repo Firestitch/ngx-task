@@ -36,8 +36,8 @@ import { TaskStatusComponent } from '../task-status';
     MatButtonModule,
     FsListModule,
     FsChipModule,
-    FsFormModule
-],
+    FsFormModule,
+  ],
   providers: [
     { provide: FsApi, useClass: TaskApiService },
     {
@@ -82,27 +82,6 @@ export class FsTaskStatusManageComponent extends FsBaseComponent implements OnIn
       ],
       rowActions: [
         {
-          icon: (taskStatus) => {
-            return taskStatus.default ? 'check_circle' : 'radio_button_unchecked';
-          },
-          menu: false,
-          click: (taskStatus) => {
-            this._taskStatusData
-              .default(taskStatus)
-              .subscribe(() => {
-                this.list.getData()
-                  .forEach((row) => {
-                    row = {
-                      ...row,
-                      default: row.id === taskStatus.id,
-                    };
-
-                    this.list.updateData([row], (item) => row.id === item.id);
-                  });
-              });
-          },
-        },
-        {
           icon: 'delete',
           menu: false,
           click: (taskStatus) => {
@@ -143,6 +122,22 @@ export class FsTaskStatusManageComponent extends FsBaseComponent implements OnIn
         tap(() => this.list.reload()),
       )
       .subscribe();
+  }
+
+  public setDefault(taskStatus): void {
+    this._taskStatusData
+      .default(taskStatus)
+      .subscribe(() => {
+        this.list.getData()
+          .forEach((row) => {
+            row = {
+              ...row,
+              default: row.id === taskStatus.id,
+            };
+
+            this.list.updateData([row], (item) => row.id === item.id);
+          });
+      });
   }
 
   private _saveOrder(data): void {
