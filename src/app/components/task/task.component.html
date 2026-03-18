@@ -42,12 +42,6 @@
     <mat-tab name="activity">
       <ng-template matTabLabel>
         Activity
-        <div class="filter-container">
-          @if (tab === 'audits') {
-            <div class="cover"></div>
-          }
-          <fs-filter [config]="activityFilterConfig"></fs-filter>
-        </div>
       </ng-template>
       <ng-template matTabContent>
         <app-task-comment

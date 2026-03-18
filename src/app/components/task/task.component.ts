@@ -32,7 +32,6 @@ import { FsClipboard, FsClipboardModule } from '@firestitch/clipboard';
 import { FsCommonModule } from '@firestitch/common';
 import { FsDatePickerModule } from '@firestitch/datepicker';
 import { FsDialogModule } from '@firestitch/dialog';
-import { FilterConfig, FsFilterModule, ItemType } from '@firestitch/filter';
 import { FsHtmlEditorComponent } from '@firestitch/html-editor';
 import { FsLabelModule } from '@firestitch/label';
 import { FsMenuModule } from '@firestitch/menu';
@@ -94,7 +93,6 @@ import { HtmlEditorService } from './services/html-editor.service';
     FsChipModule,
     FsAuditsModule,
     FsAutocompleteChipsModule,
-    FsFilterModule,
     FsTabsModule,
 
     TaskAccountSelectComponent,
@@ -152,7 +150,6 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
   public saved = new EventEmitter<Task>();
 
   public tab = 'activity';
-  public activityFilterConfig: FilterConfig;
   public activityQuery: any;
 
   private _destroy$ = new Subject<void>();
@@ -363,36 +360,6 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
   }
 
   private _initConfig(): void {
-    this.activityFilterConfig = {
-      persist: {
-        name: 'taskActivities',
-      },
-      init: (query) => {
-        this.activityQuery = query;
-      },
-      change: (query) => {
-        this.activity.activities.setQuery(query);
-        this.activity.loadActivities();
-      },
-      chips: false,
-      queryParam: false,
-      items: [
-        {
-          type: ItemType.AutoCompleteChips,
-          name: 'activityTypeId',
-          label: 'Activity type',
-          values: (keyword) => this._taskData.activityTypes({ keyword })
-            .pipe(
-              map((activityTypes) => activityTypes
-                .map((activityType) => ({
-                  name: activityType.name,
-                  value: activityType.id,
-                }))),
-            ),
-        },
-      ],
-    };
-
     const disabled = this.config.disabled;
 
     const defaultConfig = {
