@@ -1,0 +1,10 @@
+@if (identifier(); as identifier) {
+  <fs-chip
+      [shape]="'square'"
+      [size]="size()"
+      [backgroundColor]="backgroundColor"
+      [color]="color"
+      (click)="copy()">
+    {{ identifier }}
+  </fs-chip>
+}

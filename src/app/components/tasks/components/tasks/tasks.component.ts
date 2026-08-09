@@ -31,6 +31,7 @@ import { TasksConfig } from '../../../../interfaces';
 import { DataApiService } from '../../../../services';
 import { FsBaseComponent } from '../../../base/base.component';
 import { FsTaskComponent } from '../../../task';
+import { IdentifierChipComponent } from '../../../task-identifier';
 import { PriorityChipComponent } from '../../../task-priority';
 import { TaskStatusChipComponent } from '../../../task-status';
 import { FsTaskTagChipComponent } from '../../../task-tag';
@@ -59,6 +60,7 @@ import { TaskAssignedAccountChipComponent } from '../task-assigned-account-chip'
     TaskStatusChipComponent,
     TaskTypeChipComponent,
     FsTaskTagChipComponent,
+    IdentifierChipComponent,
   ],
   providers: [
     { provide: FsApi, useClass: TaskApiService },

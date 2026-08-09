@@ -6,16 +6,11 @@
   width: 100%;
 
   app-task-type-select {
-    margin-right: 2px;
+    margin-left: 2px;
   }
 
   .task-number {
-    white-space: nowrap;
     margin-right: 10px;
-    
-    a {
-      color: inherit;
-    }
   }
 
   .task-name {

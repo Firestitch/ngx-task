@@ -28,7 +28,6 @@ import { FsApi } from '@firestitch/api';
 import { FsAuditsModule } from '@firestitch/audit';
 import { FsAutocompleteChipsModule } from '@firestitch/autocomplete-chips';
 import { FsChipModule } from '@firestitch/chip';
-import { FsClipboard, FsClipboardModule } from '@firestitch/clipboard';
 import { FsCommonModule } from '@firestitch/common';
 import { FsDatePickerModule } from '@firestitch/datepicker';
 import { FsDialogModule } from '@firestitch/dialog';
@@ -53,6 +52,7 @@ import { TaskApiService } from '../../interceptors';
 import { Object, Task, TaskConfig } from '../../interfaces';
 import { DataApiService } from '../../services';
 import { FsBaseComponent } from '../base/base.component';
+import { IdentifierChipComponent } from '../task-identifier';
 import { PrioritySelectComponent } from '../task-priority';
 import { TaskStatusSelectComponent } from '../task-status';
 import { TaskTagSelectComponent } from '../task-tag';
@@ -88,7 +88,6 @@ import { HtmlEditorService } from './services/html-editor.service';
     FsCommonModule,
     FsDatePickerModule,
     FsMenuModule,
-    FsClipboardModule,
     FsLabelModule,
     FsChipModule,
     FsAuditsModule,
@@ -103,6 +102,7 @@ import { HtmlEditorService } from './services/html-editor.service';
     TaskAccountSelectComponent,
     PrioritySelectComponent,
     TaskTagSelectComponent,
+    IdentifierChipComponent,
 
     ActivityComponent,
   ],
@@ -161,7 +161,6 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
   private _taskData = inject(TaskData);
   private _taskAccountData = inject(TaskAccountData);
   private _taskAuditData = inject(TaskAuditData);
-  private _clipboard = inject(FsClipboard);
 
   public ngOnInit(): void {
     this._initConfig();
@@ -254,15 +253,6 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
         };
         this._cdRef.markForCheck();
       });
-  }
-
-  public copyIdentifier(): void {
-    const identifier = this.config.identifier?.copy ? 
-      this.config.identifier.copy(this.task) : 
-      this.task.identifier;
-    
-    this._clipboard.copy(identifier);
-    this._message.success('Copied to clipboard');
   }
 
   public openWatcher(): void {

@@ -180,13 +180,11 @@
   </app-task-type-select>
 </ng-template>
 <ng-template #taskNumber>
-  <div
-      class="task-number"
-      #identifier>
-    <a (click)="copyIdentifier()">
-      {{ task.identifier }}
-    </a>
-  </div>
+  <app-identifier-chip
+    class="task-number"
+    [identifier]="task.identifier"
+    [name]="task.name">
+  </app-identifier-chip>
 </ng-template>
 <ng-template #taskName>
   <mat-form-field class="task-name form-field-padless">
@@ -218,10 +216,12 @@
     </fs-menu>
   }
 </ng-template>
+<!-- Identifier, then the name, then what classifies the task: what it is called
+     first, what kind of thing it is after. -->
 <ng-template #taskTopToolbarImplicit>
-  <ng-container [ngTemplateOutlet]="taskTypeSelect"></ng-container>
   <ng-container [ngTemplateOutlet]="taskNumber"></ng-container>
   <ng-container [ngTemplateOutlet]="taskName"></ng-container>
+  <ng-container [ngTemplateOutlet]="taskTypeSelect"></ng-container>
   <ng-container [ngTemplateOutlet]="taskMenu"></ng-container>
 </ng-template>
 <ng-template #taskBottomToolbarImplicit>

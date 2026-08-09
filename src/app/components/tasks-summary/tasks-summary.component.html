@@ -9,10 +9,14 @@
             [color]="'#60C5F1'"
             [icon]="'task_alt'">
           </fs-activity-object-type>
+          <app-identifier-chip
+            [identifier]="row.identifier"
+            [name]="row.name"
+            [size]="'tiny'">
+          </app-identifier-chip>
           <a (click)="openTask(row)">
-            {{ row.identifier }}
+            {{ row.name }}
           </a>
-          {{ row.name }}
           @if (row.taskStatus) {
             <app-task-status-chip
               [taskStatus]="row.taskStatus"

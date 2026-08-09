@@ -26,6 +26,7 @@ import { TaskData } from '../../data';
 import { TaskApiService } from '../../interceptors/task-api.service';
 import { DataApiService } from '../../services';
 import { FsBaseComponent } from '../base/base.component';
+import { IdentifierChipComponent } from '../task-identifier';
 import { TaskStatusChipComponent } from '../task-status';
 import { FsTaskDialogComponent } from '../task/components/dialog';
 
@@ -41,7 +42,8 @@ import { FsTaskDialogComponent } from '../task/components/dialog';
     FsListModule,
     FsHtmlRendererModule,
     FsActivityObjectTypeComponent,
-    TaskStatusChipComponent
+    TaskStatusChipComponent,
+    IdentifierChipComponent,
 ],
   providers: [
     TaskData,

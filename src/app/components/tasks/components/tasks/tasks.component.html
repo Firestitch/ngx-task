@@ -64,9 +64,11 @@
         }
       </div>
       <div class="fs-row.wrap.gap-xs">
-        <div class="small">
-          {{ row.identifier }}
-        </div>
+        <app-identifier-chip
+          [identifier]="row.identifier"
+          [name]="row.name"
+          [size]="'tiny'">
+        </app-identifier-chip>
         @for (taskTag of row.taskTags; track taskTag) {
           <fs-task-tag-chip [taskTag]="taskTag"></fs-task-tag-chip>
         }

@@ -1,0 +1,9 @@
+:host {
+  display: inline-flex;
+
+  // fs-chip sizes its text as a percentage of the ambient font, so the scale is
+  // pinned to the body size here: otherwise the same chip reads smaller inside a
+  // lister's `.small` row than it does in a drawer header, and the identifier is
+  // meant to look identical everywhere.
+  font-size: 14px;
+}
