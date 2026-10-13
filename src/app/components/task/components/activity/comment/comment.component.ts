@@ -160,6 +160,7 @@ export class CommentComponent implements OnDestroy, OnInit {
     this._taskCommentData
       .get(this._data.taskComment.taskId, this._data.taskComment.id, {
         taskFiles: true,
+        taskFilesFile: true,
       })
       .subscribe((taskComment) => {
         this.taskComment = taskComment;
