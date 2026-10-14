@@ -188,13 +188,15 @@
 </ng-template>
 <ng-template #taskName>
   <mat-form-field class="task-name form-field-padless">
+    <!-- Saved on (change), not (blur): it fires only when the name was edited, so clicking
+         into the field and away again saves nothing. -->
     <input
       matInput
       placeholder="Name"
       [disabled]="config.name.disabled"
       [(ngModel)]="task.name"
       [fsAutoSelect]="task.name === 'Untitled'"
-      (blur)="save({ name: task.name })"
+      (change)="save({ name: task.name })"
       name="name">
   </mat-form-field>
 </ng-template>
