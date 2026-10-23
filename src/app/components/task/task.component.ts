@@ -391,6 +391,9 @@ export class FsTaskComponent extends FsBaseComponent implements OnInit, OnDestro
         show: false,
         label: 'Subject',
       },
+      audits: {
+        show: true,
+      },
     };
 
     this.config = merge(defaultConfig, this._taskDefaultConfig, this._taskConfig, this.config);

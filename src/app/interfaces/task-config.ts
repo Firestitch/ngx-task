@@ -51,6 +51,10 @@ export interface TaskConfig {
     click?: (task: Task, object: Object) => void;
   },
   activity?: TaskActivityConfig;
+  // The Audits tab; an app hides it from users who may not read the task's audits
+  audits?: {
+    show?: boolean;
+  },
   disabled?: boolean
 }
 

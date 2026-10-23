@@ -57,16 +57,18 @@
         </app-task-activity>
       </ng-template>
     </mat-tab>
-    <mat-tab
-        label="Audits"
-        name="audits">
-      <ng-template matTabContent>
-        <fs-audits
-          [loadAudits]="loadAudits"
-          [subjectObjectId]="task.id">
-        </fs-audits>
-      </ng-template>
-    </mat-tab>
+    @if (config.audits?.show) {
+      <mat-tab
+          label="Audits"
+          name="audits">
+        <ng-template matTabContent>
+          <fs-audits
+            [loadAudits]="loadAudits"
+            [subjectObjectId]="task.id">
+          </fs-audits>
+        </ng-template>
+      </mat-tab>
+    }
   </mat-tab-group>
 }
 <ng-template #taskSelect>
